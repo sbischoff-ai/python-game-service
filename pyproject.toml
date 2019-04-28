@@ -20,6 +20,7 @@ classifiers = [
     "Intended Audience :: Developers",
     "Development Status :: 3 - Alpha"
 ]
+packages = [{ include = "pygase" }]
 
 [tool.poetry.dependencies]
 python = "^3.6"
