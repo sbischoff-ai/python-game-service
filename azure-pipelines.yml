@@ -35,6 +35,10 @@ steps:
     poetry run pylint-fail-under --fail_under 9.9 pygase
   displayName: 'Lint'
 
+- script: |
+    poetry run pydocstyle pygase
+  displayName: 'Check docstring style'
+
 - task: PublishTestResults@2
   condition: succeededOrFailed()
   inputs:

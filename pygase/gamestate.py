@@ -17,9 +17,10 @@ TO_DELETE: bytes = bytes.fromhex("d281e5ba")
 
 class GameStatus(NamedEnum):
 
-    """Enum for the game simulation status:
-     - `'Paused'`
-     - `'Active'`
+    """Enum for the game simulation status.
+
+    - `'Paused'`
+    - `'Active'`
 
     """
 
@@ -38,15 +39,15 @@ class GameState(Sendable):
     as well as `list`s or `tuple`s of such.
 
     #### Optional Arguments
-     - `time_order`: current time order number of the game state, higher means more recent
-     - `game_status`: `GameStatus` enum value that describes whether or not the game loop is running
+    - `time_order`: current time order number of the game state, higher means more recent
+    - `game_status`: `GameStatus` enum value that describes whether or not the game loop is running
 
     #### Keyword Arguments
     Provide custom game state attributes via keyword arguments or assign them later.
 
     #### Attributes
-      - `game_status`
-      - `time_order`
+     - `game_status`
+     - `time_order`
     `GameState` instances mainly consist of custom attributes that make up the game state.
 
     """
@@ -82,13 +83,13 @@ class GameStateUpdate(Sendable):
     game state in order to update it.
 
     #### Arguments
-     - `time_order`: the time order up to which the update reaches
+    - `time_order`: the time order up to which the update reaches
 
     #### Keyword Arguments
     game state attributes to be updated
 
     #### Attributes
-     - `time_order`
+    - `time_order`
     `GameStateUpdate` instances mainly consist of custom game state attributes to update.
 
     """

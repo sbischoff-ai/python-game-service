@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-"""
-PyGaSe, or Python Game Service, is a library (or framework, whichever name you prefer) that provides
+"""Create smooth and scalable online and LAN multiplayer games easily.
+
+PyGaSe, or Python Game Service, is a library (or framework, whichever term you prefer) that provides
 a complete set of high-level components for real-time networking for games.
 
 As a user of this library you will only need classes and functions directly imported from `pygase`:

@@ -44,16 +44,16 @@ class Header(Comparable):
     """Create a PyGaSe package header.
 
     #### Arguments
-     - `sequence`: package sequence number
-     - `ack`: sequence number of the last received package
-     - `ack_bitfield`: A 32 character string representing the 32 sequence numbers prior to the last one received,
+    - `sequence`: package sequence number
+    - `ack`: sequence number of the last received package
+    - `ack_bitfield`: A 32 character string representing the 32 sequence numbers prior to the last one received,
         with the first character corresponding the packge directly preceding it and so forth.
         '1' means that package has been received, '0' means it hasn't.
 
     #### Attributes
-     - `sequence`
-     - `ack`
-     - `ack_bitfield`
+    - `sequence`
+    - `ack`
+    - `ack_bitfield`
 
     ---
     Sequence numbers: A sequence of 0 means no packages have been sent or received.
@@ -83,7 +83,7 @@ class Header(Comparable):
         """Return a tuple containing the header and the rest of the datagram.
 
         #### Arguments
-         - `datagram`: serialized PyGaSe package to deconstruct
+        - `datagram`: serialized PyGaSe package to deconstruct
 
         #### Returns
         `(header, payload)` with `payload` being a bytestring of the rest of the datagram
@@ -103,20 +103,20 @@ class Package(Comparable):
     """Create a UDP package implementing the PyGaSe protocol.
 
     #### Arguments
-     - `header`: package header as `Header` object
+    - `header`: package header as `Header` object
 
     #### Optional Arguments
-     - `events`: list of PyGaSe `Event` objects to attach to this package
+    - `events`: list of PyGaSe `Event` objects to attach to this package
 
     #### Class Attributes
-     - `timeout`: time in seconds after which a package is considered to be lost, 1.0 by default
-     - `max_size`: maximum datagram size in bytes, 2048 by default
+    - `timeout`: time in seconds after which a package is considered to be lost, 1.0 by default
+    - `max_size`: maximum datagram size in bytes, 2048 by default
 
     #### Attributes
-     - `header`
+    - `header`
 
     #### Properties
-     - `events`: list of `Event` objects contained in the package
+    - `events`: list of `Event` objects contained in the package
 
     ---
     PyGaSe servers and clients use the subclasses `ServerPackage` and `ClientPackage` respectively.
@@ -143,10 +143,10 @@ class Package(Comparable):
         """Add a PyGaSe event to the package.
 
         #### Arguments
-         - `event`: the `Event` object to attach to this package
+        - `event`: the `Event` object to attach to this package
 
         #### Raises
-         - `OverflowError` if the package has previously been converted to a datagram and
+        - `OverflowError` if the package has previously been converted to a datagram and
            and its size with the added event would exceed `max_size`
 
         """
@@ -167,7 +167,7 @@ class Package(Comparable):
         """Return package compactly serialized to `bytes`.
 
         #### Raises
-         - `OverflowError` if the resulting datagram would exceed `max_size`
+        - `OverflowError` if the resulting datagram would exceed `max_size`
 
         """
         if self._datagram is not None:
@@ -194,13 +194,13 @@ class Package(Comparable):
         """Deserialize datagram to `Package`.
 
         #### Arguments
-         - `datagram`: bytestring to deserialize, typically received via network
+        - `datagram`: bytestring to deserialize, typically received via network
 
         #### Returns
         `Package` object
 
         #### Raises
-         - `ProtocolIDMismatchError` if the first four bytes don't match the PyGaSe protocol ID
+        - `ProtocolIDMismatchError` if the first four bytes don't match the PyGaSe protocol ID
 
         """
         header, payload = Header.deconstruct_datagram(datagram)
@@ -224,10 +224,10 @@ class ClientPackage(Package):
     """Subclass of `Package` for packages sent by PyGaSe clients.
 
     #### Arguments
-     - `time_order`: the clients last known time order of the game state
+    - `time_order`: the clients last known time order of the game state
 
     #### Attributes
-     - `time_order`
+    - `time_order`
 
     """
 
@@ -266,7 +266,7 @@ class ServerPackage(Package):
     """Subclass of `Package` for packages sent by PyGaSe servers.
 
     #### Arguments
-     - `game_state_update`: the servers most recent minimal update for the client
+    - `game_state_update`: the servers most recent minimal update for the client
 
     """
 
@@ -305,10 +305,11 @@ class ServerPackage(Package):
 
 class ConnectionStatus(NamedEnum):
 
-    """Enum for the state of a connection:
-     - `'Disconnected'`
-     - `'Connecting'`
-     - `'Connected'`
+    """Enum for the state of a connection.
+
+    - `'Disconnected'`
+    - `'Connecting'`
+    - `'Connected'`
 
     """
 
@@ -327,22 +328,22 @@ class Connection:
     network congestion.
 
     #### Arguments
-     - `remote_address`: tuple `('hostname', port)` for the connection partner's address
-     - `event_handler`: object that has a callable `handle` attribute that takes
+    - `remote_address`: tuple `('hostname', port)` for the connection partner's address
+    - `event_handler`: object that has a callable `handle` attribute that takes
         an `Event` as argument, for example a `PyGaSe.event.UniversalEventHandler` instance
-     - `event_wire`: object to which events are to be repeated
+    - `event_wire`: object to which events are to be repeated
         (has to implement a `_push_event` method like `pygase.GameStateMachine`)
 
     #### Attributes
-     - `remote_address`
-     - `event_handler`
-     - `event_wire`
-     - `local_sequence`: sequence number of the last sent package
-     - `remote_sequence`: sequence number of the last received package
-     - `ack_bitfield`: acks for the 32 packages prior to `remote_sequence`
-     - `latency`: the last registered RTT (round trip time)
-     - `status`: a `ConnectionStatus` value that informs about the state of the connections
-     - `quality`: either `'good'` or `'bad'` depending on latency, used internally for
+    - `remote_address`
+    - `event_handler`
+    - `event_wire`
+    - `local_sequence`: sequence number of the last sent package
+    - `remote_sequence`: sequence number of the last received package
+    - `ack_bitfield`: acks for the 32 packages prior to `remote_sequence`
+    - `latency`: the last registered RTT (round trip time)
+    - `status`: a `ConnectionStatus` value that informs about the state of the connections
+    - `quality`: either `'good'` or `'bad'` depending on latency, used internally for
         congestion avoidance
 
     ---
@@ -406,7 +407,7 @@ class Connection:
         and put the received events in the incoming event queue.
 
         #### Raises
-         - `DuplicateSequenceError` if a package with the same sequence has already been received
+        - `DuplicateSequenceError` if a package with the same sequence has already been received
 
         """
         self._last_recv = time.time()
@@ -448,11 +449,11 @@ class Connection:
         """Send an event to the connection partner.
 
         #### Arguments
-         - `event`: the event to dispatch
+        - `event`: the event to dispatch
 
         #### Optional Arguments
-         - `ack_callback`: function or coroutine to be executed after the event was received
-         - `timeout_callback`: function or coroutine to be executed if the event was not received
+        - `ack_callback`: function or coroutine to be executed after the event was received
+        - `timeout_callback`: function or coroutine to be executed if the event was not received
 
         ---
         Using long-running blocking operations in any of the callback functions can disturb the connection.
@@ -492,7 +493,7 @@ class Connection:
         cancelled or the connection times out.
 
         #### Arguments
-         - `sock`: socket via which to send the packages
+        - `sock`: socket via which to send the packages
 
         """
         congestion_avoidance_task = await curio.spawn(self._congestion_avoidance_monitor)
@@ -515,7 +516,7 @@ class Connection:
         This coroutine returns once the package is sent.
 
         #### Arguments
-         - `sock`: socket via which to send the package
+        - `sock`: socket via which to send the package
 
         """
         self.local_sequence += 1
@@ -590,7 +591,7 @@ class ClientConnection(Connection):
     state updates received from the server.
 
     #### Attributes
-     - `game_state_context`: provides thread-safe access to a `GameState` object
+    - `game_state_context`: provides thread-safe access to a `GameState` object
 
     """
 
@@ -605,7 +606,7 @@ class ClientConnection(Connection):
         This method can also be spawned as a coroutine.
 
         #### Optional Arguments
-         - `shutdown_server`: wether or not the server should be shut down too
+        - `shutdown_server`: wether or not the server should be shut down too
             (only has an effect if the client has host permissions)
 
         """
@@ -666,7 +667,7 @@ class ClientConnection(Connection):
         cancelled.
 
         #### Arguments
-         - `sock`: socket with which to receive server packages
+        - `sock`: socket with which to receive server packages
 
         """
         while self.local_sequence == 0:
@@ -682,13 +683,13 @@ class ServerConnection(Connection):
     """Subclass of `Connection` that describes the server side of a PyGaSe connection.
 
     #### Arguments
-     - `game_state_store`: object that serves as an interface to the game state repository
+    - `game_state_store`: object that serves as an interface to the game state repository
         (has to provide the methods `get_gamestate`, `get_update_cache` and `push_update`like `pygase.GameStateStore`)
-     - `last_client_time_order`: the last time order number known to the client
+    - `last_client_time_order`: the last time order number known to the client
 
     #### Attributes
-     - `game_state_store`
-     - `last_client_time_order`
+    - `game_state_store`
+    - `last_client_time_order`
 
     """
 
@@ -727,10 +728,10 @@ class ServerConnection(Connection):
         It will return as soon as the server receives a shutdown message.
 
         #### Arguments
-         - `hostname`: the hostname to which to bind the server socket
-         - `port`: the port number to which to bind the server socket
-         - `server`: the `pygase.Server` for which this loop is run
-         - `event_wire`: object to which events are to be repeated
+        - `hostname`: the hostname to which to bind the server socket
+        - `port`: the port number to which to bind the server socket
+        - `server`: the `pygase.Server` for which this loop is run
+        - `event_wire`: object to which events are to be repeated
            (has to implement a `_push_event` method and is typically a `pygase.GameStateMachine`)
 
         """

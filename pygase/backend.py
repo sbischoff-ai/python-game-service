@@ -27,7 +27,7 @@ class GameStateStore:
     """Provide access to a game state and manage state updates.
 
     #### Optional Arguments
-     - `inital_game_state`: state of the game before the simulation begins
+    - `inital_game_state`: state of the game before the simulation begins
 
     """
 
@@ -67,16 +67,16 @@ class Server:
     to clients. The state is provided by a `pygase.GameStateStore` and game logic by a `pygase.GameStateMachine`.
 
     #### Arguments
-     - `game_state_store`: part of the backend that provides an interface to the `GameState`
+    - `game_state_store`: part of the backend that provides an interface to the `GameState`
 
     #### Attributes
-     - `connections`: contains each clients address as a key leading to the corresponding `ServerConnection` instance
-     - `host_client`: address of the host client (who has permission to shutdown the server), if there is any
-     - `game_state_store`
+    - `connections`: contains each clients address as a key leading to the corresponding `ServerConnection` instance
+    - `host_client`: address of the host client (who has permission to shutdown the server), if there is any
+    - `game_state_store`
 
     #### Properties
-     - `hostname`: read-only access to the servers hostname
-     - `port`: read-only access to the servers port number
+    - `hostname`: read-only access to the servers hostname
+    - `port`: read-only access to the servers port number
 
     """
 
@@ -94,11 +94,11 @@ class Server:
         This is a blocking function but can also be spawned as a coroutine or in a thread via `run_in_thread`.
 
         #### Arguments
-         - `port`: port number the server will be bound to, default will be an available
+        - `port`: port number the server will be bound to, default will be an available
            port chosen by the computers network controller
-         - `hostname`: hostname or IP address the server will be bound to.
+        - `hostname`: hostname or IP address the server will be bound to.
            Defaults to `'localhost'`.
-         - `event_wire`: object to which events are to be repeated
+        - `event_wire`: object to which events are to be repeated
            (has to implement a `_push_event(event)` method and is typically a `GameStateMachine`)
 
         """
@@ -166,15 +166,15 @@ class Server:
         """Send an event to one or all clients.
 
         #### Arguments
-         - `event_type`: string that identifies the event and links it to a handler
+        - `event_type`: string that identifies the event and links it to a handler
 
         #### Optional Arguments
         Additional positional arguments represent event data and will be passed to the clients handler function.
 
         ### Keyword Arguments
-         - `target_client`: either `'all'` for an event broadcast, or a clients address as a tuple
-         - `retries`: number of times the event is to be resent in case it times out
-         - `ack_callback`: function or coroutine to be executed after the event was received,
+        - `target_client`: either `'all'` for an event broadcast, or a clients address as a tuple
+        - `retries`: number of times the event is to be resent in case it times out
+        - `ack_callback`: function or coroutine to be executed after the event was received,
             will be passed a reference to the corresponding `ServerConnection` instance
         Additional keyword arguments will be sent as event data and passed to the clients handler function.
 
@@ -214,8 +214,8 @@ class Server:
         """Register an event handler for a specific event type.
 
         #### Arguments
-         - `event_type`: event type to link the handler function to
-         - `handler_func`: function or coroutine to be invoked for events of the given type
+        - `event_type`: event type to link the handler function to
+        - `handler_func`: function or coroutine to be invoked for events of the given type
 
         """
         self._universal_event_handler.register_event_handler(event_type, event_handler_function)
@@ -230,10 +230,10 @@ class GameStateMachine:
     or you assign a `time_step` implementation after instantiation.
 
     #### Arguments
-     - `game_state_store`: part of the PyGaSe backend that provides the state
+    - `game_state_store`: part of the PyGaSe backend that provides the state
 
     #### Attributes
-     - `game_time`: duration the game has been running in seconds
+    - `game_time`: duration the game has been running in seconds
 
     """
 
@@ -264,8 +264,8 @@ class GameStateMachine:
         `GameStateMachine` via the `event_wire` argument of the servers `run` method.
 
         #### Arguments
-         - `event_type`: which type of event to link the handler function to
-         - `handler_func`: function or coroutine to be invoked for events of the given type,
+        - `event_type`: which type of event to link the handler function to
+        - `handler_func`: function or coroutine to be invoked for events of the given type,
             gets passed the keyword argument `game_state` (along with those attached
             to the event) and is expected to return an update dict
 
@@ -280,7 +280,7 @@ class GameStateMachine:
         As long as the simulation is running, the `GameStatus` will be `'Active'`.
 
         #### Arguments
-         - `interval`: (minimum) duration in seconds between consecutive time steps
+        - `interval`: (minimum) duration in seconds between consecutive time steps
 
         """
         curio.run(self.run_game_loop, interval)
@@ -360,8 +360,8 @@ class GameStateMachine:
         This method should be implemented to return a dict with all the updated state attributes.
 
         #### Arguments
-         - `game_state`: the state of the game prior to the time step
-         - `dt`: time in seconds since the last time step, use it to simulate at a consistent speed
+        - `game_state`: the state of the game prior to the time step
+        - `dt`: time in seconds since the last time step, use it to simulate at a consistent speed
 
         #### Returns
         a dict with updated game state attributes

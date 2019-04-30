@@ -52,7 +52,7 @@ class Sendable(Comparable):
         """Deserialize a bytestring into an instance of this class.
 
         #### Arguments
-         - `bytepack`: the bytestring to be parsed to a subclass of `Sendable`
+        - `bytepack`: the bytestring to be parsed to a subclass of `Sendable`
 
         #### Returns
         a copy of an object that was serialized via `Sendable.to_bytes`
@@ -102,13 +102,13 @@ class NamedEnum:
         """Get the value for a label or vice versa.
 
         #### Arguments
-         - `name_or_value`: label or value to de- or encode
+        - `name_or_value`: label or value to de- or encode
 
         #### Returns
         int value for given string label or vice versa
 
         #### Raises
-          - `TypeError` if argument is neither `int` nor `str`
+         - `TypeError` if argument is neither `int` nor `str`
 
         """
         if isinstance(name_or_value, int):
@@ -122,7 +122,7 @@ class NamedEnum:
         """Add a new label to the mapping.
 
         #### Arguments
-         - `name`: string label to register as new enum value
+        - `name`: string label to register as new enum value
 
         """
         if name not in cls._values:
@@ -149,7 +149,7 @@ class Sqn(int):
         """Redefine the bytesize and wrap-over behaviour for all `Sqn` instances.
 
         #### Arguments
-         - `bytesize`: new size for the `bytes` representation of `Sqn` instances
+        - `bytesize`: new size for the `bytes` representation of `Sqn` instances
 
         """
         cls._bytesize = bytesize
@@ -263,11 +263,11 @@ class LockedRessource:
     ```
 
     #### Arguments
-     - `ressource`: object to be wrapped
+    - `ressource`: object to be wrapped
 
     ### Attributes
-     - `lock`: `threading.Lock` that threads writing to `ressource` should abide.
-     - `ressource`
+    - `lock`: `threading.Lock` that threads writing to `ressource` should abide.
+    - `ressource`
 
     """
 

@@ -19,7 +19,7 @@ class Event(Sendable):
     """Send PyGaSe events and attached data via UDP packages.
 
     #### Arguments
-     - `event_type`: string that identifies the event and links it to a handler
+    - `event_type`: string that identifies the event and links it to a handler
 
     #### Optional Arguments
     Additional positional arguments represent event data and will be passed to the handler function
@@ -29,9 +29,9 @@ class Event(Sendable):
     keyword arguments to be passed to the handler function on the other side of the connection
 
     #### Attributes
-     - `type`
-     - `handler_args`
-     - `handler_kwargs`
+    - `type`
+    - `handler_args`
+    - `handler_kwargs`
 
     """
 
@@ -53,8 +53,8 @@ class UniversalEventHandler:
         """Register an event handler for a specific event type.
 
         #### Arguments
-         - `event_type`: string that identifies the events to be handled by this function
-         - `event_handler_function`: callback function or coroutine that will be invoked with the handler args
+        - `event_type`: string that identifies the events to be handled by this function
+        - `event_handler_function`: callback function or coroutine that will be invoked with the handler args
            and kwargs with which the incoming event has been dispatched
 
         """
@@ -64,7 +64,7 @@ class UniversalEventHandler:
         """Invoke the appropriate handler function.
 
         #### Arguments
-         - `event`: the event to be handled
+        - `event`: the event to be handled
 
         #### Keyword Arguments
         keyword arguments to be passed to the handler function (in addition to those already attached to the event)
