@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
 """Customize a game state model and apply state updates.
+
+### Contents
+ - *TO_DELETE*: 4 byte update marker for game state attributes that are to be deleted
+ - *GameStatus*: enum for the status of the game simulation
+ - *GameState*: class for serializable custom state data objects
+ - *GameStateUpdate*: class for serializable objects that express changes to a *GameState* object
+
 """
 
 from pygase.utils import Sendable, NamedEnum, Sqn

@@ -3,6 +3,19 @@
 
 This module is not supposed to be required by users of this library.
 
+### Contents
+ - *PROTOCOL_ID*: 4 byte identifier for the PyGaSe package protocol
+ - *ProtocolIDMismatchError*: exception for receiving non-PyGaSe packages
+ - *DuplicateSequenceError*: exception for duplicate packages
+ - *Header*: class for PyGaSe package headers
+ - *Package*: class for PyGaSe UDP packages
+ - *ClientPackage*: subclass of *Package* for packages sent by clients
+ - *ServerPackage*: subclass of *Package* for packages sent by servers
+ - *ConnectionStatus*: enum for the status of a client-server connection
+ - *Connection*: class for the core network logic of client-server connections
+ - *ClientConnection*: subclass of *Connection* for the client side
+ - *ServerConnection*: subclass of *Connectoin* for the server side
+
 """
 
 import time
@@ -291,8 +304,8 @@ class ServerPackage(Package):
 
 
 class ConnectionStatus(NamedEnum):
-    """
-    Enum for the state of a connection:
+
+    """Enum for the state of a connection:
      - `'Disconnected'`
      - `'Connecting'`
      - `'Connected'`

@@ -3,6 +3,10 @@
 
 Contains the basic components of the PyGaSe event framework.
 
+### Contents
+ - *Event*: class for serializable event objects with event type and data
+ - *UniversalEventHandler*: class for components that can handle various event types
+
 """
 
 from curio.meta import iscoroutinefunction

@@ -3,6 +3,11 @@
 
 Provides the `Server` class and all PyGaSe components that deal with progression and syncing of game states.
 
+### Contents
+ - *GameStateStore*: user interface class for game state repositories
+ - *Server*: user interface class for PyGaSe servers
+ - *GameStateMachine*: user interface class for game logic components
+
 """
 
 import time

@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """Connect to PyGaSe servers.
 
-Provides the `Client` class.
+### Contents
+ - *Client*: user interface class for PyGaSe clients
 
 """
 
