@@ -71,7 +71,7 @@ class UniversalEventHandler:
 
         """
         if iscoroutinefunction(self._event_handlers[event.type]):
-            return await self._event_handlers[event.type](*event.handler_args, *dict(event.handler_kwargs, **kwargs))
+            return await self._event_handlers[event.type](*event.handler_args, **dict(event.handler_kwargs, **kwargs))
         return self._event_handlers[event.type](*event.handler_args, **dict(event.handler_kwargs, **kwargs))
 
     def has_event_type(self, event_type: str) -> bool:
