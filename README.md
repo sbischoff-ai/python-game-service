@@ -11,7 +11,7 @@ real-time online games.
 
 ---
 ***BREAKING CHANGE**: Version 0.2.0 is basically a new API and updating from 0.1.9 or lower will break you code.*
-*It is also much more stable, flexible and powerful, so make sure to use it instead.*
+*It is also much more stable, flexible and powerful, so make sure to use 0.2.0 or higher.*
 
 ---
 
@@ -22,7 +22,9 @@ pip install pygase
 
 ## Usage
 
-Tutorials and How-Tos will come in the future. For now there is a little example game and API docs.
+### Getting Started
+
+*Under construction*
 
 ### Example
 
@@ -30,15 +32,19 @@ Tutorials and How-Tos will come in the future. For now there is a little example
 in which players can move around, while one of them is the chaser who has to catch another player.
 A player who has been catched becomes the next chaser and can catch other players after a 5s protection countdown.
 
+Run `server.py` first, then run `client.py` in additional terminal sessions to add players.
+Only use the same player name once.
+
 ### API Reference
 
-For a complete API documentation look in [here](https://sbischoff-ai.github.io/pygase/).
+For API documentation and tutorials go [here](https://sbischoff-ai.github.io/pygase/).
 
 ---
+## Changes
 
-**TODOS:**
- - proper exception handling
- - logging
- - debugging and monitoring tools
- - 95% test coverage
- - tutorials, how-tos and documentation website
+### 0.2.1
+- `Backend` class added
+- various minor bugfixes
+
+### 0.2.0
+- complete overhaul of pygase 0.1.x with breaking API changes
