@@ -15,7 +15,7 @@ real-time online games.
 
 ---
 
-### Installation:
+### Installation
 ```
 pip install pygase
 ```
@@ -26,13 +26,13 @@ Tutorials and How-Tos will come in the future. For now there is a little example
 
 ### Example
 
-[This example game implements](/chase/) an online game of chase, in which players can move around,
-while one of them is the chaser who has to catch another player. A player who has been
-catched becomes the next chaser and can catch other players after a 5s protection countdown.
+[This example game](https://github.com/sbischoff-ai/pygase/tree/master/chase) implements an online game of chase,
+in which players can move around, while one of them is the chaser who has to catch another player.
+A player who has been catched becomes the next chaser and can catch other players after a 5s protection countdown.
 
 ### API Reference
 
-For a complete API documentation look in [here](/docs/api/) (see GitHub if you're on PyPI.org).
+For a complete API documentation look in [here](https://sbischoff-ai.github.io/pygase/).
 
 ---
 

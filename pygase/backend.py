@@ -3,10 +3,10 @@
 
 Provides the `Server` class and all PyGaSe components that deal with progression and syncing of game states.
 
-### Contents
- - *GameStateStore*: user interface class for game state repositories
- - *Server*: user interface class for PyGaSe servers
- - *GameStateMachine*: user interface class for game logic components
+# Contents
+- #GameStateStore: main API class for game state repositories
+- #Server: main API class for PyGaSe servers
+- #GameStateMachine: main API class for game logic components
 
 """
 
@@ -26,15 +26,15 @@ class GameStateStore:
 
     """Provide access to a game state and manage state updates.
 
-    #### Optional Arguments
-    - `inital_game_state`: state of the game before the simulation begins
+    # Arguments
+    inital_game_state (GameState): state of the game before the simulation begins
 
     """
 
     _update_cache_size: int = 100
 
-    def __init__(self, initial_game_state: GameState = GameState()):
-        self._game_state = initial_game_state
+    def __init__(self, initial_game_state: GameState = None):
+        self._game_state = initial_game_state if initial_game_state is not None else GameState()
         self._game_state_update_cache = [GameStateUpdate(0)]
 
     def get_update_cache(self) -> list:
@@ -48,8 +48,8 @@ class GameStateStore:
     def push_update(self, update: GameStateUpdate) -> None:
         """Push a new state update to the update cache.
 
-        This method will usually be called by whatever is progressing the game state, usually a
-        `GameStateMachine`.
+        This method will usually be called by whatever is progressing the game state,
+        usually a #GameStateMachine.
 
         """
         self._game_state_update_cache.append(update)
@@ -63,20 +63,21 @@ class Server:
 
     """Listen to clients and orchestrate the flow of events and state updates.
 
-    The `Server` instance does not contain game logic or state, it is only responsible for connections
-    to clients. The state is provided by a `pygase.GameStateStore` and game logic by a `pygase.GameStateMachine`.
+    The #Server instance does not contain game logic or state, it is only responsible for connections
+    to clients. The state is provided by a #GameStateStore and game logic by a #GameStateMachine.
 
-    #### Arguments
-    - `game_state_store`: part of the backend that provides an interface to the `GameState`
+    # Arguments
+    game_state_store (GameStateStore): part of the backend that provides an interface to the #pygase.GameState
 
-    #### Attributes
-    - `connections`: contains each clients address as a key leading to the corresponding `ServerConnection` instance
-    - `host_client`: address of the host client (who has permission to shutdown the server), if there is any
-    - `game_state_store`
+    # Attributes
+    connections (list): contains each clients address as a key leading to the
+        corresponding #pygase.connection.ServerConnection instance
+    host_client (tuple): address of the host client (who has permission to shutdown the server), if there is any
+    game_state_store (GameStateStore): game state repository
 
-    #### Properties
-    - `hostname`: read-only access to the servers hostname
-    - `port`: read-only access to the servers port number
+    # Members
+    hostname (str): read-only access to the servers hostname
+    port (int): read-only access to the servers port number
 
     """
 
@@ -91,15 +92,16 @@ class Server:
     def run(self, port: int = 0, hostname: str = "localhost", event_wire=None) -> None:
         """Start the server under a specified address.
 
-        This is a blocking function but can also be spawned as a coroutine or in a thread via `run_in_thread`.
+        This is a blocking function but can also be spawned as a coroutine or in a thread
+        via #Server.run_in_thread().
 
-        #### Arguments
-        - `port`: port number the server will be bound to, default will be an available
+        # Arguments
+        port (int): port number the server will be bound to, default will be an available
            port chosen by the computers network controller
-        - `hostname`: hostname or IP address the server will be bound to.
+        hostname (str): hostname or IP address the server will be bound to.
            Defaults to `'localhost'`.
-        - `event_wire`: object to which events are to be repeated
-           (has to implement a `_push_event(event)` method and is typically a `GameStateMachine`)
+        event_wire (GameStateMachine): object to which events are to be repeated
+           (has to implement a `_push_event(event)` method and is typically a #GameStateMachine)
 
         """
         curio.run(self.run, port, hostname, event_wire)
@@ -116,10 +118,10 @@ class Server:
     ) -> threading.Thread:
         """Start the server in a seperate thread.
 
-        See `Server.run(port, hostname)`.
+        See #Server.run().
 
-        #### Returns
-        the thread the server loop runs in
+        # Returns
+        threading.Thread: the thread the server loop runs in
 
         """
         thread = threading.Thread(target=self.run, args=(port, hostname, event_wire), daemon=daemon)
@@ -147,7 +149,7 @@ class Server:
     def shutdown(self) -> None:
         """Shut down the server.
 
-        The server can be restarted via `run` in which case it will remember previous connections.
+        The server can be restarted via #Server.run() in which case it will remember previous connections.
         This method can also be spawned as a coroutine.
 
         """
@@ -165,18 +167,14 @@ class Server:
     ) -> None:
         """Send an event to one or all clients.
 
-        #### Arguments
-        - `event_type`: string that identifies the event and links it to a handler
-
-        #### Optional Arguments
-        Additional positional arguments represent event data and will be passed to the clients handler function.
-
-        ### Keyword Arguments
-        - `target_client`: either `'all'` for an event broadcast, or a clients address as a tuple
-        - `retries`: number of times the event is to be resent in case it times out
-        - `ack_callback`: function or coroutine to be executed after the event was received,
-            will be passed a reference to the corresponding `ServerConnection` instance
-        Additional keyword arguments will be sent as event data and passed to the clients handler function.
+        # Arguments
+        event_type (str): identifies the event and links it to a handler
+        target_client (tuple, str): either `'all'` for an event broadcast, or a clients address as a tuple
+        retries (int): number of times the event is to be resent in case it times out
+        ack_callback (callable, coroutine): will be executed after the event was received
+            and be passed a reference to the corresponding #pygase.connection.ServerConnection instance
+        Additional positional and keyword arguments will be sent as event data and passed to the clients
+        handler function.
 
         """
         event = Event(event_type, *args, **kwargs)
@@ -213,9 +211,9 @@ class Server:
     def register_event_handler(self, event_type: str, event_handler_function) -> None:
         """Register an event handler for a specific event type.
 
-        #### Arguments
-        - `event_type`: event type to link the handler function to
-        - `handler_func`: function or coroutine to be invoked for events of the given type
+        # Arguments
+        event_type (str): event type to link the handler function to
+        handler_func (callable, coroutine): will be called for received events of the given type
 
         """
         self._universal_event_handler.register_event_handler(event_type, event_handler_function)
@@ -225,15 +223,15 @@ class GameStateMachine:
 
     """Run a simulation that propagates the game state.
 
-    A `GameStateMachine` progresses a game state through time, applying all game simulation logic.
-    This class is meant either as a base class from which you inherit and implement the `time_step` method,
-    or you assign a `time_step` implementation after instantiation.
+    A #GameStateMachine progresses a game state through time, applying all game simulation logic.
+    This class is meant either as a base class from which you inherit and implement the #GameStateMachine.time_step()
+    method, or you assign an implementation after instantiation.
 
-    #### Arguments
-    - `game_state_store`: part of the PyGaSe backend that provides the state
+    # Arguments
+    game_state_store (GameStateStore): part of the PyGaSe backend that provides the state
 
-    #### Attributes
-    - `game_time`: duration the game has been running in seconds
+    # Attributes
+    game_time (float): duration the game has been running in seconds
 
     """
 
@@ -260,14 +258,14 @@ class GameStateMachine:
     def register_event_handler(self, event_type: str, event_handler_function) -> None:
         """Register an event handler for a specific event type.
 
-        For event handlers to have any effect, the events have to be wired from a `Server` to the
-        `GameStateMachine` via the `event_wire` argument of the servers `run` method.
+        For event handlers to have any effect, the events have to be wired from a #Server to
+        the #GameStateMachine via the `event_wire` argument of the #Server.run() method.
 
-        #### Arguments
-        - `event_type`: which type of event to link the handler function to
-        - `handler_func`: function or coroutine to be invoked for events of the given type,
-            gets passed the keyword argument `game_state` (along with those attached
-            to the event) and is expected to return an update dict
+        # Arguments
+        event_type (str): which type of event to link the handler function to
+        handler_func (callable, coroutine): function or coroutine to be invoked for events of the given type,
+            gets passed the keyword argument `game_state` (along with those attached to the event)
+            and is expected to return an update dict
 
         """
         self._universal_event_handler.register_event_handler(event_type, event_handler_function)
@@ -276,11 +274,11 @@ class GameStateMachine:
         """Simulate the game world.
 
         This function blocks as it continously progresses the game state through time
-        but it can also be spawned as a coroutine or in a thread via `run_game_loop_in_thread`.
-        As long as the simulation is running, the `GameStatus` will be `'Active'`.
+        but it can also be spawned as a coroutine or in a thread via #Server.run_game_loop_in_thread().
+        As long as the simulation is running, the `game_state.status` will be `GameStatus.get('Active')`.
 
-        #### Arguments
-        - `interval`: (minimum) duration in seconds between consecutive time steps
+        # Arguments
+        interval (float): (minimum) duration in seconds between consecutive time steps
 
         """
         curio.run(self.run_game_loop, interval)
@@ -316,10 +314,10 @@ class GameStateMachine:
     def run_game_loop_in_thread(self, interval: float = 0.02) -> threading.Thread:
         """Simulate the game in a seperate thread.
 
-        See `GameStateMachine.run_game_loop`.
+        See #GameStateMachine.run_game_loop().
 
-        #### Returns
-        the thread the game loop runs in
+        # Returns
+        threading.Thread: the thread the game loop runs in
 
         """
         thread = threading.Thread(target=self.run_game_loop, args=(interval,))
@@ -329,11 +327,15 @@ class GameStateMachine:
     def stop(self, timeout: float = 1.0) -> bool:
         """Pause the game simulation.
 
-        This sets `status` to `Gamestatus.get('Paused')`. This method can also be spawned as a coroutine.
-        A subsequent call of `run_game_loop` will resume the simulation at the point where it was stopped.
+        This sets `self.status` to `Gamestatus.get('Paused')`. This method can also be spawned as a coroutine.
+        A subsequent call of #GameStateMachine.run_game_loop() will resume the simulation at the point
+        where it was stopped.
 
-        ### Returns
-        wether or not the simulation was successfully stopped
+        # Arguments
+        timeout (float): time in seconds to wait for the simulation to stop
+
+        # Returns
+        bool: wether or not the simulation was successfully stopped
 
         """
         return curio.run(self.stop, timeout)
@@ -359,12 +361,12 @@ class GameStateMachine:
 
         This method should be implemented to return a dict with all the updated state attributes.
 
-        #### Arguments
-        - `game_state`: the state of the game prior to the time step
-        - `dt`: time in seconds since the last time step, use it to simulate at a consistent speed
+        # Arguments
+        game_state (GameState): the state of the game prior to the time step
+        dt (float): time in seconds since the last time step, use it to simulate at a consistent speed
 
-        #### Returns
-        a dict with updated game state attributes
+        # Returns
+        dict: updated game state attributes
 
         """
         raise NotImplementedError()

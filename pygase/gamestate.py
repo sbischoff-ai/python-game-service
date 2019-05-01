@@ -2,10 +2,10 @@
 """Customize a game state model and apply state updates.
 
 ### Contents
- - *TO_DELETE*: 4 byte update marker for game state attributes that are to be deleted
- - *GameStatus*: enum for the status of the game simulation
- - *GameState*: class for serializable custom state data objects
- - *GameStateUpdate*: class for serializable objects that express changes to a *GameState* object
+- #TO_DELETE: 4 byte update marker for game state attributes that are to be deleted
+- #GameStatus: enum for the status of the game simulation
+- #GameState: class for serializable custom state data objects
+- #GameStateUpdate: class for serializable objects that express changes to a *GameState* object
 
 """
 
@@ -38,16 +38,14 @@ class GameState(Sendable):
     and must only contain attributes of type `str`, `bytes`, `Sqn`, `int`, `float`, `bool`
     as well as `list`s or `tuple`s of such.
 
-    #### Optional Arguments
-    - `time_order`: current time order number of the game state, higher means more recent
-    - `game_status`: `GameStatus` enum value that describes whether or not the game loop is running
-
-    #### Keyword Arguments
+    # Arguments
+    time_order (): current time order number of the game state, higher means more recent
+    game_status (): `GameStatus` enum value that describes whether or not the game loop is running
     Provide custom game state attributes via keyword arguments or assign them later.
 
-    #### Attributes
-     - `game_status`
-     - `time_order`
+    # Attributes
+     game_status ()
+     time_order ()
     `GameState` instances mainly consist of custom attributes that make up the game state.
 
     """
@@ -82,14 +80,12 @@ class GameStateUpdate(Sendable):
     Use the `+` operator to add updates to one another and combine them or to add them to a
     game state in order to update it.
 
-    #### Arguments
-    - `time_order`: the time order up to which the update reaches
-
-    #### Keyword Arguments
+    # Arguments
+    time_order (): the time order up to which the update reaches
     game state attributes to be updated
 
-    #### Attributes
-    - `time_order`
+    # Attributes
+    time_order ()
     `GameStateUpdate` instances mainly consist of custom game state attributes to update.
 
     """

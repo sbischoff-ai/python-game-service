@@ -4,12 +4,12 @@
 Provides utilities used in PyGaSe code or helpful to users of this library.
 
 ### Contents
- - *Comparable*: mixin that makes object compare as equal if their type and attributes match
- - *Sendable*: mixin that allows to serialize objects to small bytestrings
- - *NamedEnum*: base class for lists of strings to be mapped to integer values
- - *Sqn*: subclass of `int` for sequence numbers that always fit in 2 bytes
- - *LockedRessource*: class that attaches a `threading.Lock` to a ressource
- - *get_available_ip_addresses*: function that returns a list of local network interfaces
+- #Comparable: mixin that makes object compare as equal if their type and attributes match
+- #Sendable: mixin that allows to serialize objects to small bytestrings
+- #NamedEnum: base class for lists of strings to be mapped to integer values
+- #Sqn: subclass of `int` for sequence numbers that always fit in 2 bytes
+- #LockedRessource: class that attaches a `threading.Lock` to a ressource
+- #get_available_ip_addresses: function that returns a list of local network interfaces
 
 """
 
@@ -51,10 +51,10 @@ class Sendable(Comparable):
     def from_bytes(cls, bytepack: bytes):
         """Deserialize a bytestring into an instance of this class.
 
-        #### Arguments
-        - `bytepack`: the bytestring to be parsed to a subclass of `Sendable`
+        # Arguments
+        bytepack (): the bytestring to be parsed to a subclass of `Sendable`
 
-        #### Returns
+        # Returns
         a copy of an object that was serialized via `Sendable.to_bytes`
 
         """
@@ -72,7 +72,7 @@ class NamedEnum:
 
     This is a base class meant to be subclassed to produce a dynamic enum mapping type.
 
-    Example:
+    # Example
     ```python
     class MyEnum(NamedEnum):
 
@@ -101,14 +101,14 @@ class NamedEnum:
     def get(cls, name_or_value):
         """Get the value for a label or vice versa.
 
-        #### Arguments
-        - `name_or_value`: label or value to de- or encode
+        # Arguments
+        name_or_value (): label or value to de- or encode
 
-        #### Returns
+        # Returns
         int value for given string label or vice versa
 
-        #### Raises
-         - `TypeError` if argument is neither `int` nor `str`
+        # Raises
+         TypeError: if argument is neither `int` nor `str`
 
         """
         if isinstance(name_or_value, int):
@@ -121,8 +121,8 @@ class NamedEnum:
     def register(cls, name: str) -> None:
         """Add a new label to the mapping.
 
-        #### Arguments
-        - `name`: string label to register as new enum value
+        # Arguments
+        name (): string label to register as new enum value
 
         """
         if name not in cls._values:
@@ -148,8 +148,8 @@ class Sqn(int):
     def set_bytesize(cls, bytesize: int) -> None:
         """Redefine the bytesize and wrap-over behaviour for all `Sqn` instances.
 
-        #### Arguments
-        - `bytesize`: new size for the `bytes` representation of `Sqn` instances
+        # Arguments
+        bytesize (): new size for the `bytes` representation of `Sqn` instances
 
         """
         cls._bytesize = bytesize
@@ -173,7 +173,7 @@ class Sqn(int):
     def __add__(self, other) -> "Sqn":
         """Add sequence numbers.
 
-        Example:
+        # Example
         ```python
         assert Sqn(2) + Sqn(3) == 5
         assert Sqn(2) + 3 == 5
@@ -190,7 +190,7 @@ class Sqn(int):
     def __sub__(self, other) -> int:
         """Calculate the difference between sequence numbers.
 
-        Example:
+        # Example
         ```python
         assert Sqn(5) - Sqn(3) == 2
         assert Sqn.get_max_sequence() == 65535
@@ -209,7 +209,7 @@ class Sqn(int):
     def __lt__(self, other) -> bool:
         """Check if sequence number is lower than `other`.
 
-        Example:
+        # Example
         ```python
         assert not Sqn(5) < Sqn(3)
         assert Sqn.get_max_sequence() == 65535
@@ -223,7 +223,7 @@ class Sqn(int):
     def __gt__(self, other) -> bool:
         """Check if sequence number is greater than `other`.
 
-        Example:
+        # Example
         ```python
         assert Sqn(5) > Sqn(3)
         assert Sqn.get_max_sequence() == 65535
@@ -262,12 +262,12 @@ class LockedRessource:
         # do stuff without any other threads meddling with the ressource
     ```
 
-    #### Arguments
-    - `ressource`: object to be wrapped
+    # Arguments
+    ressource (): object to be wrapped
 
-    ### Attributes
-    - `lock`: `threading.Lock` that threads writing to `ressource` should abide.
-    - `ressource`
+    # Attributes
+    lock (): `threading.Lock` that threads writing to `ressource` should abide.
+    ressource ()
 
     """
 
