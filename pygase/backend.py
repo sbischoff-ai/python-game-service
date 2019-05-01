@@ -7,6 +7,7 @@ Provides the `Server` class and all PyGaSe components that deal with progression
 - #GameStateStore: main API class for game state repositories
 - #Server: main API class for PyGaSe servers
 - #GameStateMachine: main API class for game logic components
+- #Backend: main API class for a fully integrated PyGaSe backend
 
 """
 
@@ -370,3 +371,55 @@ class GameStateMachine:
 
         """
         raise NotImplementedError()
+
+
+class Backend:
+
+    """Easily create a fully integrated PyGaSe backend.
+
+    # Arguments
+    initial_game_state (GameState): state of the game before the simulation begins
+    time_step_function (callable): function that takes a game state and a time difference and returns
+        a dict of updated game state attributes (see #GameStateMachine.time_step())
+    event_handlers (dict): a dict with event types as keys and event handler functions as values
+
+    # Attributes
+    game_state_store (GameStateStore): the backends game state repository
+    game_state_machine (GameStateMachine): logic component that runs the game loop
+    server (Server): handles connections to PyGaSe clients
+
+    # Example
+    ```python
+    # Run a game loop that continuously increments `foo` with velocity `bar`.
+    Backend(
+        initial_gamestate=GameState(foo=0.0, bar=0.5),
+        time_step_function=lambda game_state, dt: {foo: game_state.foo + game_state.bar*dt},
+        # Handle client events to reset `foo` and set a new `bar` value.
+        event_handlers={
+            "RESET_FOO": lambda game_state, dt: {foo: 0.0},
+            "SET_BAR": lambda new_bar, game_state, dt: {bar: new_bar}
+        }
+    ).run(hostname="localhost", port=8080)
+    ```
+
+    """
+
+    def __init__(self, initial_game_state: GameState, time_step_function, event_handlers: dict = None):
+        self.game_state_store = GameStateStore(initial_game_state)
+        self.game_state_machine = GameStateMachine(self.game_state_store)
+        setattr(self.game_state_machine, "time_step", time_step_function)
+        if event_handlers is not None:
+            for event_type, handler_function in event_handlers.items():
+                self.game_state_machine.register_event_handler(event_type, handler_function)
+        self.server = Server(self.game_state_store)
+
+    def run(self, hostname: str, port: int):
+        """Run state machine and server and bind the server to a given address.
+
+        # Arguments
+        hostname (str): hostname or IPv4 address the server will be bound to
+        port (int): port number the server will be bound to
+
+        """
+        self.game_state_machine.run_game_loop_in_thread()
+        self.server.run(port, hostname, self.game_state_machine)

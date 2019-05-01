@@ -19,6 +19,6 @@ from pygase import get_availabe_ip_addresses
 """
 
 from pygase.client import Client
-from pygase.backend import Server, GameStateStore, GameStateMachine
+from pygase.backend import Backend, Server, GameStateStore, GameStateMachine
 from pygase.gamestate import GameState
 from pygase.utils import get_available_ip_addresses

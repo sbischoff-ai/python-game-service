@@ -1,5 +1,7 @@
+"""Example game backend"""
+
 import sys
-from pygase import Server, GameState, GameStateStore, GameStateMachine
+from pygase import GameState, Backend
 
 initial_game_state = GameState(
     players={},  # dict with `player_id: player_dict` entries
@@ -7,13 +9,11 @@ initial_game_state = GameState(
     protection=None,  # wether protection from the chaser is active
     countdown=0.0,  # countdown until protection is lifted
 )
-game_state_store = GameStateStore(initial_game_state)
-game_state_machine = GameStateMachine(game_state_store)
 
 
 def on_join(player_name, game_state, dt):
-    print("Player", player_name, "joined.")
-    # count up for player ids, starting with 1
+    print(f"Player {player_name} joined.")
+    # Count up for player ids, starting with 1.
     player_id = max(game_state.players.keys()) + 1 if game_state.players else 1
     return {
         "players": {player_id: {"name": player_name, "position": (0, 0)}},
@@ -33,7 +33,7 @@ def time_step(game_state, dt):
     if game_state.protection:
         new_countdown = game_state.countdown - dt
         return {"countdown": new_countdown, "protection": True if new_countdown >= 0.0 else False}
-    # Check if chaser got someone
+    # Check if the chaser got someone.
     chaser = game_state.players[game_state.chaser_id]
     for player_id, player in game_state.players.items():
         if not player_id == game_state.chaser_id:
@@ -41,19 +41,15 @@ def time_step(game_state, dt):
             dx = player["position"][0] - chaser["position"][0]
             dy = player["position"][1] - chaser["position"][1]
             distance_squared = dx * dx + dy * dy
-            # When the chaser touches another player, that player becomes
-            # chaser and the protection countdown starts.
+            # Whoever the chaser touches becomes chaser and the protection countdown starts.
             if distance_squared < 15:
-                print(player["name"], "has been caught")
+                print(f"{player['name']} has been caught")
                 return {"chaser_id": player_id, "protection": True, "countdown": 5.0}
     return {}
 
 
-game_state_machine.time_step = time_step
-game_state_machine.register_event_handler(event_type="JOIN", event_handler_function=on_join)
-game_state_machine.register_event_handler(event_type="MOVE", event_handler_function=on_move)
-
-server = Server(game_state_store)
-
-game_state_machine.run_game_loop_in_thread()
-server.run(hostname="localhost", port=8080, event_wire=game_state_machine)
+Backend(
+    initial_game_state=initial_game_state,
+    time_step_function=time_step,
+    event_handlers={"JOIN": on_join, "MOVE": on_move},
+).run(hostname="localhost", port=8080)

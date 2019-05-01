@@ -6,6 +6,7 @@
 
 """
 
+import time
 import threading
 
 import curio
@@ -21,6 +22,19 @@ class Client:
 
     # Attributes
     connection (pygase.connection.ClientConnection): object that contains all networking information
+
+    # Example
+    ```python
+    from time import sleep
+    # Connect a client to the server from the Backend code example
+    client = Client()
+    client.connect_in_thread(hostname="localhost", port=8080)
+    # Increase `bar` five times, then reset `foo`
+    for i in range(5):
+        client.dispatch_event("SET_BAR", new_bar=i)
+        sleep(1)
+    client.dispatch_event("RESET_FOO")
+    ```
 
     """
 
@@ -91,6 +105,56 @@ class Client:
         """
         return self.connection.game_state_context
 
+    def wait_until(self, game_state_condition, timeout: float = 1.0) -> None:
+        """Block until a condition on the game state is satisfied.
+
+        # Arguments
+        game_state_condition (callable): function that takes a #pygase.GameState instance and returns a bool
+        timeout (float): time in seconds after which to raise a #TimeoutError
+
+        # Raises
+        TimeoutError: if the condition is not met after `timeout` seconds
+
+        """
+        condition_satisfied = False
+        t0 = time.time()
+        while not condition_satisfied:
+            with self.access_game_state() as game_state:
+                if game_state_condition(game_state):
+                    condition_satisfied = True
+            if time.time() - t0 > timeout:
+                raise TimeoutError("Condition not satisfied after timeout of " + str(timeout) + " seconds.")
+
+    def try_to(self, function, timeout: float = 1.0):
+        """Execute a function using game state attributes that might not yet exist.
+
+        This method repeatedly tries to execute `function(game_state)`, ignoring #KeyError exceptions,
+        until it either worksor times out.
+
+        # Arguments
+        function (callable): function that takes a #pygase.GameState instance and returns anything
+        timeout (float): time in seconds after which to raise a #TimeoutError
+
+        # Returns
+        any: whatever `function(game_state)` returns
+
+        # Raises
+        TimeoutError: if the function doesn't run through after `timeout` seconds
+
+        """
+        result = None
+        t0 = time.time()
+        while True:
+            with self.access_game_state() as game_state:
+                try:
+                    result = function(game_state)
+                except KeyError:
+                    pass
+            if result is not None:
+                return result
+            if time.time() - t0 > timeout:
+                raise TimeoutError("Condition not satisfied after timeout of " + str(timeout) + " seconds.")
+
     def dispatch_event(self, event_type: str, *args, retries: int = 0, ack_callback=None, **kwargs) -> None:
         """Send an event to the server.
 
@@ -99,6 +163,10 @@ class Client:
         retries (int): number of times the event is to be resent in case it times out
         ack_callback (callable, coroutine): will be invoked after the event was received
         Additional positional and keyword arguments will be sent as event data and passed to the handler function.
+
+        ---
+        `ack_callback` should not perform any long-running blocking operations (say a `while True` loop), as that will
+        block the connections asynchronous event loop. Use a coroutine instead, with appropriately placed `await`s.
 
         """
         event = Event(event_type, *args, **kwargs)
