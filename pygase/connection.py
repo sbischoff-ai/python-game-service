@@ -108,10 +108,6 @@ class Package(Comparable):
     # Arguments
     events (pygase.event.Event): list events to attach to this package
 
-    # Class Attributes
-    timeout (float): time in seconds after which a package is considered to be lost, 1.0 by default
-    max_size (int): maximum datagram size in bytes, 2048 by default
-
     # Attributes
     header (Header):
 
@@ -125,8 +121,8 @@ class Package(Comparable):
 
     """
 
-    timeout: float = 1.0  # package timeout in seconds
-    max_size: int = 2048  # the maximum size of PyGaSe package in bytes
+    _timeout: float = 1.0  # package timeout in seconds
+    _max_size: int = 2048  # the maximum size of PyGaSe package in bytes
 
     def __init__(self, header: Header, events: list = None):
         self.header = header
@@ -146,13 +142,13 @@ class Package(Comparable):
 
         # Raises
         OverflowError: if the package has previously been converted to a datagram and
-           and its size with the added event would exceed #Package.max_size
+           and its size with the added event would exceed #Package._max_size (2048 bytex)
 
         """
         if self._datagram is not None:
             bytepack = event.to_bytes()
-            if len(self._datagram) + len(bytepack) + 2 > self.max_size:
-                raise OverflowError("Package exceeds the maximum size of " + str(self.max_size) + " bytes.")
+            if len(self._datagram) + len(bytepack) + 2 > self._max_size:
+                raise OverflowError("Package exceeds the maximum size of " + str(self._max_size) + " bytes.")
             self._datagram += len(bytepack).to_bytes(2, "big") + bytepack
         self._events.append(event)
 
@@ -166,7 +162,7 @@ class Package(Comparable):
         """Return package compactly serialized to `bytes`.
 
         # Raises
-        OverflowError: if the resulting datagram would exceed #Package.max_size
+        OverflowError: if the resulting datagram would exceed #Package._max_size
 
         """
         if self._datagram is not None:
@@ -175,8 +171,8 @@ class Package(Comparable):
         # The header makes up the first 12 bytes of the package
         datagram.extend(self._create_event_block())
         datagram = datagram
-        if len(datagram) > self.max_size:
-            raise OverflowError("Package exceeds the maximum size of " + str(self.max_size) + " bytes.")
+        if len(datagram) > self._max_size:
+            raise OverflowError("Package exceeds the maximum size of " + str(self._max_size) + " bytes.")
         self._datagram = bytes(datagram)
         return self._datagram
 
@@ -243,8 +239,8 @@ class ClientPackage(Package):
         datagram.extend(self.time_order.to_sqn_bytes())
         datagram.extend(self._create_event_block())
         datagram = datagram
-        if len(datagram) > self.max_size:
-            raise OverflowError("Package exceeds the maximum size of " + str(self.max_size) + " bytes.")
+        if len(datagram) > self._max_size:
+            raise OverflowError("Package exceeds the maximum size of " + str(self._max_size) + " bytes.")
         self._datagram = bytes(datagram)
         return self._datagram
 
@@ -284,8 +280,8 @@ class ServerPackage(Package):
         datagram.extend(state_update_bytepack)
         datagram.extend(self._create_event_block())
         datagram = datagram
-        if len(datagram) > self.max_size:
-            raise OverflowError("package exceeds the maximum size of " + str(self.max_size) + " bytes")
+        if len(datagram) > self._max_size:
+            raise OverflowError("package exceeds the maximum size of " + str(self._max_size) + " bytes")
         self._datagram = bytes(datagram)
         return self._datagram
 
@@ -352,9 +348,9 @@ class Connection:
 
     """
 
-    timeout: float = 5.0  # connection timeout in seconds
-    max_throttle_time: float = 60.0  # maximum time to wait before throttling
-    min_throttle_time: float = 1.0  # minimum time to wait before throttling
+    _timeout: float = 5.0  # connection timeout in seconds
+    _max_throttle_time: float = 60.0  # maximum time to wait before throttling
+    _min_throttle_time: float = 1.0  # minimum time to wait before throttling
     _package_intervals: dict = {
         "good": 1 / 40,
         "bad": 1 / 20,
@@ -431,7 +427,10 @@ class Connection:
                             del self._event_callbacks[event_sequence]
                     del self._events_with_callbacks[pending_sequence]
                 del self._pending_acks[pending_sequence]
-            elif time.time() - self._pending_acks[pending_sequence] > Package.timeout:
+            elif (
+                time.time() - self._pending_acks[pending_sequence]
+                > Package._timeout  # pylint: disable=protected-access
+            ):
                 if pending_sequence in self._events_with_callbacks:
                     for event_sequence in self._events_with_callbacks[pending_sequence]:
                         if self._event_callbacks[event_sequence]["timeout"] is not None:
@@ -509,8 +508,8 @@ class Connection:
         while True:
             try:
                 t0 = time.time()
-                if t0 - self._last_recv > self.timeout:
-                    logger.warning(f"Connection to {self.remote_address} timed out after {self.timeout} seconds.")
+                if t0 - self._last_recv > self._timeout:
+                    logger.warning(f"Connection to {self.remote_address} timed out after {self._timeout} seconds.")
                     self._set_status("Disconnected")
                     break
                 await self._send_next_package(sock)
@@ -575,7 +574,7 @@ class Connection:
 
         """
         state = {
-            "throttle_time": self.min_throttle_time,
+            "throttle_time": self._min_throttle_time,
             "last_quality_change": time.time(),
             "last_good_quality_milestone": time.time(),
         }
@@ -583,7 +582,7 @@ class Connection:
         while True:
             try:
                 self._throttling_state_machine(time.time(), state)
-                await curio.sleep(Connection.min_throttle_time / 2.0)
+                await curio.sleep(self._min_throttle_time / 2.0)
             except curio.CancelledError:
                 break
         logger.debug(f"Stopped congestion avoidance for connection to {self.remote_address}.")
@@ -603,7 +602,7 @@ class Connection:
                 logger.debug(f"new package interval: {self._package_interval} seconds.")
                 # if good conditions didn't last at least the throttle time, increase it
                 if t - state["last_quality_change"] < state["throttle_time"]:
-                    state["throttle_time"] = min([state["throttle_time"] * 2.0, self.max_throttle_time])
+                    state["throttle_time"] = min([state["throttle_time"] * 2.0, self._max_throttle_time])
                 state["last_quality_change"] = t
             # if good conditions lasted throttle time since last milestone
             elif t - state["last_good_quality_milestone"] > state["throttle_time"]:
@@ -617,7 +616,7 @@ class Connection:
                     )
                     self._package_interval = self._package_intervals["good"]
                     logger.debug(f"new package interval: {self._package_interval} seconds.")
-                state["throttle_time"] = max([state["throttle_time"] / 2.0, self.min_throttle_time])
+                state["throttle_time"] = max([state["throttle_time"] / 2.0, self._min_throttle_time])
                 state["last_good_quality_milestone"] = t
         else:  # self.quality == 'bad'
             if self.latency < self._latency_threshold:  # switch to good mode
@@ -735,7 +734,7 @@ class ClientConnection(Connection):
         logger.debug(f"Starting to listen to packages from server at {self.remote_address}.")
         while True:
             try:
-                data = await sock.recv(ServerPackage.max_size)
+                data = await sock.recv(ServerPackage._max_size)  # pylint: disable=protected-access
                 package = ServerPackage.from_datagram(data)
                 await self._recv(package)
             except curio.CancelledError:
@@ -814,7 +813,7 @@ class ServerConnection(Connection):
             connection_tasks = curio.TaskGroup()
             logger.info(f"Server successfully started and listening to packages from clients on {(hostname, port)}.")
             while True:
-                data, client_address = await sock.recvfrom(Package.max_size)
+                data, client_address = await sock.recvfrom(Package._max_size)  # pylint: disable=protected-access
                 try:
                     package = ClientPackage.from_datagram(data)
                     # Create new connection if client is unknown.

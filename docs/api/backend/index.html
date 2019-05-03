@@ -36,7 +36,7 @@
     
     
       
-        <title>API - PyGaSe API Reference</title>
+        <title>pygase.backend - PyGaSe API Reference</title>
       
     
     
@@ -94,7 +94,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#pygase" tabindex="1" class="md-skip">
+      <a href="#pygasebackend" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -119,7 +119,7 @@
               PyGaSe API Reference
             </span>
             <span class="md-header-nav__topic">
-              API
+              pygase.backend
             </span>
           
         </div>
@@ -239,6 +239,51 @@
       
       
 
+
+  <li class="md-nav__item">
+    <a href="../main/" title="API" class="md-nav__link">
+      API
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
+    
+    <label class="md-nav__link" for="nav-3">
+      Low Level API
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Low Level API
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../client/" title="pygase.client" class="md-nav__link">
+      pygase.client
+    </a>
+  </li>
+
+        
+          
+          
+          
+
   
 
 
@@ -250,11 +295,11 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        API
+        pygase.backend
       </label>
     
-    <a href="./" title="API" class="md-nav__link md-nav__link--active">
-      API
+    <a href="./" title="pygase.backend" class="md-nav__link md-nav__link--active">
+      pygase.backend
     </a>
     
       
@@ -266,46 +311,6 @@
   
     <label class="md-nav__title" for="__toc">Table of contents</label>
     <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#gamestate" title="GameState" class="md-nav__link">
-    GameState
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#is_paused" title="is_paused" class="md-nav__link">
-    is_paused
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#backend" title="Backend" class="md-nav__link">
-    Backend
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#run" title="run" class="md-nav__link">
-    run
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
       
         <li class="md-nav__item">
   <a href="#gamestatestore" title="GameStateStore" class="md-nav__link">
@@ -342,6 +347,68 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#server" title="Server" class="md-nav__link">
+    Server
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hostname" title="hostname" class="md-nav__link">
+    hostname
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#port" title="port" class="md-nav__link">
+    port
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run" title="run" class="md-nav__link">
+    run
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run_in_thread" title="run_in_thread" class="md-nav__link">
+    run_in_thread
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shutdown" title="shutdown" class="md-nav__link">
+    shutdown
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dispatch_event" title="dispatch_event" class="md-nav__link">
+    dispatch_event
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#register_event_handler" title="register_event_handler" class="md-nav__link">
+    register_event_handler
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#gamestatemachine" title="GameStateMachine" class="md-nav__link">
     GameStateMachine
   </a>
@@ -350,7 +417,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#register_event_handler" title="register_event_handler" class="md-nav__link">
+  <a href="#register_event_handler_1" title="register_event_handler" class="md-nav__link">
     register_event_handler
   </a>
   
@@ -390,26 +457,12 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#server" title="Server" class="md-nav__link">
-    Server
+  <a href="#backend" title="Backend" class="md-nav__link">
+    Backend
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#hostname" title="hostname" class="md-nav__link">
-    hostname
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#port" title="port" class="md-nav__link">
-    port
-  </a>
-  
-</li>
         
           <li class="md-nav__item">
   <a href="#run_1" title="run" class="md-nav__link">
@@ -418,43 +471,8 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#run_in_thread" title="run_in_thread" class="md-nav__link">
-    run_in_thread
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#shutdown" title="shutdown" class="md-nav__link">
-    shutdown
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#dispatch_event" title="dispatch_event" class="md-nav__link">
-    dispatch_event
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#register_event_handler_1" title="register_event_handler" class="md-nav__link">
-    register_event_handler
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#get_available_ip_addresses" title="get_available_ip_addresses" class="md-nav__link">
-    get_available_ip_addresses
-  </a>
   
 </li>
       
@@ -466,49 +484,6 @@
   
 </nav>
     
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
-    
-    <label class="md-nav__link" for="nav-3">
-      Low Level API
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-3">
-        Low Level API
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../client/" title="pygase.client" class="md-nav__link">
-      pygase.client
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../backend/" title="pygase.backend" class="md-nav__link">
-      pygase.backend
-    </a>
   </li>
 
         
@@ -586,46 +561,6 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#gamestate" title="GameState" class="md-nav__link">
-    GameState
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#is_paused" title="is_paused" class="md-nav__link">
-    is_paused
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#backend" title="Backend" class="md-nav__link">
-    Backend
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#run" title="run" class="md-nav__link">
-    run
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#gamestatestore" title="GameStateStore" class="md-nav__link">
     GameStateStore
   </a>
@@ -660,6 +595,68 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#server" title="Server" class="md-nav__link">
+    Server
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hostname" title="hostname" class="md-nav__link">
+    hostname
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#port" title="port" class="md-nav__link">
+    port
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run" title="run" class="md-nav__link">
+    run
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run_in_thread" title="run_in_thread" class="md-nav__link">
+    run_in_thread
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shutdown" title="shutdown" class="md-nav__link">
+    shutdown
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dispatch_event" title="dispatch_event" class="md-nav__link">
+    dispatch_event
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#register_event_handler" title="register_event_handler" class="md-nav__link">
+    register_event_handler
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#gamestatemachine" title="GameStateMachine" class="md-nav__link">
     GameStateMachine
   </a>
@@ -668,7 +665,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#register_event_handler" title="register_event_handler" class="md-nav__link">
+  <a href="#register_event_handler_1" title="register_event_handler" class="md-nav__link">
     register_event_handler
   </a>
   
@@ -708,26 +705,12 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#server" title="Server" class="md-nav__link">
-    Server
+  <a href="#backend" title="Backend" class="md-nav__link">
+    Backend
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#hostname" title="hostname" class="md-nav__link">
-    hostname
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#port" title="port" class="md-nav__link">
-    port
-  </a>
-  
-</li>
         
           <li class="md-nav__item">
   <a href="#run_1" title="run" class="md-nav__link">
@@ -736,43 +719,8 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#run_in_thread" title="run_in_thread" class="md-nav__link">
-    run_in_thread
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#shutdown" title="shutdown" class="md-nav__link">
-    shutdown
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#dispatch_event" title="dispatch_event" class="md-nav__link">
-    dispatch_event
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#register_event_handler_1" title="register_event_handler" class="md-nav__link">
-    register_event_handler
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#get_available_ip_addresses" title="get_available_ip_addresses" class="md-nav__link">
-    get_available_ip_addresses
-  </a>
   
 </li>
       
@@ -792,87 +740,18 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/sbischoff-ai/pygase/edit/master/docs/api/main.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/sbischoff-ai/pygase/edit/master/docs/api/backend.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="pygase">pygase</h1>
-<p>Create smooth and scalable online and LAN multiplayer games easily.</p>
-<p>PyGaSe, or Python Game Service, is a library (or framework, whichever term you prefer) that provides
-a complete set of high-level components for real-time networking for games.</p>
-<p>As a user of this library you will only need classes and functions directly imported from <code>pygase</code>:</p>
-<pre><code class="python"># For clients:
-from pygase import Client
-
-# For backends:
-from pygase import GameState, GameStateStore, GameStateMachine, Server
-# Not necessary but might come in handy:
-from pygase import get_availabe_ip_addresses
-</code></pre>
-
-<h2 id="gamestate">GameState</h2>
-<pre><code class="python">GameState(self, time_order:int=0, game_status:int=0, **kwargs)
-</code></pre>
-
-<p>Customize a serializable game state model.</p>
-<p>Contains game state information that will be synchronized between the server and the clients.
-Via <code>pygase.utils.Sendable</code> its instances will be serialized using the msgpack protocol
-and must only contain attributes of type <code>str</code>, <code>bytes</code>, <code>Sqn</code>, <code>int</code>, <code>float</code>, <code>bool</code>
-as well as <code>list</code>s or <code>tuple</code>s of such.</p>
-<p><strong>Arguments</strong></p>
+                <h1 id="pygasebackend">pygase.backend</h1>
+<p>Serve PyGaSe clients.</p>
+<p>Provides the <code>Server</code> class and all PyGaSe components that deal with progression and syncing of game states.</p>
+<p><strong>Contents</strong></p>
 <ul>
-<li><strong>time_order ()</strong>: current time order number of the game state, higher means more recent</li>
-<li><strong>game_status ()</strong>: <code>GameStatus</code> enum value that describes whether or not the game loop is running
-Provide custom game state attributes via keyword arguments or assign them later.</li>
-</ul>
-<p><strong>Attributes</strong></p>
-<p>game_status ()
- time_order ()
-<code>GameState</code> instances mainly consist of custom attributes that make up the game state.</p>
-<h3 id="is_paused">is_paused</h3>
-<pre><code class="python">GameState.is_paused(self) -&gt; bool
-</code></pre>
-
-<p>Return <code>True</code> if game is paused.</p>
-<h2 id="backend">Backend</h2>
-<pre><code class="python">Backend(self, initial_game_state:pygase.gamestate.GameState, time_step_function, event_handlers:dict=None)
-</code></pre>
-
-<p>Easily create a fully integrated PyGaSe backend.</p>
-<p><strong>Arguments</strong></p>
-<ul>
-<li><strong>initial_game_state (GameState)</strong>: state of the game before the simulation begins</li>
-<li><strong>time_step_function (callable)</strong>: function that takes a game state and a time difference and returns
-    a dict of updated game state attributes (see <code>GameStateMachine.time_step()</code>)</li>
-<li><strong>event_handlers (dict)</strong>: a dict with event types as keys and event handler functions as values</li>
-</ul>
-<p><strong>Attributes</strong></p>
-<ul>
-<li><code>game_state_store (GameStateStore)</code>: the backends game state repository</li>
-<li><code>game_state_machine (GameStateMachine)</code>: logic component that runs the game loop</li>
-<li><code>server (Server)</code>: handles connections to PyGaSe clients</li>
-</ul>
-<p><strong>Example</strong></p>
-<pre><code class="python"># Run a game loop that continuously increments `foo` with velocity `bar`.
-Backend(
-    initial_gamestate=GameState(foo=0.0, bar=0.5),
-    time_step_function=lambda game_state, dt: {foo: game_state.foo + game_state.bar*dt},
-    # Handle client events to reset `foo` and set a new `bar` value.
-    event_handlers={
-        &quot;RESET_FOO&quot;: lambda game_state, dt: {foo: 0.0},
-        &quot;SET_BAR&quot;: lambda new_bar, game_state, dt: {bar: new_bar}
-    }
-).run(hostname=&quot;localhost&quot;, port=8080)
-</code></pre>
-
-<h3 id="run">run</h3>
-<pre><code class="python">Backend.run(self, hostname:str, port:int)
-</code></pre>
-
-<p>Run state machine and server and bind the server to a given address.</p>
-<p><strong>Arguments</strong></p>
-<ul>
-<li><strong>hostname (str)</strong>: hostname or IPv4 address the server will be bound to</li>
-<li><strong>port (int)</strong>: port number the server will be bound to</li>
+<li><code>GameStateStore</code>: main API class for game state repositories</li>
+<li><code>Server</code>: main API class for PyGaSe servers</li>
+<li><code>GameStateMachine</code>: main API class for game logic components</li>
+<li><code>Backend</code>: main API class for a fully integrated PyGaSe backend</li>
 </ul>
 <h2 id="gamestatestore">GameStateStore</h2>
 <pre><code class="python">GameStateStore(self, initial_game_state:pygase.gamestate.GameState=None)
@@ -900,6 +779,91 @@ Backend(
 <p>Push a new state update to the update cache.</p>
 <p>This method will usually be called by whatever is progressing the game state,
 usually a <code>GameStateMachine</code>.</p>
+<h2 id="server">Server</h2>
+<pre><code class="python">Server(self, game_state_store:pygase.backend.GameStateStore)
+</code></pre>
+
+<p>Listen to clients and orchestrate the flow of events and state updates.</p>
+<p>The <code>Server</code> instance does not contain game logic or state, it is only responsible for connections
+to clients. The state is provided by a <code>GameStateStore</code> and game logic by a <code>GameStateMachine</code>.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><strong>game_state_store (GameStateStore)</strong>: part of the backend that provides an interface to the <code>pygase.GameState</code></li>
+</ul>
+<p><strong>Attributes</strong></p>
+<ul>
+<li><code>connections (list)</code>: contains each clients address as a key leading to the
+    corresponding <code>pygase.connection.ServerConnection</code> instance</li>
+<li><code>host_client (tuple)</code>: address of the host client (who has permission to shutdown the server), if there is any</li>
+<li><code>game_state_store (GameStateStore)</code>: game state repository</li>
+</ul>
+<p><strong>Members</strong></p>
+<ul>
+<li><code>hostname (str)</code>: read-only access to the servers hostname</li>
+<li><code>port (int)</code>: read-only access to the servers port number</li>
+</ul>
+<h3 id="hostname">hostname</h3>
+<p>Get the hostname or IP address on which the server listens.</p>
+<p>Returns <code>None</code> when the server is not running.</p>
+<h3 id="port">port</h3>
+<p>Get the port number on which the server listens.</p>
+<p>Returns <code>None</code> when the server is not running.</p>
+<h3 id="run">run</h3>
+<pre><code class="python">Server.run(self, port:int=0, hostname:str='localhost', event_wire=None) -&gt; None
+</code></pre>
+
+<p>Start the server under a specified address.</p>
+<p>This is a blocking function but can also be spawned as a coroutine or in a thread
+via <code>Server.run_in_thread()</code>.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><strong>port (int)</strong>: port number the server will be bound to, default will be an available
+   port chosen by the computers network controller</li>
+<li><strong>hostname (str)</strong>: hostname or IP address the server will be bound to.
+   Defaults to <code>'localhost'</code>.</li>
+<li><strong>event_wire (GameStateMachine)</strong>: object to which events are to be repeated
+   (has to implement a <code>_push_event(event)</code> method and is typically a <code>GameStateMachine</code>)</li>
+</ul>
+<h3 id="run_in_thread">run_in_thread</h3>
+<pre><code class="python">Server.run_in_thread(self, port:int=0, hostname:str='localhost', event_wire=None, daemon=True) -&gt; threading.Thread
+</code></pre>
+
+<p>Start the server in a seperate thread.</p>
+<p>See <code>Server.run()</code>.</p>
+<p><strong>Returns</strong></p>
+<p><code>threading.Thread</code>: the thread the server loop runs in</p>
+<h3 id="shutdown">shutdown</h3>
+<pre><code class="python">Server.shutdown(self) -&gt; None
+</code></pre>
+
+<p>Shut down the server.</p>
+<p>The server can be restarted via <code>Server.run()</code> in which case it will remember previous connections.
+This method can also be spawned as a coroutine.</p>
+<h3 id="dispatch_event">dispatch_event</h3>
+<pre><code class="python">Server.dispatch_event(self, event_type:str, *args, target_client='all', retries:int=0, ack_callback=None, **kwargs) -&gt; None
+</code></pre>
+
+<p>Send an event to one or all clients.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><strong>event_type (str)</strong>: identifies the event and links it to a handler</li>
+<li><strong>target_client (tuple, str)</strong>: either <code>'all'</code> for an event broadcast, or a clients address as a tuple</li>
+<li><strong>retries (int)</strong>: number of times the event is to be resent in case it times out</li>
+<li><strong>ack_callback (callable, coroutine)</strong>: will be executed after the event was received
+    and be passed a reference to the corresponding <code>pygase.connection.ServerConnection</code> instance
+Additional positional and keyword arguments will be sent as event data and passed to the clients
+handler function.</li>
+</ul>
+<h3 id="register_event_handler">register_event_handler</h3>
+<pre><code class="python">Server.register_event_handler(self, event_type:str, event_handler_function) -&gt; None
+</code></pre>
+
+<p>Register an event handler for a specific event type.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><strong>event_type (str)</strong>: event type to link the handler function to</li>
+<li><strong>handler_func (callable, coroutine)</strong>: will be called for received events of the given type</li>
+</ul>
 <h2 id="gamestatemachine">GameStateMachine</h2>
 <pre><code class="python">GameStateMachine(self, game_state_store:pygase.backend.GameStateStore)
 </code></pre>
@@ -916,7 +880,7 @@ method, or you assign an implementation after instantiation.</p>
 <ul>
 <li><code>game_time (float)</code>: duration the game has been running in seconds</li>
 </ul>
-<h3 id="register_event_handler">register_event_handler</h3>
+<h3 id="register_event_handler_1">register_event_handler</h3>
 <pre><code class="python">GameStateMachine.register_event_handler(self, event_type:str, event_handler_function) -&gt; None
 </code></pre>
 
@@ -977,96 +941,47 @@ where it was stopped.</p>
 </ul>
 <p><strong>Returns</strong></p>
 <p><code>dict</code>: updated game state attributes</p>
-<h2 id="server">Server</h2>
-<pre><code class="python">Server(self, game_state_store:pygase.backend.GameStateStore)
+<h2 id="backend">Backend</h2>
+<pre><code class="python">Backend(self, initial_game_state:pygase.gamestate.GameState, time_step_function, event_handlers:dict=None)
 </code></pre>
 
-<p>Listen to clients and orchestrate the flow of events and state updates.</p>
-<p>The <code>Server</code> instance does not contain game logic or state, it is only responsible for connections
-to clients. The state is provided by a <code>GameStateStore</code> and game logic by a <code>GameStateMachine</code>.</p>
+<p>Easily create a fully integrated PyGaSe backend.</p>
 <p><strong>Arguments</strong></p>
 <ul>
-<li><strong>game_state_store (GameStateStore)</strong>: part of the backend that provides an interface to the <code>pygase.GameState</code></li>
+<li><strong>initial_game_state (GameState)</strong>: state of the game before the simulation begins</li>
+<li><strong>time_step_function (callable)</strong>: function that takes a game state and a time difference and returns
+    a dict of updated game state attributes (see <code>GameStateMachine.time_step()</code>)</li>
+<li><strong>event_handlers (dict)</strong>: a dict with event types as keys and event handler functions as values</li>
 </ul>
 <p><strong>Attributes</strong></p>
 <ul>
-<li><code>connections (list)</code>: contains each clients address as a key leading to the
-    corresponding <code>pygase.connection.ServerConnection</code> instance</li>
-<li><code>host_client (tuple)</code>: address of the host client (who has permission to shutdown the server), if there is any</li>
-<li><code>game_state_store (GameStateStore)</code>: game state repository</li>
+<li><code>game_state_store (GameStateStore)</code>: the backends game state repository</li>
+<li><code>game_state_machine (GameStateMachine)</code>: logic component that runs the game loop</li>
+<li><code>server (Server)</code>: handles connections to PyGaSe clients</li>
 </ul>
-<p><strong>Members</strong></p>
-<ul>
-<li><code>hostname (str)</code>: read-only access to the servers hostname</li>
-<li><code>port (int)</code>: read-only access to the servers port number</li>
-</ul>
-<h3 id="hostname">hostname</h3>
-<p>Get the hostname or IP address on which the server listens.</p>
-<p>Returns <code>None</code> when the server is not running.</p>
-<h3 id="port">port</h3>
-<p>Get the port number on which the server listens.</p>
-<p>Returns <code>None</code> when the server is not running.</p>
+<p><strong>Example</strong></p>
+<pre><code class="python"># Run a game loop that continuously increments `foo` with velocity `bar`.
+Backend(
+    initial_gamestate=GameState(foo=0.0, bar=0.5),
+    time_step_function=lambda game_state, dt: {foo: game_state.foo + game_state.bar*dt},
+    # Handle client events to reset `foo` and set a new `bar` value.
+    event_handlers={
+        &quot;RESET_FOO&quot;: lambda game_state, dt: {foo: 0.0},
+        &quot;SET_BAR&quot;: lambda new_bar, game_state, dt: {bar: new_bar}
+    }
+).run(hostname=&quot;localhost&quot;, port=8080)
+</code></pre>
+
 <h3 id="run_1">run</h3>
-<pre><code class="python">Server.run(self, port:int=0, hostname:str='localhost', event_wire=None) -&gt; None
+<pre><code class="python">Backend.run(self, hostname:str, port:int)
 </code></pre>
 
-<p>Start the server under a specified address.</p>
-<p>This is a blocking function but can also be spawned as a coroutine or in a thread
-via <code>Server.run_in_thread()</code>.</p>
+<p>Run state machine and server and bind the server to a given address.</p>
 <p><strong>Arguments</strong></p>
 <ul>
-<li><strong>port (int)</strong>: port number the server will be bound to, default will be an available
-   port chosen by the computers network controller</li>
-<li><strong>hostname (str)</strong>: hostname or IP address the server will be bound to.
-   Defaults to <code>'localhost'</code>.</li>
-<li><strong>event_wire (GameStateMachine)</strong>: object to which events are to be repeated
-   (has to implement a <code>_push_event(event)</code> method and is typically a <code>GameStateMachine</code>)</li>
+<li><strong>hostname (str)</strong>: hostname or IPv4 address the server will be bound to</li>
+<li><strong>port (int)</strong>: port number the server will be bound to</li>
 </ul>
-<h3 id="run_in_thread">run_in_thread</h3>
-<pre><code class="python">Server.run_in_thread(self, port:int=0, hostname:str='localhost', event_wire=None, daemon=True) -&gt; threading.Thread
-</code></pre>
-
-<p>Start the server in a seperate thread.</p>
-<p>See <code>Server.run()</code>.</p>
-<p><strong>Returns</strong></p>
-<p><code>threading.Thread</code>: the thread the server loop runs in</p>
-<h3 id="shutdown">shutdown</h3>
-<pre><code class="python">Server.shutdown(self) -&gt; None
-</code></pre>
-
-<p>Shut down the server.</p>
-<p>The server can be restarted via <code>Server.run()</code> in which case it will remember previous connections.
-This method can also be spawned as a coroutine.</p>
-<h3 id="dispatch_event">dispatch_event</h3>
-<pre><code class="python">Server.dispatch_event(self, event_type:str, *args, target_client='all', retries:int=0, ack_callback=None, **kwargs) -&gt; None
-</code></pre>
-
-<p>Send an event to one or all clients.</p>
-<p><strong>Arguments</strong></p>
-<ul>
-<li><strong>event_type (str)</strong>: identifies the event and links it to a handler</li>
-<li><strong>target_client (tuple, str)</strong>: either <code>'all'</code> for an event broadcast, or a clients address as a tuple</li>
-<li><strong>retries (int)</strong>: number of times the event is to be resent in case it times out</li>
-<li><strong>ack_callback (callable, coroutine)</strong>: will be executed after the event was received
-    and be passed a reference to the corresponding <code>pygase.connection.ServerConnection</code> instance
-Additional positional and keyword arguments will be sent as event data and passed to the clients
-handler function.</li>
-</ul>
-<h3 id="register_event_handler_1">register_event_handler</h3>
-<pre><code class="python">Server.register_event_handler(self, event_type:str, event_handler_function) -&gt; None
-</code></pre>
-
-<p>Register an event handler for a specific event type.</p>
-<p><strong>Arguments</strong></p>
-<ul>
-<li><strong>event_type (str)</strong>: event type to link the handler function to</li>
-<li><strong>handler_func (callable, coroutine)</strong>: will be called for received events of the given type</li>
-</ul>
-<h2 id="get_available_ip_addresses">get_available_ip_addresses</h2>
-<pre><code class="python">get_available_ip_addresses() -&gt; list
-</code></pre>
-
-<p>Return a list of all locally available IPv4 addresses.</p>
                 
                   
                 
@@ -1087,7 +1002,7 @@ handler function.</li>
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../.." title="Home" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../client/" title="pygase.client" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -1096,19 +1011,19 @@ handler function.</li>
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Home
+                pygase.client
               </span>
             </div>
           </a>
         
         
-          <a href="../client/" title="pygase.client" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../gamestate/" title="pygase.gamestate" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                pygase.client
+                pygase.gamestate
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

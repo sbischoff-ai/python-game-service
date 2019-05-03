@@ -13,21 +13,26 @@ generate:
     - pygase.GameStateMachine+
     - pygase.Server+
     - pygase.get_available_ip_addresses
-- api/low-level.md:
-  - pygase.client++
-  - pygase.backend++
-  - pygase.gamestate++
-  - pygase.connection++
-  - pygase.event++
-  - pygase.utils++               # (++ to include members, and their members)
+- api/client.md: pygase.client++
+- api/backend.md: pygase.backend++
+- api/gamestate.md: pygase.gamestate++
+- api/connection.md: pygase.connection++
+- api/event.md: pygase.event++
+- api/utils.md: pygase.utils++               # (++ to include members, and their members)
 
 # MkDocs pages configuration. The `<<` operator is sugar added by pydocmd
 # that allows you to use an external Markdown file (eg. your project's README)
 # in the documentation. The path must be relative to current working directory.
 pages:
 - Home: index.md << ./README.md
-- Main API: api/main.md
-- Low Level API: api/low-level.md
+- API: api/main.md
+- Low Level API:
+  - pygase.client: api/client.md
+  - pygase.backend: api/backend.md
+  - pygase.gamestate: api/gamestate.md
+  - pygase.connection: api/connection.md
+  - pygase.event: api/event.md
+  - pygase.utils: api/utils.md
 
 # These options all show off their default values. You don't have to add
 # them to your configuration if you're fine with the default.
@@ -46,7 +51,7 @@ repo_url: https://github.com/sbischoff-ai/pygase
 #
 # Note: if using the simple generator mode, this will default to 'markdown'
 # instead of 'html'.
-headers: html
+headers: markdown
 
 # Additional search path for your Python module. If you use Pydocmd from a
 # subdirectory of your project (eg. docs/), you may want to add the parent
