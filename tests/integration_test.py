@@ -59,7 +59,3 @@ class TestIntegration:
 
         assert curio.run(test_task, True, with_monitor=True)
         assert curio.run(test_task, False, with_monitor=True)
-
-
-# TODOS: server timeout when connections are gone, backend factory, WIRE UP GAMESTATEMACHINE TO EVENTS
-# Improve state_store (accessing state attributes is too lengthy)

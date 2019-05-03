@@ -1,29 +1,34 @@
 import pytest
 from pygase.utils import Sqn, Sendable
 
-class TestSendable:
 
+class TestSendable:
     def test_bytepacking(self):
         class SomeClass(Sendable):
             def __init__(self, a, b):
                 self.a = a
                 self.b = b
+
             def foo(self):
-                return 'bar'
+                return "bar"
+
         obj = SomeClass(1, 2)
-        obj.hello = {',': ['World', '!']}
+        obj.hello = {",": ["World", "!"]}
         bytepack = obj.to_bytes()
         unpacked_obj = SomeClass.from_bytes(bytepack)
         assert unpacked_obj == obj
-        assert unpacked_obj.foo() == 'bar'
+        assert unpacked_obj.foo() == "bar"
         with pytest.raises(TypeError) as exception:
-            SomeClass.from_bytes('This is not a Sendable'.encode('utf-8'))
-        assert str(exception.value) == 'Bytes could no be parsed into SomeClass.'
-        class SomeOtherClass(Sendable): pass
+            SomeClass.from_bytes("This is not a Sendable".encode("utf-8"))
+        assert str(exception.value) == "Bytes could no be parsed into SomeClass."
+
+        class SomeOtherClass(Sendable):
+            pass
+
         assert SomeOtherClass() == SomeOtherClass.from_bytes(SomeOtherClass().to_bytes())
 
-class TestSqn:
 
+class TestSqn:
     def test_initialize_valid_values(self):
         for i in range(Sqn._max_sequence + 1):
             s = Sqn(i)
@@ -33,13 +38,13 @@ class TestSqn:
         for i in range(-1, -(Sqn._max_sequence + 2), -1):
             with pytest.raises(ValueError) as error:
                 Sqn(i)
-            assert str(error.value) == 'sequence numbers must not be negative'
+            assert str(error.value) == "sequence numbers must not be negative"
 
     def test_initialize_with_overflowing_value(self):
-        for i in range(Sqn._max_sequence + 1, 2*Sqn._max_sequence):
+        for i in range(Sqn._max_sequence + 1, 2 * Sqn._max_sequence):
             with pytest.raises(ValueError) as error:
                 Sqn(i)
-            assert str(error.value) == 'value exceeds maximum sequence number'
+            assert str(error.value) == "value exceeds maximum sequence number"
 
     def test_add_within_sequence(self):
         s = Sqn(0)
@@ -74,7 +79,7 @@ class TestSqn:
         s = Sqn(2)
         with pytest.raises(ValueError) as error:
             s += -3
-        assert str(error.value) == 'sequence numbers must not be negative'
+        assert str(error.value) == "sequence numbers must not be negative"
 
     def test_small_difference_within_sequence(self):
         s1 = Sqn(2)
@@ -95,18 +100,18 @@ class TestSqn:
         greater = 0
         lower = 0
         for i in range(1, Sqn._max_sequence + 1):
-            if(Sqn(i) > s):
+            if Sqn(i) > s:
                 greater += 1
-            elif(Sqn(i) < s):
+            elif Sqn(i) < s:
                 lower += 1
         assert greater > 0 and greater == lower
 
     def test_large_distance(self):
         assert Sqn(50000) - Sqn(20000) == 30000
-        assert Sqn(Sqn._max_sequence-100) - Sqn(20000) == -20100
+        assert Sqn(Sqn._max_sequence - 100) - Sqn(20000) == -20100
 
     def test_bytes(self):
-        for i in range(2*Sqn._bytesize):
+        for i in range(2 * Sqn._bytesize):
             b = Sqn(i).to_sqn_bytes()
             assert len(b) == Sqn._bytesize
             assert b.__class__ == bytes
@@ -115,7 +120,8 @@ class TestSqn:
     def test_subclassing_and_bytesize_change(self):
         class subSqn(Sqn):
             pass
+
         subSqn.set_bytesize(4)
-        assert subSqn._bytesize == 2*Sqn._bytesize
-        assert (subSqn._max_sequence+1)/(Sqn._max_sequence+1) == Sqn._max_sequence + 1
+        assert subSqn._bytesize == 2 * Sqn._bytesize
+        assert (subSqn._max_sequence + 1) / (Sqn._max_sequence + 1) == Sqn._max_sequence + 1
         assert len(subSqn(12532).to_sqn_bytes()) == 4
