@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import threading
+import queue
 
 import pytest
 from freezegun import freeze_time
@@ -36,17 +37,23 @@ class TestClient:
         thread.join(timeout=0.1)
         assert not thread.is_alive()
         with freeze_time() as frozen_time:
+            exceptions = queue.Queue()
 
             def test_function():
-                with pytest.raises(TimeoutError):
+                try:
                     client.wait_until(lambda game_state: hasattr(game_state, "bizbaz"))
+                except Exception as e:
+                    exceptions.put(e)
+                    exceptions.task_done()
 
             thread = threading.Thread(target=test_function)
             thread.start()
             assert thread.is_alive()
             frozen_time.tick()
         thread.join()
-        assert not thread.is_alive()
+        assert not exceptions.empty()
+        exception = exceptions.get()
+        assert exception.__class__ == TimeoutError
 
     def test_try_to(self):
         client = Client()
@@ -62,15 +69,21 @@ class TestClient:
         thread.join(timeout=0.1)
         assert not thread.is_alive()
         with freeze_time() as frozen_time:
+            exceptions = queue.Queue()
 
             def timeout_test_function():
-                with pytest.raises(TimeoutError):
+                try:
                     barfoo = client.try_to(lambda game_state: game_state.bar["foo"])
                     assert barfoo == "biz"
+                except Exception as e:
+                    exceptions.put(e)
+                    exceptions.task_done()
 
             thread = threading.Thread(target=timeout_test_function)
             thread.start()
             assert thread.is_alive()
             frozen_time.tick()
         thread.join()
-        assert not thread.is_alive()
+        assert not exceptions.empty()
+        exception = exceptions.get()
+        assert exception.__class__ == TimeoutError

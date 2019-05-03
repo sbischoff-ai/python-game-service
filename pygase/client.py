@@ -151,7 +151,7 @@ class Client:
             with self.access_game_state() as game_state:
                 try:
                     result = function(game_state)
-                except KeyError:
+                except (KeyError, AttributeError):
                     pass
             if result is not None:
                 return result
