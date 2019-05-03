@@ -43,6 +43,7 @@ For API documentation and tutorials go [here](https://sbischoff-ai.github.io/pyg
 ## Changes
 
 ### 0.2.1
+- logging via the standard `logging` module added
 - `Backend` class added
 - various minor bugfixes
 
