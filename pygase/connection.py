@@ -24,7 +24,7 @@ import curio
 from curio import socket
 from curio.meta import awaitable, iscoroutinefunction
 
-from pygase.utils import NamedEnum, Sqn, LockedRessource, Comparable
+from pygase.utils import NamedEnum, Sqn, LockedRessource, Comparable, logger
 from pygase.event import Event
 from pygase.gamestate import GameState, GameStateUpdate
 
@@ -362,6 +362,7 @@ class Connection:
     _latency_threshold: float = 0.25  # latency that will trigger throttling
 
     def __init__(self, remote_address: tuple, event_handler, event_wire=None):
+        logger.debug(f"Creating connection instance for remote address {remote_address}.")
         self.remote_address = remote_address
         self.event_handler = event_handler
         self.event_wire = event_wire
@@ -369,7 +370,7 @@ class Connection:
         self.remote_sequence = Sqn(0)
         self.ack_bitfield = "0" * 32
         self.latency = 0.0
-        self.status = ConnectionStatus.get("Connecting")
+        self.status = ConnectionStatus.get("Disconnected")
         self.quality = "good"  # this is used for congestion avoidance
         self._package_interval = self._package_intervals["good"]
         self._outgoing_event_queue = curio.UniversalQueue()
@@ -410,8 +411,10 @@ class Connection:
 
         """
         self._last_recv = time.time()
-        self._set_status("Connected")
+        if self.status != ConnectionStatus.get("Connected"):
+            self._set_status("Connected")
         sequence, ack, ack_bitfield = package.header.destructure()
+        logger.debug(f"Received package with sequence number {sequence} from {self.remote_address}.")
         self._update_remote_info(sequence)
         # resolve pending acks for sent packages (NEEDS REFACTORING)
         for pending_sequence in list(self._pending_acks):
@@ -441,7 +444,9 @@ class Connection:
                 del self._pending_acks[pending_sequence]
         for event in package.events:
             await self._incoming_event_queue.put(event)
+            logger.debug(f"Received event of type {event.type} from {self.remote_address}.")
             if self.event_wire is not None:
+                logger.debug("Pushing event to event wire.")
                 await self.event_wire._push_event(event)  # pylint: disable=protected-access
 
     def dispatch_event(self, event: Event, ack_callback=None, timeout_callback=None):
@@ -462,6 +467,7 @@ class Connection:
             callback_sequence = self._event_callback_sequence
             self._event_callbacks[self._event_callback_sequence] = {"ack": ack_callback, "timeout": timeout_callback}
         self._outgoing_event_queue.put((event, callback_sequence))
+        logger.debug(f"Dispatched event of type {event.type} to be sent to {self.remote_address}.")
 
     async def _handle_next_event(self):
         """Handle an event from the incoming event queue.
@@ -480,8 +486,13 @@ class Connection:
         This coroutine, once spawned, will keep handling events until it is explicitly cancelled.
 
         """
+        logger.debug(f"Starting event loop for connection to {self.remote_address}.")
         while True:
-            await self._handle_next_event()
+            try:
+                await self._handle_next_event()
+            except curio.CancelledError:
+                break
+        logger.debug(f"Stopped handling events from {self.remote_address}.")
 
     async def _send_loop(self, sock):
         """Continously send packages to the connection partner.
@@ -493,14 +504,20 @@ class Connection:
         sock (curio.io.Socket): socket via which to send the packages
 
         """
+        logger.debug(f"Starting to send packages to {self.remote_address} every {self._package_interval} seconds.")
         congestion_avoidance_task = await curio.spawn(self._congestion_avoidance_monitor)
         while True:
-            t0 = time.time()
-            if t0 - self._last_recv > self.timeout:
-                self._set_status("Disconnected")
+            try:
+                t0 = time.time()
+                if t0 - self._last_recv > self.timeout:
+                    logger.warning(f"Connection to {self.remote_address} timed out after {self.timeout} seconds.")
+                    self._set_status("Disconnected")
+                    break
+                await self._send_next_package(sock)
+                await curio.sleep(max([self._package_interval - time.time() + t0, 0]))
+            except curio.CancelledError:
                 break
-            await self._send_next_package(sock)
-            await curio.sleep(max([self._package_interval - time.time() + t0, 0]))
+        logger.debug(f"Stopped sending packages to {self.remote_address}.")
         await congestion_avoidance_task.cancel()
 
     def _create_next_package(self):
@@ -525,14 +542,22 @@ class Connection:
                     self._events_with_callbacks[self.local_sequence] = [callback_sequence]
                 else:
                     self._events_with_callbacks[self.local_sequence].append(callback_sequence)
+            logger.debug(
+                (
+                    f"Sending event of type {event.type} to {self.remote_address}."
+                    f"event data: handler_args = {event.handler_args}, handler_kwargs = {event.handler_kwargs}"
+                )
+            )
             package.add_event(event)
             await self._outgoing_event_queue.task_done()
         await sock.sendto(package.to_datagram(), self.remote_address)
+        logger.debug(f"Sent package with sequence number {package.header.sequence} to {self.remote_address}.")
         self._pending_acks[package.header.sequence] = time.time()
 
     def _set_status(self, status: str):
         """Set `self.status` to a new #ConnectionStatus value."""
         self.status = ConnectionStatus.get(status)
+        logger.info(f"Status of connection to {self.remote_address} set to '{status}'.")
 
     def _update_latency(self, rtt: int):
         """Update `self.latency` according to a measured rount trip time.
@@ -554,23 +579,44 @@ class Connection:
             "last_quality_change": time.time(),
             "last_good_quality_milestone": time.time(),
         }
+        logger.debug(f"Starting congestion avoidance for connection to {self.remote_address}.")
         while True:
-            self._throttling_state_machine(time.time(), state)
-            await curio.sleep(Connection.min_throttle_time / 2.0)
+            try:
+                self._throttling_state_machine(time.time(), state)
+                await curio.sleep(Connection.min_throttle_time / 2.0)
+            except curio.CancelledError:
+                break
+        logger.debug(f"Stopped congestion avoidance for connection to {self.remote_address}.")
 
     def _throttling_state_machine(self, t: int, state: dict):
         """Calculate a new state for congestion avoidance."""
         if self.quality == "good":
             if self.latency > self._latency_threshold:  # switch to bad mode
+                logger.warning(
+                    (
+                        f"Throttling down connection to {self.remote_address} because "
+                        "latency ({self.latency}) is above latency threshold ({self._latency_threshold})."
+                    )
+                )
                 self.quality = "bad"
                 self._package_interval = self._package_intervals["bad"]
+                logger.debug(f"new package interval: {self._package_interval} seconds.")
                 # if good conditions didn't last at least the throttle time, increase it
                 if t - state["last_quality_change"] < state["throttle_time"]:
                     state["throttle_time"] = min([state["throttle_time"] * 2.0, self.max_throttle_time])
                 state["last_quality_change"] = t
             # if good conditions lasted throttle time since last milestone
             elif t - state["last_good_quality_milestone"] > state["throttle_time"]:
-                self._package_interval = self._package_intervals["good"]
+                if self._package_interval > self._package_intervals["good"]:
+                    logger.info(
+                        (
+                            f"Throttling up connection to {self.remote_address} because latency ({self.latency}) "
+                            f"has been below latency threshold ({self._latency_threshold}) "
+                            f"for {state['throttle_time']} seconds."
+                        )
+                    )
+                    self._package_interval = self._package_intervals["good"]
+                    logger.debug(f"new package interval: {self._package_interval} seconds.")
                 state["throttle_time"] = max([state["throttle_time"] / 2.0, self.min_throttle_time])
                 state["last_good_quality_milestone"] = t
         else:  # self.quality == 'bad'
@@ -616,6 +662,12 @@ class ClientConnection(Connection):
             await self._command_queue.put("shutdown")
         else:
             await self._command_queue.put("shut_me_down")
+        logger.debug(
+            (
+                f"Dispatched shutdown command with shutdown_server={shutdown_server} "
+                f"for connection to {self.remote_address}."
+            )
+        )
 
     def _create_next_package(self):
         """Override #Connection._create_next_package to send a #ClientPackage."""
@@ -634,18 +686,22 @@ class ClientConnection(Connection):
     @awaitable(loop)
     async def loop(self):  # pylint: disable=function-redefined
         # pylint: disable=missing-docstring
+        logger.info(f"Trying to connect to server ...")
+        self._set_status("Connecting")
         async with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
             send_loop_task = await curio.spawn(self._send_loop, sock)
             recv_loop_task = await curio.spawn(self._client_recv_loop, sock)
             event_loop_task = await curio.spawn(self._event_loop)
             # check for disconnect event
-            while True:
+            while not self.status == ConnectionStatus.get("Disconnected"):
                 command = await self._command_queue.get()
                 if command == "shutdown":
+                    logger.info(f"Sending shutdown command to server at {self.remote_address}.")
                     await sock.sendto("shutdown".encode("utf-8"), self.remote_address)
                     break
                 elif command == "shut_me_down":
                     break
+            logger.info(f"Shutting down connection to {self.remote_address}.")
             await recv_loop_task.cancel()
             await send_loop_task.cancel()
             await event_loop_task.cancel()
@@ -655,6 +711,13 @@ class ClientConnection(Connection):
         """Extend #Connection._recv to update the game state."""
         await super()._recv(package)
         async with curio.abide(self.game_state_context.lock):
+            logger.debug(
+                (
+                    f"Updating game state from time order "
+                    f"{self.game_state_context.ressource.time_order} to "
+                    f"{package.game_state_update.time_order}."
+                )
+            )
             self.game_state_context.ressource += package.game_state_update
 
     async def _client_recv_loop(self, sock):
@@ -669,10 +732,15 @@ class ClientConnection(Connection):
         """
         while self.local_sequence == 0:
             await curio.sleep(0)
+        logger.debug(f"Starting to listen to packages from server at {self.remote_address}.")
         while True:
-            data = await sock.recv(ServerPackage.max_size)
-            package = ServerPackage.from_datagram(data)
-            await self._recv(package)
+            try:
+                data = await sock.recv(ServerPackage.max_size)
+                package = ServerPackage.from_datagram(data)
+                await self._recv(package)
+            except curio.CancelledError:
+                break
+        logger.debug(f"Stopped receiving packages from {self.remote_address}.")
 
 
 class ServerConnection(Connection):
@@ -703,11 +771,18 @@ class ServerConnection(Connection):
         # Respond by sending the sum of all updates since the client's time-order point.
         # Or the whole game state if the client doesn't have it yet.
         if self.last_client_time_order == 0:
+            logger.debug(f"Sending full game state to client {self.remote_address}.")
             game_state = self.game_state_store.get_game_state()
             update = GameStateUpdate(**game_state.__dict__)
         else:
             update_base = GameStateUpdate(self.last_client_time_order)
             update = sum((upd for upd in update_cache if upd > update_base), update_base)
+            logger.debug(
+                (
+                    f"Sending update from time order {self.last_client_time_order} "
+                    f"to {update.time_order} to client {self.remote_address}."
+                )
+            )
         return ServerPackage(Header(self.local_sequence, self.remote_sequence, self.ack_bitfield), update)
 
     async def _recv(self, package: ClientPackage):
@@ -732,16 +807,19 @@ class ServerConnection(Connection):
            (has to implement a `_push_event` method)
 
         """
+        logger.info(f"Trying to run server on {(hostname, port)} ...")
         async with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
             sock.bind((hostname, port))
             server._hostname, server._port = sock.getsockname()  # pylint: disable=protected-access
             connection_tasks = curio.TaskGroup()
+            logger.info(f"Server successfully started and listening to packages from clients on {(hostname, port)}.")
             while True:
                 data, client_address = await sock.recvfrom(Package.max_size)
                 try:
                     package = ClientPackage.from_datagram(data)
-                    # create new connection if client is unknown
+                    # Create new connection if client is unknown.
                     if not client_address in server.connections:
+                        logger.info(f"New client connection from {client_address}.")
                         new_connection = cls(
                             client_address,
                             server._universal_event_handler,  # pylint: disable=protected-access
@@ -753,23 +831,29 @@ class ServerConnection(Connection):
                             new_connection._send_loop, sock  # pylint: disable=protected-access
                         )
                         await connection_tasks.spawn(new_connection._event_loop)  # pylint: disable=protected-access
-                        # For now, the first client connection becomes host
+                        # For now, the first client connection becomes host.
                         if server.host_client is None:
+                            logger.info(f"Setting {client_address} as client with host permissions.")
                             server.host_client = client_address
                         server.connections[client_address] = new_connection
                     elif server.connections[client_address].status == ConnectionStatus.get("Disconnected"):
+                        # Start sending packages again, which will also set status to "Connected".
+                        logger.info(f"Client reconnecting from {client_address}.")
                         await connection_tasks.spawn(
                             server.connections[client_address]._send_loop, sock  # pylint: disable=protected-access
                         )
                     await server.connections[client_address]._recv(package)  # pylint: disable=protected-access
                 except ProtocolIDMismatchError:
                     # ignore all non-PyGaSe packages
-                    pass
-                try:
-                    if data.decode("utf-8") == "shutdown" and client_address == server.host_client:
-                        break
-                    elif data.decode("utf-8") == "shut_me_down":
-                        break
-                except UnicodeDecodeError:
-                    pass
+                    try:
+                        if data.decode("utf-8") == "shutdown" and client_address == server.host_client:
+                            logger.info(f"Received shutdown command from host client {client_address}.")
+                            break
+                        elif data.decode("utf-8") == "shut_me_down":
+                            break
+                        else:
+                            logger.warning("Received unknown package.")
+                    except UnicodeDecodeError:
+                        logger.warning("Received unknown package.")
+            logger.info(f"Shutting down server on {(hostname, port)}.")
             await connection_tasks.cancel_remaining()

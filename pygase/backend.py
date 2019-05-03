@@ -21,6 +21,7 @@ from curio.meta import awaitable
 from pygase.connection import ServerConnection
 from pygase.gamestate import GameState, GameStateUpdate, GameStatus
 from pygase.event import UniversalEventHandler, Event
+from pygase.utils import logger
 
 
 class GameStateStore:
@@ -35,6 +36,7 @@ class GameStateStore:
     _update_cache_size: int = 100
 
     def __init__(self, initial_game_state: GameState = None):
+        logger.debug("Creating GameStateStore instance.")
         self._game_state = initial_game_state if initial_game_state is not None else GameState()
         self._game_state_update_cache = [GameStateUpdate(0)]
 
@@ -57,6 +59,12 @@ class GameStateStore:
         if len(self._game_state_update_cache) > self._update_cache_size:
             del self._game_state_update_cache[0]
         if update > self._game_state:
+            logger.debug(
+                (
+                    f"Updating game state in state store from time order {self._game_state.time_order} "
+                    f"to {update.time_order}."
+                )
+            )
             self._game_state += update
 
 
@@ -83,6 +91,7 @@ class Server:
     """
 
     def __init__(self, game_state_store: GameStateStore):
+        logger.debug("Creating Server instance.")
         self.connections: dict = {}
         self.host_client: tuple = None
         self.game_state_store = game_state_store
@@ -188,7 +197,7 @@ class Server:
             def get_timeout_callback(connection):
                 return lambda: self.dispatch_event(
                     event_type, *args, connection=connection, retries=retries - 1, ack_callback=ack_callback, **kwargs
-                )
+                ) or logger.warning(f"Event of type {event_type} timed out. Retrying to send event to server.")
 
         else:
 
@@ -237,6 +246,7 @@ class GameStateMachine:
     """
 
     def __init__(self, game_state_store: GameStateStore):
+        logger.debug("Creating GameStateMachine instance.")
         self.game_time: float = 0.0
         self._event_queue = curio.UniversalQueue()
         self._universal_event_handler = UniversalEventHandler()
@@ -249,10 +259,12 @@ class GameStateMachine:
         This method can be spawned as a coroutine.
 
         """
+        logger.debug(f"State machine receiving event of type {event.type} via event wire.")
         self._event_queue.put(event)
 
     @awaitable(_push_event)
     async def _push_event(self, event: Event) -> None:  # pylint: disable=function-redefined
+        logger.debug(f"State machine receiving event of type {event.type} via event wire.")
         await self._event_queue.put(event)
 
     # advanced type checking for the handler function would be helpful
@@ -296,6 +308,7 @@ class GameStateMachine:
         game_state = self._game_state_store.get_game_state()
         dt = interval
         self._game_loop_is_running = True
+        logger.info(f"State machine starting game loop with interval of {interval} seconds.")
         while game_state.game_status == GameStatus.get("Active"):
             t0 = time.time()
             update_dict = self.time_step(game_state, dt)
@@ -310,6 +323,7 @@ class GameStateMachine:
             dt = max(interval, time.time() - t0)
             await curio.sleep(max(0, interval - dt))
             self.game_time += dt
+        logger.info("Game loop stopped.")
         self._game_loop_is_running = False
 
     def run_game_loop_in_thread(self, interval: float = 0.02) -> threading.Thread:
@@ -344,6 +358,7 @@ class GameStateMachine:
     @awaitable(stop)
     async def stop(self, timeout: float = 1.0) -> bool:  # pylint: disable=function-redefined
         # pylint: disable=missing-docstring
+        logger.info("Trying to stop game loop ...")
         if self._game_state_store.get_game_state().game_status == GameStatus.get("Active"):
             self._game_state_store.push_update(
                 GameStateUpdate(
@@ -405,6 +420,7 @@ class Backend:
     """
 
     def __init__(self, initial_game_state: GameState, time_step_function, event_handlers: dict = None):
+        logger.info("Assembling Backend ...")
         self.game_state_store = GameStateStore(initial_game_state)
         self.game_state_machine = GameStateMachine(self.game_state_store)
         setattr(self.game_state_machine, "time_step", time_step_function)
@@ -412,6 +428,7 @@ class Backend:
             for event_type, handler_function in event_handlers.items():
                 self.game_state_machine.register_event_handler(event_type, handler_function)
         self.server = Server(self.game_state_store)
+        logger.info("Backend assembled and ready.")
 
     def run(self, hostname: str, port: int):
         """Run state machine and server and bind the server to a given address.
@@ -423,3 +440,5 @@ class Backend:
         """
         self.game_state_machine.run_game_loop_in_thread()
         self.server.run(port, hostname, self.game_state_machine)
+        self.game_state_machine.stop()
+        logger.info("Backend successfully shut down.")

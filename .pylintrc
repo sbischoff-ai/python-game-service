@@ -140,7 +140,8 @@ disable=print-statement,
         exception-escape,
         comprehension-escape,
         bad-continuation,
-        too-few-public-methods
+        too-few-public-methods,
+        logging-fstring-interpolation
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
@@ -253,6 +254,7 @@ good-names=i,
            dt,
            dx,
            dy,
+           logger,
            _
 
 # Include a hint for the correct naming format with invalid-name.

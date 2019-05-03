@@ -13,10 +13,13 @@ Provides utilities used in PyGaSe code or helpful to users of this library.
 
 """
 
+import logging
 from threading import Lock
 
 import umsgpack
 import ifaddr
+
+logger = logging.getLogger("PyGaSe")
 
 
 class Comparable:
@@ -185,6 +188,7 @@ class Sqn(int):
         result = super().__add__(other)
         if result > self._max_sequence:
             result -= self._max_sequence
+            logger.debug(f"Sequence number wrap-over reached at maximum of {self._max_sequence}.")
         return self.__class__(result)
 
     def __sub__(self, other) -> int:
@@ -278,11 +282,13 @@ class LockedRessource:
     def __enter__(self):
         """Lock `ressource` and return it."""
         self.lock.acquire()
+        logger.debug(f"Acquired lock for {self.ressource}.")
         return self.ressource
 
     def __exit__(self, exception_type, exception_value, traceback) -> None:
         """Release the lock."""
         self.lock.release()
+        logger.debug(f"Released lock for {self.ressource}.")
 
 
 def get_available_ip_addresses() -> list:

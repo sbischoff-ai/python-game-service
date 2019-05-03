@@ -14,6 +14,7 @@ from curio.meta import awaitable
 
 from pygase.connection import ClientConnection
 from pygase.event import UniversalEventHandler, Event
+from pygase.utils import logger
 
 
 class Client:
@@ -39,6 +40,7 @@ class Client:
     """
 
     def __init__(self):
+        logger.debug("Creating Client instance.")
         self.connection = None
         self._universal_event_handler = UniversalEventHandler()
 
@@ -124,6 +126,7 @@ class Client:
                     condition_satisfied = True
             if time.time() - t0 > timeout:
                 raise TimeoutError("Condition not satisfied after timeout of " + str(timeout) + " seconds.")
+            time.sleep(timeout / 100)
 
     def try_to(self, function, timeout: float = 1.0):
         """Execute a function using game state attributes that might not yet exist.
@@ -154,6 +157,7 @@ class Client:
                 return result
             if time.time() - t0 > timeout:
                 raise TimeoutError("Condition not satisfied after timeout of " + str(timeout) + " seconds.")
+            time.sleep(timeout / 100)
 
     def dispatch_event(self, event_type: str, *args, retries: int = 0, ack_callback=None, **kwargs) -> None:
         """Send an event to the server.
@@ -174,7 +178,7 @@ class Client:
         if retries > 0:
             timeout_callback = lambda: self.dispatch_event(
                 event_type, *args, retries=retries - 1, ack_callback=ack_callback, **kwargs
-            )
+            ) or logger.warning(f"Event of type {event_type} timed out. Retrying to send event to server.")
         self.connection.dispatch_event(event, ack_callback, timeout_callback)
 
     def register_event_handler(self, event_type: str, event_handler_function) -> None:
