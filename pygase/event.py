@@ -19,7 +19,7 @@ class Event(Sendable):
     """Send PyGaSe events and attached data via UDP packages.
 
     # Arguments
-    event_type (): string that identifies the event and links it to a handler
+    event_type (str): string that identifies the event and links it to a handler
 
     # Arguments
     Additional positional arguments represent event data and will be passed to the handler function
@@ -27,9 +27,9 @@ class Event(Sendable):
     keyword arguments to be passed to the handler function on the other side of the connection
 
     # Attributes
-    type ():
-    handler_args ():
-    handler_kwargs ():
+    type (str):
+    handler_args (list):
+    handler_kwargs (dict):
 
     """
 
@@ -51,24 +51,28 @@ class UniversalEventHandler:
         """Register an event handler for a specific event type.
 
         # Arguments
-        event_type (): string that identifies the events to be handled by this function
-        event_handler_function (): callback function or coroutine that will be invoked with the handler args
-           and kwargs with which the incoming event has been dispatched
+        event_type (str): string that identifies the events to be handled by this function
+        event_handler_function (callable, coroutine): callback function or coroutine that will be invoked
+        with the handler args and kwargs with which the incoming event has been dispatched
 
         """
         logger.info(f"Registering event handler for events of type {event_type}.")
+        if not callable(event_handler_function):
+            raise TypeError(f"'{event_handler_function.__class__.__name__}' object is not callable.")
         self._event_handlers[event_type] = event_handler_function
 
     async def handle(self, event: Event, **kwargs):
-        """Invoke the appropriate handler function.
+        """Asynchronously invoke the appropriate handler function.
+
+        This method is a coroutine and must be `await`ed.
 
         # Arguments
-        event (): the event to be handled
+        event (Event): the event to be handled
         keyword arguments to be passed to the handler function (in addition to those already attached to the event)
 
         """
         logger.debug(
-            (f"Handling {event.type} event with args={event.handler_args} " f"and kwargs={event.handler_kwargs}.")
+            (f"Handling {event.type} event with args={event.handler_args} and kwargs={event.handler_kwargs}.")
         )
         if iscoroutinefunction(self._event_handlers[event.type]):
             return await self._event_handlers[event.type](*event.handler_args, **dict(event.handler_kwargs, **kwargs))
