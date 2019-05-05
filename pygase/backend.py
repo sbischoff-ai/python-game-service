@@ -192,29 +192,24 @@ class Server:
         def get_ack_callback(connection):
             return lambda: ack_callback(connection)
 
+        timeout_callback = None
         if retries > 0:
 
-            def get_timeout_callback(connection):
-                return lambda: self.dispatch_event(
-                    event_type, *args, connection=connection, retries=retries - 1, ack_callback=ack_callback, **kwargs
-                ) or logger.warning(f"Event of type {event_type} timed out. Retrying to send event to server.")
-
-        else:
-
-            def get_timeout_callback(connection):  # pylint: disable=unused-argument
-                return None
+            timeout_callback = lambda: self.dispatch_event(
+                event_type,
+                *args,
+                target_client=target_client,
+                retries=retries - 1,
+                ack_callback=ack_callback,
+                **kwargs,
+            ) or logger.warning(f"Event of type {event_type} timed out. Retrying to send event to server.")
 
         if target_client == "all":
             for connection in self.connections.values():
-                connection.dispatch_event(
-                    event, get_ack_callback(connection), get_timeout_callback(connection), **kwargs
-                )
+                connection.dispatch_event(event, get_ack_callback(connection), timeout_callback, **kwargs)
         else:
             self.connections[target_client].dispatch_event(
-                event,
-                get_ack_callback(self.connections[target_client]),
-                get_timeout_callback(self.connections[target_client]),
-                **kwargs,
+                event, get_ack_callback(self.connections[target_client]), timeout_callback, **kwargs
             )
 
     # add advanced type checking for handler functions

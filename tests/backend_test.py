@@ -6,7 +6,7 @@ import pytest
 
 from helpers import assert_timeout
 
-from pygase.backend import Server, GameStateStore, GameStateMachine
+from pygase.backend import Server, GameStateStore, GameStateMachine, Backend
 from pygase.gamestate import GameState, GameStateUpdate, GameStatus
 from pygase.connection import ClientPackage
 from pygase.event import UniversalEventHandler
@@ -15,8 +15,8 @@ from pygase.event import UniversalEventHandler
 class TestServer:
     def test_instantiation(self):
         server = Server(GameStateStore())
-        assert server.game_state_store.__class__ == GameStateStore
-        assert server._universal_event_handler.__class__ == UniversalEventHandler
+        assert isinstance(server.game_state_store, GameStateStore)
+        assert isinstance(server._universal_event_handler, UniversalEventHandler)
 
     def test_run_async(self):
         server = Server(GameStateStore())
@@ -29,6 +29,35 @@ class TestServer:
             return True
 
         assert curio.run(test_task)
+
+    def test_dispatch_event(self):
+        server = Server(GameStateStore())
+
+        class MockConnection:
+            called_with = []
+
+            def dispatch_event(self, *args, **kwargs):
+                self.called_with.append((args, kwargs))
+
+        foo_connection = MockConnection()
+        server.connections[("foo", 1)] = foo_connection
+        server.connections[("bar", 1)] = MockConnection()
+        server.dispatch_event("BIZBAZ")
+        assert len(MockConnection.called_with) == 2
+        server.dispatch_event("BIZBAZ", "foobar", target_client=("foo", 1), retries=3, ack_callback=id)
+        assert len(MockConnection.called_with) == 3
+        foobar_dispatch = MockConnection.called_with[-1]
+        assert foobar_dispatch[0][0].handler_args == ["foobar"]
+        assert foobar_dispatch[0][1]() == id(foo_connection)
+        foobar_dispatch[0][2]()
+        assert len(MockConnection.called_with) == 4
+        foobar_dispatch = MockConnection.called_with[-1]
+        foobar_dispatch[0][2]()
+        assert len(MockConnection.called_with) == 5
+        foobar_dispatch = MockConnection.called_with[-1]
+        foobar_dispatch[0][2]()
+        assert len(MockConnection.called_with) == 6
+        assert MockConnection.called_with[-1][0][2] is None
 
 
 class TestGameStateStore:
@@ -60,6 +89,13 @@ class TestGameStateStore:
                 del store._game_state_update_cache[2]
         assert counter == 3
         assert len(store.get_update_cache()) == 2
+
+    def test_cache_size(self):
+        store = GameStateStore()
+        for i in range(2 * store._update_cache_size):
+            assert len(store.get_update_cache()) == min(i + 1, store._update_cache_size)
+            store.push_update(GameStateUpdate(i + 1))
+            assert sum(store.get_update_cache()).time_order == i + 1
 
 
 class TestGameStateMachine:
@@ -97,3 +133,15 @@ class TestGameStateMachine:
         assert store.get_game_state().test == 10
         assert state_machine.game_time == 10
         assert store.get_game_state().game_status == GameStatus.get("Paused")
+
+
+class TestBackend:
+    def test_instantiation(self):
+        time_step = lambda game_state, dt: {}
+        backend = Backend(initial_game_state=GameState(), time_step_function=time_step)
+        assert isinstance(backend.game_state_store, GameStateStore)
+        assert backend.game_state_store._game_state == GameState()
+        assert isinstance(backend.game_state_machine, GameStateMachine)
+        assert backend.game_state_machine.time_step == time_step
+        assert isinstance(backend.server, Server)
+        assert backend.server.game_state_store == backend.game_state_store
