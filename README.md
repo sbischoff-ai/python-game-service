@@ -42,10 +42,11 @@ For API documentation and tutorials go [here](https://sbischoff-ai.github.io/pyg
 ---
 ## Changes
 
-### 0.2.1
-- logging via the standard `logging` module added
-- `Backend` class added
-- various minor bugfixes
+### 0.3.0
+- sticking to SemVer from here on out
+- logging added using the standard `logging` module
+- `Backend` class added to reduce server-side boilerplate
+- various bugfixes
 
 ### 0.2.0
 - complete overhaul of pygase 0.1.x with breaking API changes

@@ -31,6 +31,9 @@ class GameStateStore:
     # Arguments
     inital_game_state (GameState): state of the game before the simulation begins
 
+    # Raises
+    TypeError: if 'initial_game_state' is not an instance of #GameState
+
     """
 
     _update_cache_size: int = 100
@@ -38,6 +41,10 @@ class GameStateStore:
     def __init__(self, initial_game_state: GameState = None):
         logger.debug("Creating GameStateStore instance.")
         self._game_state = initial_game_state if initial_game_state is not None else GameState()
+        if not isinstance(self._game_state, GameState):
+            raise TypeError(
+                f"'initial_game_state' should be of type 'GameState', not '{self._game_state.__class__.__name__}'."
+            )
         self._game_state_update_cache = [GameStateUpdate(0)]
 
     def get_update_cache(self) -> list:
@@ -439,3 +446,7 @@ class Backend:
         self.server.run(port, hostname, self.game_state_machine)
         self.game_state_machine.stop()
         logger.info("Backend successfully shut down.")
+
+    def shutdown(self):
+        """Shut down server and stop game loop."""
+        self.server.shutdown()

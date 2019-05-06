@@ -55,6 +55,9 @@ class UniversalEventHandler:
         event_handler_function (callable, coroutine): callback function or coroutine that will be invoked
         with the handler args and kwargs with which the incoming event has been dispatched
 
+        # Raises
+        TypeError: if `event_handler_function` is not callable
+
         """
         logger.info(f"Registering event handler for events of type {event_type}.")
         if not callable(event_handler_function):
