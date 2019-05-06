@@ -841,6 +841,8 @@ class ServerConnection(Connection):
                         await connection_tasks.spawn(
                             server.connections[client_address]._send_loop, sock  # pylint: disable=protected-access
                         )
+                    for event in package.events:
+                        event.handler_args.append(client_address)
                     await server.connections[client_address]._recv(package)  # pylint: disable=protected-access
                 except ProtocolIDMismatchError:
                     # ignore all non-PyGaSe packages

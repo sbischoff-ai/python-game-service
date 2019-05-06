@@ -241,6 +241,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../../getting-started/" title="Getting Started" class="md-nav__link">
+      Getting Started
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
     <a href="../main/" title="API" class="md-nav__link">
       API
     </a>
@@ -256,13 +268,13 @@
 
   <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
     
-    <label class="md-nav__link" for="nav-3">
+    <label class="md-nav__link" for="nav-4">
       Low Level API
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-3">
+      <label class="md-nav__title" for="nav-4">
         Low Level API
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -467,6 +479,13 @@
           <li class="md-nav__item">
   <a href="#run_1" title="run" class="md-nav__link">
     run
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shutdown_1" title="shutdown" class="md-nav__link">
+    shutdown
   </a>
   
 </li>
@@ -719,6 +738,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#shutdown_1" title="shutdown" class="md-nav__link">
+    shutdown
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -761,6 +787,10 @@
 <p><strong>Arguments</strong></p>
 <ul>
 <li><strong>inital_game_state (GameState)</strong>: state of the game before the simulation begins</li>
+</ul>
+<p><strong>Raises</strong></p>
+<ul>
+<li><code>TypeError</code>: if 'initial_game_state' is not an instance of <code>GameState</code></li>
 </ul>
 <h3 id="get_update_cache">get_update_cache</h3>
 <pre><code class="python">GameStateStore.get_update_cache(self) -&gt; list
@@ -982,6 +1012,11 @@ Backend(
 <li><strong>hostname (str)</strong>: hostname or IPv4 address the server will be bound to</li>
 <li><strong>port (int)</strong>: port number the server will be bound to</li>
 </ul>
+<h3 id="shutdown_1">shutdown</h3>
+<pre><code class="python">Backend.shutdown(self)
+</code></pre>
+
+<p>Shut down server and stop game loop.</p>
                 
                   
                 

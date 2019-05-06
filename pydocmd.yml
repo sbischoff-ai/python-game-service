@@ -25,6 +25,7 @@ generate:
 # in the documentation. The path must be relative to current working directory.
 pages:
 - Home: index.md << ./README.md
+- Getting Started: getting-started.md << ./getting-started.md
 - API: api/main.md
 - Low Level API:
   - pygase.client: api/client.md

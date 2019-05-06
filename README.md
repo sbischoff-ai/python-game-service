@@ -4,10 +4,19 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 ![PyPI](https://img.shields.io/pypi/v/pygase.svg)
 # PyGaSe
-**Py**thon**Ga**me**Se**rver
+**Py**thon **Ga**me **Se**rver
 
-A Python package that contains a versatile lightweight UDP-based client-server API and network protocol for 
-real-time online games.
+A package for Python 3.6+ that contains a game-ready client-server architecture and UDP-based network protocol.
+
+It deals with problems such as package loss or network congestion so you don't have to. Instead it gives you
+a high-level API to easily connect clients and backends that share a synchronized game state and exchange events.
+The async framework for this one is [curio](https://github.com/dabeaz/curio), which I highly recommend.
+
+PyGaSe is built to be easy to use, lightweight, fast, scalable and reliable.
+You can build a fast-paced real-time online game with this.
+You can also build a large-scale MMO with thousands of clients if you like.
+
+I'm actively developing PyGaSe in the context of several Indie game projects and I'm happy to share it.
 
 ---
 ***BREAKING CHANGE**: Version 0.2.0 is basically a new API and updating from 0.1.9 or lower will break you code.*
@@ -19,12 +28,13 @@ real-time online games.
 ```
 pip install pygase
 ```
+or better yet `poetry add pygase`. Seriously, use [poetry](https://github.com/sdispater/poetry), it's a revelation.
 
 ## Usage
 
-### Getting Started
+### API Reference and Tutorials
 
-*Under construction*
+For API documentation and a *Getting Started* section go [here](https://sbischoff-ai.github.io/pygase/).
 
 ### Example
 
@@ -35,16 +45,13 @@ A player who has been catched becomes the next chaser and can catch other player
 Run `server.py` first, then run `client.py` in additional terminal sessions to add players.
 Only use the same player name once.
 
-### API Reference
-
-For API documentation and tutorials go [here](https://sbischoff-ai.github.io/pygase/).
-
 ---
 ## Changes
 
 ### 0.3.0
 - sticking to SemVer from here on out
 - logging added using the standard `logging` module
+- improve event handler arguments
 - `Backend` class added to reduce server-side boilerplate
 - various bugfixes
 

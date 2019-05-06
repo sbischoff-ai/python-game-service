@@ -239,6 +239,18 @@
       
       
 
+
+  <li class="md-nav__item">
+    <a href="../../getting-started/" title="Getting Started" class="md-nav__link">
+      Getting Started
+    </a>
+  </li>
+
+    
+      
+      
+      
+
   
 
 
@@ -298,6 +310,13 @@
           <li class="md-nav__item">
   <a href="#run" title="run" class="md-nav__link">
     run
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shutdown" title="shutdown" class="md-nav__link">
+    shutdown
   </a>
   
 </li>
@@ -426,7 +445,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#shutdown" title="shutdown" class="md-nav__link">
+  <a href="#shutdown_1" title="shutdown" class="md-nav__link">
     shutdown
   </a>
   
@@ -476,13 +495,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
     
-    <label class="md-nav__link" for="nav-3">
+    <label class="md-nav__link" for="nav-4">
       Low Level API
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-3">
+      <label class="md-nav__title" for="nav-4">
         Low Level API
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -620,6 +639,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#shutdown" title="shutdown" class="md-nav__link">
+    shutdown
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -744,7 +770,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#shutdown" title="shutdown" class="md-nav__link">
+  <a href="#shutdown_1" title="shutdown" class="md-nav__link">
     shutdown
   </a>
   
@@ -797,7 +823,7 @@
                 
                 <h1 id="pygase">pygase</h1>
 <p>Create smooth and scalable online and LAN multiplayer games easily.</p>
-<p>PyGaSe, or Python Game Service, is a library (or framework, whichever term you prefer) that provides
+<p>PyGaSe, or Python Game Server, is a library (or framework, whichever term you prefer) that provides
 a complete set of high-level components for real-time networking for games.</p>
 <p>As a user of this library you will only need classes and functions directly imported from <code>pygase</code>:</p>
 <pre><code class="python"># For clients:
@@ -874,6 +900,11 @@ Backend(
 <li><strong>hostname (str)</strong>: hostname or IPv4 address the server will be bound to</li>
 <li><strong>port (int)</strong>: port number the server will be bound to</li>
 </ul>
+<h3 id="shutdown">shutdown</h3>
+<pre><code class="python">Backend.shutdown(self)
+</code></pre>
+
+<p>Shut down server and stop game loop.</p>
 <h2 id="gamestatestore">GameStateStore</h2>
 <pre><code class="python">GameStateStore(self, initial_game_state:pygase.gamestate.GameState=None)
 </code></pre>
@@ -882,6 +913,10 @@ Backend(
 <p><strong>Arguments</strong></p>
 <ul>
 <li><strong>inital_game_state (GameState)</strong>: state of the game before the simulation begins</li>
+</ul>
+<p><strong>Raises</strong></p>
+<ul>
+<li><code>TypeError</code>: if 'initial_game_state' is not an instance of <code>GameState</code></li>
 </ul>
 <h3 id="get_update_cache">get_update_cache</h3>
 <pre><code class="python">GameStateStore.get_update_cache(self) -&gt; list
@@ -1030,7 +1065,7 @@ via <code>Server.run_in_thread()</code>.</p>
 <p>See <code>Server.run()</code>.</p>
 <p><strong>Returns</strong></p>
 <p><code>threading.Thread</code>: the thread the server loop runs in</p>
-<h3 id="shutdown">shutdown</h3>
+<h3 id="shutdown_1">shutdown</h3>
 <pre><code class="python">Server.shutdown(self) -&gt; None
 </code></pre>
 
@@ -1087,7 +1122,7 @@ handler function.</li>
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../.." title="Home" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../../getting-started/" title="Getting Started" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -1096,7 +1131,7 @@ handler function.</li>
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Home
+                Getting Started
               </span>
             </div>
           </a>
