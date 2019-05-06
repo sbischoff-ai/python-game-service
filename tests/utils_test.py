@@ -1,5 +1,5 @@
 import pytest
-from pygase.utils import Sqn, Sendable
+from pygase.utils import Sqn, Sendable, get_available_ip_addresses
 
 
 class TestSendable:
@@ -125,3 +125,9 @@ class TestSqn:
         assert subSqn._bytesize == 2 * Sqn._bytesize
         assert (subSqn._max_sequence + 1) / (Sqn._max_sequence + 1) == Sqn._max_sequence + 1
         assert len(subSqn(12532).to_sqn_bytes()) == 4
+
+
+class TestUtilFunctions:
+    def test_get_IpAddresses(self):
+        ips = get_available_ip_addresses()
+        assert "127.0.0.1" in ips

@@ -87,3 +87,36 @@ class TestClient:
         assert not exceptions.empty()
         exception = exceptions.get()
         assert exception.__class__ == TimeoutError
+
+    def test_dispatch_event(self):
+        client = Client()
+
+        class MockConnection:
+            called_with = []
+
+            def dispatch_event(self, *args, **kwargs):
+                self.called_with.append((args, kwargs))
+
+        called_callback = []
+
+        def ack_callback():
+            called_callback.append(True)
+
+        client.connection = MockConnection()
+        client.dispatch_event("BIZBAZ")
+        assert len(MockConnection.called_with) == 1
+        client.dispatch_event("BIZBAZ", "foobar", retries=3, ack_callback=ack_callback)
+        assert len(MockConnection.called_with) == 2
+        foobar_dispatch = MockConnection.called_with[-1]
+        assert foobar_dispatch[0][0].handler_args == ["foobar"]
+        foobar_dispatch[0][1]()
+        assert True in called_callback
+        foobar_dispatch[0][2]()
+        assert len(MockConnection.called_with) == 3
+        foobar_dispatch = MockConnection.called_with[-1]
+        foobar_dispatch[0][2]()
+        assert len(MockConnection.called_with) == 4
+        foobar_dispatch = MockConnection.called_with[-1]
+        foobar_dispatch[0][2]()
+        assert len(MockConnection.called_with) == 5
+        assert MockConnection.called_with[-1][0][2] is None
