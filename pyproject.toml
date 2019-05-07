@@ -6,6 +6,7 @@ authors = ["Silas Bischoff <silas.bischoff@googlemail.com>"]
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/sbischoff-ai/python-game-service"
+homepage = "https://sbischoff-ai.github.io/pygase/"
 keywords = ["client", "server", "real-time", "network", "games"]
 classifiers = [
     "Operating System :: Microsoft :: Windows",
