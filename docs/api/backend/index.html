@@ -920,10 +920,15 @@ the <code>GameStateMachine</code> via the <code>event_wire</code> argument of th
 <p><strong>Arguments</strong></p>
 <ul>
 <li><strong>event_type (str)</strong>: which type of event to link the handler function to</li>
-<li><strong>handler_func (callable, coroutine)</strong>: function or coroutine to be invoked for events of the given type,
-    gets passed the keyword argument <code>game_state</code> (along with those attached to the event)
-    and is expected to return an update dict</li>
+<li><strong>handler_func (callable, coroutine)</strong>: function or coroutine to be invoked for events of the given type</li>
 </ul>
+<hr />
+<p>In addition to the event data, a <code>GameStateMachine</code>#s handler function gets passed
+- <strong>the following keyword arguments</strong>:
+- <strong>- <code>game_state</code></strong>: game state at the time of the event
+- <strong>- <code>dt</code></strong>: time since the last time step
+- <strong>- <code>client_address</code></strong>: client which sent the event that is being handled
+It is expected to return an update dict like the <code>time_step</code> method.</p>
 <h3 id="run_game_loop">run_game_loop</h3>
 <pre><code class="python">GameStateMachine.run_game_loop(self, interval:float=0.02) -&gt; None
 </code></pre>

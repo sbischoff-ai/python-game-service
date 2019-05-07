@@ -197,7 +197,9 @@ class Server:
         event = Event(event_type, *args, **kwargs)
 
         def get_ack_callback(connection):
-            return lambda: ack_callback(connection)
+            if ack_callback is not None:
+                return lambda: ack_callback(connection)
+            return None
 
         timeout_callback = None
         if retries > 0:
@@ -280,9 +282,15 @@ class GameStateMachine:
 
         # Arguments
         event_type (str): which type of event to link the handler function to
-        handler_func (callable, coroutine): function or coroutine to be invoked for events of the given type,
-            gets passed the keyword argument `game_state` (along with those attached to the event)
-            and is expected to return an update dict
+        handler_func (callable, coroutine): function or coroutine to be invoked for events of the given type
+
+        ---
+        In addition to the event data, a #GameStateMachine#s handler function gets passed
+        the following keyword arguments:
+        - `game_state`: game state at the time of the event
+        - `dt`: time since the last time step
+        - `client_address`: client which sent the event that is being handled
+        It is expected to return an update dict like the `time_step` method.
 
         """
         self._universal_event_handler.register_event_handler(event_type, event_handler_function)

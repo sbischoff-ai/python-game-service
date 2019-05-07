@@ -271,8 +271,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#api-reference-and-tutorials" title="API Reference and Tutorials" class="md-nav__link">
-    API Reference and Tutorials
+  <a href="#api-reference-tutorials" title="API Reference &amp; Tutorials" class="md-nav__link">
+    API Reference &amp; Tutorials
   </a>
   
 </li>
@@ -280,6 +280,13 @@
           <li class="md-nav__item">
   <a href="#example" title="Example" class="md-nav__link">
     Example
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#debugging-logging" title="Debugging &amp; Logging" class="md-nav__link">
+    Debugging &amp; Logging
   </a>
   
 </li>
@@ -483,8 +490,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#api-reference-and-tutorials" title="API Reference and Tutorials" class="md-nav__link">
-    API Reference and Tutorials
+  <a href="#api-reference-tutorials" title="API Reference &amp; Tutorials" class="md-nav__link">
+    API Reference &amp; Tutorials
   </a>
   
 </li>
@@ -492,6 +499,13 @@
           <li class="md-nav__item">
   <a href="#example" title="Example" class="md-nav__link">
     Example
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#debugging-logging" title="Debugging &amp; Logging" class="md-nav__link">
+    Debugging &amp; Logging
   </a>
   
 </li>
@@ -572,14 +586,19 @@ You can also build a large-scale MMO with thousands of clients if you like.</p>
 
 <p>or better yet <code>poetry add pygase</code>. Seriously, use <a href="https://github.com/sdispater/poetry">poetry</a>, it's a revelation.</p>
 <h2 id="usage">Usage</h2>
-<h3 id="api-reference-and-tutorials">API Reference and Tutorials</h3>
+<h3 id="api-reference-tutorials">API Reference &amp; Tutorials</h3>
 <p>For API documentation and a <em>Getting Started</em> section go <a href="https://sbischoff-ai.github.io/pygase/">here</a>.</p>
 <h3 id="example">Example</h3>
-<p><a href="https://github.com/sbischoff-ai/pygase/tree/master/chase">This example game</a> implements an online game of chase,
+<p><a href="https://github.com/sbischoff-ai/pygase/tree/master/chase">This example game</a> implements an online game of tag,
 in which players can move around, while one of them is the chaser who has to catch another player.
 A player who has been catched becomes the next chaser and can catch other players after a 5s protection countdown.</p>
 <p>Run <code>server.py</code> first, then run <code>client.py</code> in additional terminal sessions to add players.
 Only use the same player name once.</p>
+<h3 id="debugging-logging">Debugging &amp; Logging</h3>
+<p>You can use the standard <code>logging</code> module. On level <code>INFO</code> you will get logging output for events such as
+startups, shutdowns, new connections or disconnects. On <code>DEBUG</code> level you get detailed output right down to the level
+of sending, receiving and handling single network packages.</p>
+<p>Debug logs are also a good way to understand the inner workings of PyGaSe.</p>
 <hr />
 <h2 id="changes">Changes</h2>
 <h3 id="030">0.3.0</h3>

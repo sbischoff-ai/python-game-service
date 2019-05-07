@@ -32,18 +32,26 @@ or better yet `poetry add pygase`. Seriously, use [poetry](https://github.com/sd
 
 ## Usage
 
-### API Reference and Tutorials
+### API Reference & Tutorials
 
 For API documentation and a *Getting Started* section go [here](https://sbischoff-ai.github.io/pygase/).
 
 ### Example
 
-[This example game](https://github.com/sbischoff-ai/pygase/tree/master/chase) implements an online game of chase,
+[This example game](https://github.com/sbischoff-ai/pygase/tree/master/chase) implements an online game of tag,
 in which players can move around, while one of them is the chaser who has to catch another player.
 A player who has been catched becomes the next chaser and can catch other players after a 5s protection countdown.
 
 Run `server.py` first, then run `client.py` in additional terminal sessions to add players.
 Only use the same player name once.
+
+### Debugging & Logging
+
+You can use the standard `logging` module. On level `INFO` you will get logging output for events such as
+startups, shutdowns, new connections or disconnects. On `DEBUG` level you get detailed output right down to the level
+of sending, receiving and handling single network packages.
+
+Debug logs are also a good way to understand the inner workings of PyGaSe.
 
 ---
 ## Changes
