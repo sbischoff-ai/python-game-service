@@ -18,7 +18,7 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: System :: Networking",
     "Intended Audience :: Developers",
-    "Development Status :: 3 - Alpha"
+    "Development Status :: 4 - Beta"
 ]
 packages = [{ include = "pygase" }]
 
