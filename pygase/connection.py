@@ -594,7 +594,7 @@ class Connection:
                 logger.warning(
                     (
                         f"Throttling down connection to {self.remote_address} because "
-                        "latency ({self.latency}) is above latency threshold ({self._latency_threshold})."
+                        f"latency ({self.latency}) is above latency threshold ({self._latency_threshold})."
                     )
                 )
                 self.quality = "bad"
