@@ -41,11 +41,13 @@ class GameState(Sendable):
     # Arguments
     time_order (int): current time order number of the game state, higher means more recent
     game_status (int): `GameStatus` enum value that describes whether or not the game loop is running
+
     Provide custom game state attributes via keyword arguments or assign them later.
 
     # Attributes
     game_status (int): see constructor argument of same name
-    time_order (sqn): see constructor argument of same name
+    time_order (pygase.utils.Sqn): see constructor argument of same name
+
     `GameState` instances mainly consist of custom attributes that make up the game state.
 
     """
@@ -82,10 +84,12 @@ class GameStateUpdate(Sendable):
 
     # Arguments
     time_order (int): the time order up to which the update reaches
+
     game state attributes to be updated
 
     # Attributes
-    time_order (sqn): see constructor argument of same name
+    time_order (pygase.utils.Sqn): see constructor argument of same name
+
     `GameStateUpdate` instances mainly consist of custom game state attributes to update.
 
     """

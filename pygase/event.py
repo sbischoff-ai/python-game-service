@@ -22,9 +22,8 @@ class Event(Sendable):
     event_type (str): string that identifies the event and links it to a handler
 
     # Arguments
-    Additional positional arguments represent event data and will be passed to the handler function
-    on the other side of the connection.
-    keyword arguments to be passed to the handler function on the other side of the connection
+    Additional positional and keyword arguments represent event data and will be passed to the
+    handler function on the other side of the connection.
 
     # Attributes
     type (str):
@@ -71,6 +70,7 @@ class UniversalEventHandler:
 
         # Arguments
         event (Event): the event to be handled
+    
         keyword arguments to be passed to the handler function (in addition to those already attached to the event)
 
         """
