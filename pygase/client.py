@@ -82,6 +82,8 @@ class Client:
         """Close the client connection.
 
         This method can also be spawned as a coroutine.
+    
+        # Arguments
         shutdown_server (bool): wether or not the server should be shut down
             (only has an effect if the client has host permissions)
 
@@ -132,7 +134,7 @@ class Client:
         """Execute a function using game state attributes that might not yet exist.
 
         This method repeatedly tries to execute `function(game_state)`, ignoring #KeyError exceptions,
-        until it either worksor times out.
+        until it either works or times out.
 
         # Arguments
         function (callable): function that takes a #pygase.GameState instance and returns anything
@@ -166,6 +168,7 @@ class Client:
         event_type (str): event type identifier that links to a handler
         retries (int): number of times the event is to be resent in case it times out
         ack_callback (callable, coroutine): will be invoked after the event was received
+
         Additional positional and keyword arguments will be sent as event data and passed to the handler function.
 
         ---

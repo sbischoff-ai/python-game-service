@@ -190,6 +190,7 @@ class Server:
         retries (int): number of times the event is to be resent in case it times out
         ack_callback (callable, coroutine): will be executed after the event was received
             and be passed a reference to the corresponding #pygase.connection.ServerConnection instance
+    
         Additional positional and keyword arguments will be sent as event data and passed to the clients
         handler function.
 
@@ -285,11 +286,13 @@ class GameStateMachine:
         handler_func (callable, coroutine): function or coroutine to be invoked for events of the given type
 
         ---
-        In addition to the event data, a #GameStateMachine#s handler function gets passed
-        the following keyword arguments:
+        In addition to the event data, a #GameStateMachine handler function gets passed
+        the following keyword arguments
+
         - `game_state`: game state at the time of the event
         - `dt`: time since the last time step
         - `client_address`: client which sent the event that is being handled
+
         It is expected to return an update dict like the `time_step` method.
 
         """

@@ -12,6 +12,7 @@ generate:
     - pygase.GameStateStore+     # (+ to include members)
     - pygase.GameStateMachine+
     - pygase.Server+
+    - pygase.Client+
     - pygase.get_available_ip_addresses
 - api/client.md: pygase.client++
 - api/backend.md: pygase.backend++
