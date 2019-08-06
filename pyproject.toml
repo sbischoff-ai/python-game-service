@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pygase"
-version = "0.3.0"
+version = "0.3.1"
 description = "game-ready client-server architecture and UDP-based network protocol - built to be easy to use, lightweight, fast, scalable and reliable"
 authors = ["Silas Bischoff <silas.bischoff@googlemail.com>"]
 license = "MIT"

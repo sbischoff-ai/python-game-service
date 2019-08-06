@@ -56,6 +56,10 @@ Debug logs are also a good way to understand the inner workings of PyGaSe.
 ---
 ## Changes
 
+### 0.3.1
+- improved documentation
+- minor logging fixes
+
 ### 0.3.0
 - sticking to SemVer from here on out
 - logging added using the standard `logging` module
