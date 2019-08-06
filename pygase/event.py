@@ -70,7 +70,7 @@ class UniversalEventHandler:
 
         # Arguments
         event (Event): the event to be handled
-    
+
         keyword arguments to be passed to the handler function (in addition to those already attached to the event)
 
         """

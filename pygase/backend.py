@@ -190,7 +190,7 @@ class Server:
         retries (int): number of times the event is to be resent in case it times out
         ack_callback (callable, coroutine): will be executed after the event was received
             and be passed a reference to the corresponding #pygase.connection.ServerConnection instance
-    
+
         Additional positional and keyword arguments will be sent as event data and passed to the clients
         handler function.
 

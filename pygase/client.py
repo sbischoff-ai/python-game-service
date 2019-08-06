@@ -82,7 +82,7 @@ class Client:
         """Close the client connection.
 
         This method can also be spawned as a coroutine.
-    
+
         # Arguments
         shutdown_server (bool): wether or not the server should be shut down
             (only has an effect if the client has host permissions)
