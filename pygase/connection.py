@@ -416,37 +416,43 @@ class Connection:
         for pending_sequence in list(self._pending_acks):
             sequence_diff = ack - pending_sequence
             if sequence_diff == 0 or (0 < sequence_diff < 32 and ack_bitfield[sequence_diff - 1] == "1"):
-                self._update_latency(time.time() - self._pending_acks[pending_sequence])
-                if pending_sequence in self._events_with_callbacks:
-                    for event_sequence in self._events_with_callbacks[pending_sequence]:
-                        if self._event_callbacks[event_sequence]["ack"] is not None:
-                            if iscoroutinefunction(self._event_callbacks[event_sequence]["ack"]):
-                                await self._event_callbacks[event_sequence]["ack"]()
-                            else:
-                                self._event_callbacks[event_sequence]["ack"]()
-                            del self._event_callbacks[event_sequence]
-                    del self._events_with_callbacks[pending_sequence]
-                del self._pending_acks[pending_sequence]
+                await self._handle_ack(pending_sequence)
             elif (
                 time.time() - self._pending_acks[pending_sequence]
                 > Package._timeout  # pylint: disable=protected-access
             ):
-                if pending_sequence in self._events_with_callbacks:
-                    for event_sequence in self._events_with_callbacks[pending_sequence]:
-                        if self._event_callbacks[event_sequence]["timeout"] is not None:
-                            if iscoroutinefunction(self._event_callbacks[event_sequence]["timeout"]):
-                                await self._event_callbacks[event_sequence]["timeout"]()
-                            else:
-                                self._event_callbacks[event_sequence]["timeout"]()
-                            del self._event_callbacks[event_sequence]
-                    del self._events_with_callbacks[pending_sequence]
-                del self._pending_acks[pending_sequence]
+                await self._handle_timeout(pending_sequence)
         for event in package.events:
             await self._incoming_event_queue.put(event)
             logger.debug(f"Received event of type {event.type} from {self.remote_address}.")
             if self.event_wire is not None:
                 logger.debug("Pushing event to event wire.")
                 await self.event_wire._push_event(event)  # pylint: disable=protected-access
+
+    async def _handle_ack(self, acked_sequence):
+        self._update_latency(time.time() - self._pending_acks[acked_sequence])
+        if acked_sequence in self._events_with_callbacks:
+            for event_sequence in self._events_with_callbacks[acked_sequence]:
+                if self._event_callbacks[event_sequence]["ack"] is not None:
+                    if iscoroutinefunction(self._event_callbacks[event_sequence]["ack"]):
+                        await self._event_callbacks[event_sequence]["ack"]()
+                    else:
+                        self._event_callbacks[event_sequence]["ack"]()
+                    del self._event_callbacks[event_sequence]
+            del self._events_with_callbacks[acked_sequence]
+        del self._pending_acks[acked_sequence]
+
+    async def _handle_timeout(self, timed_out_sequence):
+        if timed_out_sequence in self._events_with_callbacks:
+            for event_sequence in self._events_with_callbacks[timed_out_sequence]:
+                if self._event_callbacks[event_sequence]["timeout"] is not None:
+                    if iscoroutinefunction(self._event_callbacks[event_sequence]["timeout"]):
+                        await self._event_callbacks[event_sequence]["timeout"]()
+                    else:
+                        self._event_callbacks[event_sequence]["timeout"]()
+                    del self._event_callbacks[event_sequence]
+            del self._events_with_callbacks[timed_out_sequence]
+        del self._pending_acks[timed_out_sequence]
 
     def dispatch_event(self, event: Event, ack_callback=None, timeout_callback=None):
         """Send an event to the connection partner.
