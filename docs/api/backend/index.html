@@ -780,8 +780,9 @@
 <li><code>Backend</code>: main API class for a fully integrated PyGaSe backend</li>
 </ul>
 <h2 id="gamestatestore">GameStateStore</h2>
-<pre><code class="python">GameStateStore(self, initial_game_state:pygase.gamestate.GameState=None)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">GameStateStore</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initial_game_state</span><span class="p">:</span><span class="n">pygase</span><span class="o">.</span><span class="n">gamestate</span><span class="o">.</span><span class="n">GameState</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Provide access to a game state and manage state updates.</p>
 <p><strong>Arguments</strong></p>
@@ -793,25 +794,29 @@
 <li><code>TypeError</code>: if 'initial_game_state' is not an instance of <code>GameState</code></li>
 </ul>
 <h3 id="get_update_cache">get_update_cache</h3>
-<pre><code class="python">GameStateStore.get_update_cache(self) -&gt; list
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">GameStateStore</span><span class="o">.</span><span class="n">get_update_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span>
+</pre></div>
+
 
 <p>Return the latest state updates.</p>
 <h3 id="get_game_state">get_game_state</h3>
-<pre><code class="python">GameStateStore.get_game_state(self) -&gt; pygase.gamestate.GameState
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">GameStateStore</span><span class="o">.</span><span class="n">get_game_state</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pygase</span><span class="o">.</span><span class="n">gamestate</span><span class="o">.</span><span class="n">GameState</span>
+</pre></div>
+
 
 <p>Return the current game state.</p>
 <h3 id="push_update">push_update</h3>
-<pre><code class="python">GameStateStore.push_update(self, update:pygase.gamestate.GameStateUpdate) -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">GameStateStore</span><span class="o">.</span><span class="n">push_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">update</span><span class="p">:</span><span class="n">pygase</span><span class="o">.</span><span class="n">gamestate</span><span class="o">.</span><span class="n">GameStateUpdate</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Push a new state update to the update cache.</p>
 <p>This method will usually be called by whatever is progressing the game state,
 usually a <code>GameStateMachine</code>.</p>
 <h2 id="server">Server</h2>
-<pre><code class="python">Server(self, game_state_store:pygase.backend.GameStateStore)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Server</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game_state_store</span><span class="p">:</span><span class="n">pygase</span><span class="o">.</span><span class="n">backend</span><span class="o">.</span><span class="n">GameStateStore</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Listen to clients and orchestrate the flow of events and state updates.</p>
 <p>The <code>Server</code> instance does not contain game logic or state, it is only responsible for connections
@@ -839,8 +844,9 @@ to clients. The state is provided by a <code>GameStateStore</code> and game logi
 <p>Get the port number on which the server listens.</p>
 <p>Returns <code>None</code> when the server is not running.</p>
 <h3 id="run">run</h3>
-<pre><code class="python">Server.run(self, port:int=0, hostname:str='localhost', event_wire=None) -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Server</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">hostname</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="n">event_wire</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Start the server under a specified address.</p>
 <p>This is a blocking function but can also be spawned as a coroutine or in a thread
@@ -855,23 +861,26 @@ via <code>Server.run_in_thread()</code>.</p>
    (has to implement a <code>_push_event(event)</code> method and is typically a <code>GameStateMachine</code>)</li>
 </ul>
 <h3 id="run_in_thread">run_in_thread</h3>
-<pre><code class="python">Server.run_in_thread(self, port:int=0, hostname:str='localhost', event_wire=None, daemon=True) -&gt; threading.Thread
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Server</span><span class="o">.</span><span class="n">run_in_thread</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">hostname</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="n">event_wire</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">daemon</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span>
+</pre></div>
+
 
 <p>Start the server in a seperate thread.</p>
 <p>See <code>Server.run()</code>.</p>
 <p><strong>Returns</strong></p>
 <p><code>threading.Thread</code>: the thread the server loop runs in</p>
 <h3 id="shutdown">shutdown</h3>
-<pre><code class="python">Server.shutdown(self) -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Server</span><span class="o">.</span><span class="n">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Shut down the server.</p>
 <p>The server can be restarted via <code>Server.run()</code> in which case it will remember previous connections.
 This method can also be spawned as a coroutine.</p>
 <h3 id="dispatch_event">dispatch_event</h3>
-<pre><code class="python">Server.dispatch_event(self, event_type:str, *args, target_client='all', retries:int=0, ack_callback=None, **kwargs) -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Server</span><span class="o">.</span><span class="n">dispatch_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_type</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">target_client</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="n">retries</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ack_callback</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Send an event to one or all clients.</p>
 <p><strong>Arguments</strong></p>
@@ -880,13 +889,14 @@ This method can also be spawned as a coroutine.</p>
 <li><strong>target_client (tuple, str)</strong>: either <code>'all'</code> for an event broadcast, or a clients address as a tuple</li>
 <li><strong>retries (int)</strong>: number of times the event is to be resent in case it times out</li>
 <li><strong>ack_callback (callable, coroutine)</strong>: will be executed after the event was received
-    and be passed a reference to the corresponding <code>pygase.connection.ServerConnection</code> instance
-Additional positional and keyword arguments will be sent as event data and passed to the clients
-handler function.</li>
+    and be passed a reference to the corresponding <code>pygase.connection.ServerConnection</code> instance</li>
 </ul>
+<p>Additional positional and keyword arguments will be sent as event data and passed to the clients
+handler function.</p>
 <h3 id="register_event_handler">register_event_handler</h3>
-<pre><code class="python">Server.register_event_handler(self, event_type:str, event_handler_function) -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Server</span><span class="o">.</span><span class="n">register_event_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_type</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">event_handler_function</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Register an event handler for a specific event type.</p>
 <p><strong>Arguments</strong></p>
@@ -895,8 +905,9 @@ handler function.</li>
 <li><strong>handler_func (callable, coroutine)</strong>: will be called for received events of the given type</li>
 </ul>
 <h2 id="gamestatemachine">GameStateMachine</h2>
-<pre><code class="python">GameStateMachine(self, game_state_store:pygase.backend.GameStateStore)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">GameStateMachine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game_state_store</span><span class="p">:</span><span class="n">pygase</span><span class="o">.</span><span class="n">backend</span><span class="o">.</span><span class="n">GameStateStore</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Run a simulation that propagates the game state.</p>
 <p>A <code>GameStateMachine</code> progresses a game state through time, applying all game simulation logic.
@@ -911,8 +922,9 @@ method, or you assign an implementation after instantiation.</p>
 <li><code>game_time (float)</code>: duration the game has been running in seconds</li>
 </ul>
 <h3 id="register_event_handler_1">register_event_handler</h3>
-<pre><code class="python">GameStateMachine.register_event_handler(self, event_type:str, event_handler_function) -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">GameStateMachine</span><span class="o">.</span><span class="n">register_event_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_type</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">event_handler_function</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Register an event handler for a specific event type.</p>
 <p>For event handlers to have any effect, the events have to be wired from a <code>Server</code> to
@@ -923,15 +935,18 @@ the <code>GameStateMachine</code> via the <code>event_wire</code> argument of th
 <li><strong>handler_func (callable, coroutine)</strong>: function or coroutine to be invoked for events of the given type</li>
 </ul>
 <hr />
-<p>In addition to the event data, a <code>GameStateMachine</code>#s handler function gets passed
-- <strong>the following keyword arguments</strong>:
-- <strong>- <code>game_state</code></strong>: game state at the time of the event
-- <strong>- <code>dt</code></strong>: time since the last time step
-- <strong>- <code>client_address</code></strong>: client which sent the event that is being handled
-It is expected to return an update dict like the <code>time_step</code> method.</p>
+<p>In addition to the event data, a <code>GameStateMachine</code> handler function gets passed
+the following keyword arguments</p>
+<ul>
+<li><strong>- <code>game_state</code></strong>: game state at the time of the event</li>
+<li><strong>- <code>dt</code></strong>: time since the last time step</li>
+<li><strong>- <code>client_address</code></strong>: client which sent the event that is being handled</li>
+</ul>
+<p>It is expected to return an update dict like the <code>time_step</code> method.</p>
 <h3 id="run_game_loop">run_game_loop</h3>
-<pre><code class="python">GameStateMachine.run_game_loop(self, interval:float=0.02) -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">GameStateMachine</span><span class="o">.</span><span class="n">run_game_loop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interval</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="mf">0.02</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Simulate the game world.</p>
 <p>This function blocks as it continously progresses the game state through time
@@ -942,16 +957,18 @@ As long as the simulation is running, the <code>game_state.status</code> will be
 <li><strong>interval (float)</strong>: (minimum) duration in seconds between consecutive time steps</li>
 </ul>
 <h3 id="run_game_loop_in_thread">run_game_loop_in_thread</h3>
-<pre><code class="python">GameStateMachine.run_game_loop_in_thread(self, interval:float=0.02) -&gt; threading.Thread
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">GameStateMachine</span><span class="o">.</span><span class="n">run_game_loop_in_thread</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interval</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="mf">0.02</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span>
+</pre></div>
+
 
 <p>Simulate the game in a seperate thread.</p>
 <p>See <code>GameStateMachine.run_game_loop()</code>.</p>
 <p><strong>Returns</strong></p>
 <p><code>threading.Thread</code>: the thread the game loop runs in</p>
 <h3 id="stop">stop</h3>
-<pre><code class="python">GameStateMachine.stop(self, timeout:float=1.0) -&gt; bool
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">GameStateMachine</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span>
+</pre></div>
+
 
 <p>Pause the game simulation.</p>
 <p>This sets <code>self.status</code> to <code>Gamestatus.get('Paused')</code>. This method can also be spawned as a coroutine.
@@ -964,8 +981,9 @@ where it was stopped.</p>
 <p><strong>Returns</strong></p>
 <p><code>bool</code>: wether or not the simulation was successfully stopped</p>
 <h3 id="time_step">time_step</h3>
-<pre><code class="python">GameStateMachine.time_step(self, game_state:pygase.gamestate.GameState, dt:float) -&gt; dict
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">GameStateMachine</span><span class="o">.</span><span class="n">time_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game_state</span><span class="p">:</span><span class="n">pygase</span><span class="o">.</span><span class="n">gamestate</span><span class="o">.</span><span class="n">GameState</span><span class="p">,</span> <span class="n">dt</span><span class="p">:</span><span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span>
+</pre></div>
+
 
 <p>Calculate a game state update.</p>
 <p>This method should be implemented to return a dict with all the updated state attributes.</p>
@@ -977,8 +995,9 @@ where it was stopped.</p>
 <p><strong>Returns</strong></p>
 <p><code>dict</code>: updated game state attributes</p>
 <h2 id="backend">Backend</h2>
-<pre><code class="python">Backend(self, initial_game_state:pygase.gamestate.GameState, time_step_function, event_handlers:dict=None)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Backend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initial_game_state</span><span class="p">:</span><span class="n">pygase</span><span class="o">.</span><span class="n">gamestate</span><span class="o">.</span><span class="n">GameState</span><span class="p">,</span> <span class="n">time_step_function</span><span class="p">,</span> <span class="n">event_handlers</span><span class="p">:</span><span class="nb">dict</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Easily create a fully integrated PyGaSe backend.</p>
 <p><strong>Arguments</strong></p>
@@ -995,21 +1014,23 @@ where it was stopped.</p>
 <li><code>server (Server)</code>: handles connections to PyGaSe clients</li>
 </ul>
 <p><strong>Example</strong></p>
-<pre><code class="python"># Run a game loop that continuously increments `foo` with velocity `bar`.
-Backend(
-    initial_gamestate=GameState(foo=0.0, bar=0.5),
-    time_step_function=lambda game_state, dt: {foo: game_state.foo + game_state.bar*dt},
-    # Handle client events to reset `foo` and set a new `bar` value.
-    event_handlers={
-        &quot;RESET_FOO&quot;: lambda game_state, dt: {foo: 0.0},
-        &quot;SET_BAR&quot;: lambda new_bar, game_state, dt: {bar: new_bar}
-    }
-).run(hostname=&quot;localhost&quot;, port=8080)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="c1"># Run a game loop that continuously increments `foo` with velocity `bar`.</span>
+<span class="n">Backend</span><span class="p">(</span>
+    <span class="n">initial_gamestate</span><span class="o">=</span><span class="n">GameState</span><span class="p">(</span><span class="n">foo</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">bar</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span>
+    <span class="n">time_step_function</span><span class="o">=</span><span class="k">lambda</span> <span class="n">game_state</span><span class="p">,</span> <span class="n">dt</span><span class="p">:</span> <span class="p">{</span><span class="n">foo</span><span class="p">:</span> <span class="n">game_state</span><span class="o">.</span><span class="n">foo</span> <span class="o">+</span> <span class="n">game_state</span><span class="o">.</span><span class="n">bar</span><span class="o">*</span><span class="n">dt</span><span class="p">},</span>
+    <span class="c1"># Handle client events to reset `foo` and set a new `bar` value.</span>
+    <span class="n">event_handlers</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;RESET_FOO&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">game_state</span><span class="p">,</span> <span class="n">dt</span><span class="p">:</span> <span class="p">{</span><span class="n">foo</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">},</span>
+        <span class="s2">&quot;SET_BAR&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">new_bar</span><span class="p">,</span> <span class="n">game_state</span><span class="p">,</span> <span class="n">dt</span><span class="p">:</span> <span class="p">{</span><span class="n">bar</span><span class="p">:</span> <span class="n">new_bar</span><span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">hostname</span><span class="o">=</span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8080</span><span class="p">)</span>
+</pre></div>
+
 
 <h3 id="run_1">run</h3>
-<pre><code class="python">Backend.run(self, hostname:str, port:int)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Backend</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hostname</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span><span class="nb">int</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Run state machine and server and bind the server to a given address.</p>
 <p><strong>Arguments</strong></p>
@@ -1018,8 +1039,9 @@ Backend(
 <li><strong>port (int)</strong>: port number the server will be bound to</li>
 </ul>
 <h3 id="shutdown_1">shutdown</h3>
-<pre><code class="python">Backend.shutdown(self)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Backend</span><span class="o">.</span><span class="n">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Shut down server and stop game loop.</p>
                 

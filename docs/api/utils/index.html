@@ -686,13 +686,15 @@
 <li><code>get_available_ip_addresses</code>: function that returns a list of local network interfaces</li>
 </ul>
 <h2 id="comparable">Comparable</h2>
-<pre><code class="python">Comparable(self, /, *args, **kwargs)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Comparable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Compare objects by equality of attributes.</p>
 <h2 id="sendable">Sendable</h2>
-<pre><code class="python">Sendable(self, /, *args, **kwargs)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Sendable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Send objects via UDP packages.</p>
 <p>This mixin for classes that are supposed to be sendable as part of a PyGaSe package makes
@@ -700,13 +702,15 @@ objects serializable with the msgpack protocol.
 Sendables can only have attributes of type <code>str</code>, <code>bytes</code>, <code>Sqn</code>, <code>int</code>, <code>float</code>, <code>bool</code>
 as well as <code>list</code>s or <code>tuple</code>s of such.</p>
 <h3 id="to_bytes">to_bytes</h3>
-<pre><code class="python">Sendable.to_bytes(self) -&gt; bytes
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Sendable</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span>
+</pre></div>
+
 
 <p>Serialize the object to a compact bytestring.</p>
 <h3 id="from_bytes">from_bytes</h3>
-<pre><code class="python">Sendable.from_bytes(bytepack:bytes)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Sendable</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">bytepack</span><span class="p">:</span><span class="nb">bytes</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Deserialize a bytestring into an instance of this class.</p>
 <p><strong>Arguments</strong></p>
@@ -716,33 +720,36 @@ as well as <code>list</code>s or <code>tuple</code>s of such.</p>
 <p><strong>Returns</strong></p>
 <p>a copy of an object that was serialized via <code>Sendable.to_bytes</code></p>
 <h2 id="namedenum">NamedEnum</h2>
-<pre><code class="python">NamedEnum(self, /, *args, **kwargs)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">NamedEnum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Map string labels to integer values.</p>
 <p>This is a base class meant to be subclassed to produce a dynamic enum mapping type.</p>
 <p><strong>Example</strong></p>
-<pre><code class="python">class MyEnum(NamedEnum):
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">MyEnum</span><span class="p">(</span><span class="n">NamedEnum</span><span class="p">):</span>
 
-    '''Encode labels in integers.
-     - &quot;foo&quot;
-     - &quot;bar&quot;
+    <span class="sd">&#39;&#39;&#39;Encode labels in integers.</span>
+<span class="sd">     - &quot;foo&quot;</span>
+<span class="sd">     - &quot;bar&quot;</span>
 
-    '''
+<span class="sd">    &#39;&#39;&#39;</span>
 
 
-    MyEnum.register(&quot;foo&quot;)
-    MyEnum.register(&quot;bar&quot;)
+    <span class="n">MyEnum</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s2">&quot;foo&quot;</span><span class="p">)</span>
+    <span class="n">MyEnum</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s2">&quot;bar&quot;</span><span class="p">)</span>
 
-    assert MyEnum.get(&quot;foo&quot;) == 1
-    assert MyEnum.get(&quot;bar&quot;) == 2
-    assert MyEnum.get(1) == &quot;foo&quot;
-    assert MyEnum.get(2) == &quot;bar&quot;
-</code></pre>
+    <span class="k">assert</span> <span class="n">MyEnum</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;foo&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">MyEnum</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bar&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+    <span class="k">assert</span> <span class="n">MyEnum</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;foo&quot;</span>
+    <span class="k">assert</span> <span class="n">MyEnum</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;bar&quot;</span>
+</pre></div>
+
 
 <h3 id="get">get</h3>
-<pre><code class="python">NamedEnum.get(name_or_value)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">NamedEnum</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name_or_value</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Get the value for a label or vice versa.</p>
 <p><strong>Arguments</strong></p>
@@ -756,8 +763,9 @@ as well as <code>list</code>s or <code>tuple</code>s of such.</p>
 <li><code>TypeError</code>: if argument is neither <code>int</code> nor <code>str</code></li>
 </ul>
 <h3 id="register">register</h3>
-<pre><code class="python">NamedEnum.register(name:str) -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">NamedEnum</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">name</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Add a new label to the mapping.</p>
 <p><strong>Arguments</strong></p>
@@ -765,8 +773,9 @@ as well as <code>list</code>s or <code>tuple</code>s of such.</p>
 <li><strong>name ()</strong>: string label to register as new enum value</li>
 </ul>
 <h2 id="sqn">Sqn</h2>
-<pre><code class="python">Sqn(self, /, *args, **kwargs)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Sqn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Use finite periodic integers that fit in 2 bytes.</p>
 <p>Subclass of <code>int</code> that provides a residue-class-like behaviour of wrapping back to 1 after a maximum value.
@@ -774,8 +783,9 @@ Use it to represent sequence numbers with a fixed number of bytes when you only 
 within a specific finite scale. 0 represents the state before the sequence has started.</p>
 <p>For the default bytesize of 2 the maximum sequence number is 65535.</p>
 <h3 id="set_bytesize">set_bytesize</h3>
-<pre><code class="python">Sqn.set_bytesize(bytesize:int) -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Sqn</span><span class="o">.</span><span class="n">set_bytesize</span><span class="p">(</span><span class="n">bytesize</span><span class="p">:</span><span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Redefine the bytesize and wrap-over behaviour for all <code>Sqn</code> instances.</p>
 <p><strong>Arguments</strong></p>
@@ -783,34 +793,39 @@ within a specific finite scale. 0 represents the state before the sequence has s
 <li><strong>bytesize ()</strong>: new size for the <code>bytes</code> representation of <code>Sqn</code> instances</li>
 </ul>
 <h3 id="get_max_sequence">get_max_sequence</h3>
-<pre><code class="python">Sqn.get_max_sequence() -&gt; int
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Sqn</span><span class="o">.</span><span class="n">get_max_sequence</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span>
+</pre></div>
+
 
 <p>Return the maximum sequence number after which <code>Sqn</code>s wrap back to 1.</p>
 <h3 id="to_sqn_bytes">to_sqn_bytes</h3>
-<pre><code class="python">Sqn.to_sqn_bytes(self) -&gt; bytes
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Sqn</span><span class="o">.</span><span class="n">to_sqn_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span>
+</pre></div>
+
 
 <p>Return representation of the number in exactly the currenly set bytesize.</p>
 <p>The default bytesize is 2.</p>
 <h3 id="from_sqn_bytes">from_sqn_bytes</h3>
-<pre><code class="python">Sqn.from_sqn_bytes(bytestring:bytes) -&gt; 'Sqn'
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Sqn</span><span class="o">.</span><span class="n">from_sqn_bytes</span><span class="p">(</span><span class="n">bytestring</span><span class="p">:</span><span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Sqn&#39;</span>
+</pre></div>
+
 
 <p>Return <code>Sqn</code> object that was encoded in given bytestring.</p>
 <h2 id="lockedressource">LockedRessource</h2>
-<pre><code class="python">LockedRessource(self, ressource)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">LockedRessource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ressource</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Access a ressource thread-safely.</p>
 <p>This class makes an object available via a context manager that essentialy attaches a
 <code>threading.Lock</code> to it, that threads writing to this object should abide.</p>
 <p>Usage example:</p>
-<pre><code class="python">myRessource = { 'foo': 'bar' }
-myLockedRessource = LockedRessource(myRessource)
-with myLockedRessource() as ressource:
-    # do stuff without any other threads meddling with the ressource
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">myRessource</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="s1">&#39;bar&#39;</span> <span class="p">}</span>
+<span class="n">myLockedRessource</span> <span class="o">=</span> <span class="n">LockedRessource</span><span class="p">(</span><span class="n">myRessource</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">myLockedRessource</span><span class="p">()</span> <span class="k">as</span> <span class="n">ressource</span><span class="p">:</span>
+    <span class="c1"># do stuff without any other threads meddling with the ressource</span>
+</pre></div>
+
 
 <p><strong>Arguments</strong></p>
 <ul>
@@ -822,8 +837,9 @@ with myLockedRessource() as ressource:
 ressource ()</li>
 </ul>
 <h2 id="get_available_ip_addresses">get_available_ip_addresses</h2>
-<pre><code class="python">get_available_ip_addresses() -&gt; list
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">get_available_ip_addresses</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span>
+</pre></div>
+
 
 <p>Return a list of all locally available IPv4 addresses.</p>
                 

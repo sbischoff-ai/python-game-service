@@ -893,18 +893,21 @@
 <li><code>ServerConnection</code>: subclass of <code>Connectoin</code> for the server side</li>
 </ul>
 <h2 id="protocolidmismatcherror">ProtocolIDMismatchError</h2>
-<pre><code class="python">ProtocolIDMismatchError(self, /, *args, **kwargs)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">ProtocolIDMismatchError</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Bytestring could not be identified as a valid PyGaSe package.</p>
 <h2 id="duplicatesequenceerror">DuplicateSequenceError</h2>
-<pre><code class="python">DuplicateSequenceError(self, /, *args, **kwargs)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">DuplicateSequenceError</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Received a package with a sequence number that was already received before.</p>
 <h2 id="header">Header</h2>
-<pre><code class="python">Header(self, sequence:int, ack:int, ack_bitfield:str)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">ack</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">ack_bitfield</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Create a PyGaSe package header.</p>
 <p><strong>Arguments</strong></p>
@@ -927,18 +930,21 @@
 After 65535 sequence numbers wrap around to 1, so they can be stored in 2 bytes.</li>
 </ul>
 <h3 id="to_bytearray">to_bytearray</h3>
-<pre><code class="python">Header.to_bytearray(self) -&gt; bytearray
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Header</span><span class="o">.</span><span class="n">to_bytearray</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytearray</span>
+</pre></div>
+
 
 <p>Return 12 bytes representing the header.</p>
 <h3 id="destructure">destructure</h3>
-<pre><code class="python">Header.destructure(self) -&gt; tuple
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Header</span><span class="o">.</span><span class="n">destructure</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span>
+</pre></div>
+
 
 <p>Return the tuple <code>(sequence, ack, ack_bitfield)</code>.</p>
 <h3 id="deconstruct_datagram">deconstruct_datagram</h3>
-<pre><code class="python">Header.deconstruct_datagram(datagram:bytes) -&gt; tuple
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Header</span><span class="o">.</span><span class="n">deconstruct_datagram</span><span class="p">(</span><span class="n">datagram</span><span class="p">:</span><span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span>
+</pre></div>
+
 
 <p>Return a tuple containing the header and the rest of the datagram.</p>
 <p><strong>Arguments</strong></p>
@@ -948,8 +954,9 @@ After 65535 sequence numbers wrap around to 1, so they can be stored in 2 bytes.
 <p><strong>Returns</strong></p>
 <p><code>tuple</code>: <code>(header, payload)</code> with <code>payload</code> being a bytestring of the rest of the datagram</p>
 <h2 id="package">Package</h2>
-<pre><code class="python">Package(self, header:pygase.connection.Header, events:list=None)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Package</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">header</span><span class="p">:</span><span class="n">pygase</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">Header</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span><span class="nb">list</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Create a UDP package implementing the PyGaSe protocol.</p>
 <p><strong>Arguments</strong></p>
@@ -975,8 +982,9 @@ all features of PyGaSe except for a synchronized game state.</p>
 <h3 id="events">events</h3>
 <p>Get a list of the events in the package.</p>
 <h3 id="add_event">add_event</h3>
-<pre><code class="python">Package.add_event(self, event:pygase.event.Event) -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Package</span><span class="o">.</span><span class="n">add_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span><span class="n">pygase</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">Event</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Add a PyGaSe event to the package.</p>
 <p><strong>Arguments</strong></p>
@@ -989,13 +997,15 @@ all features of PyGaSe except for a synchronized game state.</p>
    and its size with the added event would exceed <code>Package._max_size</code> (2048 bytex)</li>
 </ul>
 <h3 id="get_bytesize">get_bytesize</h3>
-<pre><code class="python">Package.get_bytesize(self) -&gt; int
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Package</span><span class="o">.</span><span class="n">get_bytesize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span>
+</pre></div>
+
 
 <p>Return the size in bytes the package has as a datagram.</p>
 <h3 id="to_datagram">to_datagram</h3>
-<pre><code class="python">Package.to_datagram(self) -&gt; bytes
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Package</span><span class="o">.</span><span class="n">to_datagram</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span>
+</pre></div>
+
 
 <p>Return package compactly serialized to <code>bytes</code>.</p>
 <p><strong>Raises</strong></p>
@@ -1003,8 +1013,9 @@ all features of PyGaSe except for a synchronized game state.</p>
 <li><code>OverflowError</code>: if the resulting datagram would exceed <code>Package._max_size</code></li>
 </ul>
 <h3 id="from_datagram">from_datagram</h3>
-<pre><code class="python">Package.from_datagram(datagram:bytes) -&gt; 'Package'
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Package</span><span class="o">.</span><span class="n">from_datagram</span><span class="p">(</span><span class="n">datagram</span><span class="p">:</span><span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Package&#39;</span>
+</pre></div>
+
 
 <p>Deserialize datagram to <code>Package</code>.</p>
 <p><strong>Arguments</strong></p>
@@ -1018,8 +1029,9 @@ all features of PyGaSe except for a synchronized game state.</p>
 <li><code>ProtocolIDMismatchError</code>: if the first four bytes don't match the PyGaSe protocol ID</li>
 </ul>
 <h2 id="clientpackage">ClientPackage</h2>
-<pre><code class="python">ClientPackage(self, header:pygase.connection.Header, time_order:int, events:list=None)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">ClientPackage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">header</span><span class="p">:</span><span class="n">pygase</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">Header</span><span class="p">,</span> <span class="n">time_order</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span><span class="nb">list</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Subclass of <code>Package</code> for packages sent by PyGaSe clients.</p>
 <p><strong>Arguments</strong></p>
@@ -1031,18 +1043,21 @@ all features of PyGaSe except for a synchronized game state.</p>
 <li><code>time_order (int)</code>: see corresponding constructor argument</li>
 </ul>
 <h3 id="to_datagram_1">to_datagram</h3>
-<pre><code class="python">ClientPackage.to_datagram(self) -&gt; bytes
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">ClientPackage</span><span class="o">.</span><span class="n">to_datagram</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span>
+</pre></div>
+
 
 <p>Override <code>Package.to_datagram</code> to include <code>time_order</code>.</p>
 <h3 id="from_datagram_1">from_datagram</h3>
-<pre><code class="python">ClientPackage.from_datagram(datagram:bytes) -&gt; 'ClientPackage'
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">ClientPackage</span><span class="o">.</span><span class="n">from_datagram</span><span class="p">(</span><span class="n">datagram</span><span class="p">:</span><span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ClientPackage&#39;</span>
+</pre></div>
+
 
 <p>Override <code>Package.from_datagram</code> to include <code>time_order</code>.</p>
 <h2 id="serverpackage">ServerPackage</h2>
-<pre><code class="python">ServerPackage(self, header:pygase.connection.Header, game_state_update:pygase.gamestate.GameStateUpdate, events:list=None)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">ServerPackage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">header</span><span class="p">:</span><span class="n">pygase</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">Header</span><span class="p">,</span> <span class="n">game_state_update</span><span class="p">:</span><span class="n">pygase</span><span class="o">.</span><span class="n">gamestate</span><span class="o">.</span><span class="n">GameStateUpdate</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span><span class="nb">list</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Subclass of <code>Package</code> for packages sent by PyGaSe servers.</p>
 <p><strong>Arguments</strong></p>
@@ -1050,18 +1065,21 @@ all features of PyGaSe except for a synchronized game state.</p>
 <li><strong>game_state_update (pygase.gamestate.GameStateUpdate)</strong>: the servers most recent minimal update for the client</li>
 </ul>
 <h3 id="to_datagram_2">to_datagram</h3>
-<pre><code class="python">ServerPackage.to_datagram(self) -&gt; bytes
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">ServerPackage</span><span class="o">.</span><span class="n">to_datagram</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span>
+</pre></div>
+
 
 <p>Override <code>Package.to_datagram</code> to include <code>game_state_update</code>.</p>
 <h3 id="from_datagram_2">from_datagram</h3>
-<pre><code class="python">ServerPackage.from_datagram(datagram:bytes) -&gt; 'ServerPackage'
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">ServerPackage</span><span class="o">.</span><span class="n">from_datagram</span><span class="p">(</span><span class="n">datagram</span><span class="p">:</span><span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ServerPackage&#39;</span>
+</pre></div>
+
 
 <p>Override <code>Package.from_datagram</code> to include <code>game_state_update</code>.</p>
 <h2 id="connectionstatus">ConnectionStatus</h2>
-<pre><code class="python">ConnectionStatus(self, /, *args, **kwargs)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">ConnectionStatus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Enum for the state of a connection.</p>
 <ul>
@@ -1070,8 +1088,9 @@ all features of PyGaSe except for a synchronized game state.</p>
 <li><code>'Connected'</code></li>
 </ul>
 <h2 id="connection">Connection</h2>
-<pre><code class="python">Connection(self, remote_address:tuple, event_handler, event_wire=None)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Connection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remote_address</span><span class="p">:</span><span class="nb">tuple</span><span class="p">,</span> <span class="n">event_handler</span><span class="p">,</span> <span class="n">event_wire</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Exchange packages between PyGaSe clients and servers.</p>
 <p>PyGaSe connections exchange events with their other side which are handled using custom handler functions.
@@ -1103,8 +1122,9 @@ network congestion.</p>
 The <code>Connection</code> class would also work on its own (it's not an 'abstract' class), in which case you would have
 all features of PyGaSe except for a synchronized game state.</p>
 <h3 id="dispatch_event">dispatch_event</h3>
-<pre><code class="python">Connection.dispatch_event(self, event:pygase.event.Event, ack_callback=None, timeout_callback=None)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Connection</span><span class="o">.</span><span class="n">dispatch_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span><span class="n">pygase</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">Event</span><span class="p">,</span> <span class="n">ack_callback</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">timeout_callback</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Send an event to the connection partner.</p>
 <p><strong>Arguments</strong></p>
@@ -1116,8 +1136,9 @@ all features of PyGaSe except for a synchronized game state.</p>
 <hr />
 <p>Using long-running blocking operations in any of the callback functions can disturb the connection.</p>
 <h2 id="clientconnection">ClientConnection</h2>
-<pre><code class="python">ClientConnection(self, remote_address:tuple, event_handler)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">ClientConnection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remote_address</span><span class="p">:</span><span class="nb">tuple</span><span class="p">,</span> <span class="n">event_handler</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Subclass of <code>Connection</code> to describe the client side of a PyGaSe connection.</p>
 <p>Client connections hold a copy of the game state which is continously being updated according to
@@ -1127,8 +1148,9 @@ state updates received from the server.</p>
 <li><code>game_state_context (pygase.utils.LockedRessource)</code>: provides thread-safe access to a <code>pygase.GameState</code></li>
 </ul>
 <h3 id="shutdown">shutdown</h3>
-<pre><code class="python">ClientConnection.shutdown(self, shutdown_server:bool=False)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">ClientConnection</span><span class="o">.</span><span class="n">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shutdown_server</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Shut down the client connection.</p>
 <p>This method can also be spawned as a coroutine.</p>
@@ -1138,15 +1160,17 @@ state updates received from the server.</p>
     (only has an effect if the client has host permissions)</li>
 </ul>
 <h3 id="loop">loop</h3>
-<pre><code class="python">ClientConnection.loop(self)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">ClientConnection</span><span class="o">.</span><span class="n">loop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Continously operate the connection.</p>
 <p>This method will keep sending and receiving packages and handling events until it is cancelled or
 the connection receives a shutdown command. It can also be spawned as a coroutine.</p>
 <h2 id="serverconnection">ServerConnection</h2>
-<pre><code class="python">ServerConnection(self, remote_address:tuple, event_handler, game_state_store, last_client_time_order:pygase.utils.Sqn, event_wire=None)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">ServerConnection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remote_address</span><span class="p">:</span><span class="nb">tuple</span><span class="p">,</span> <span class="n">event_handler</span><span class="p">,</span> <span class="n">game_state_store</span><span class="p">,</span> <span class="n">last_client_time_order</span><span class="p">:</span><span class="n">pygase</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">Sqn</span><span class="p">,</span> <span class="n">event_wire</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Subclass of <code>Connection</code> that describes the server side of a PyGaSe connection.</p>
 <p><strong>Arguments</strong></p>
@@ -1161,8 +1185,9 @@ the connection receives a shutdown command. It can also be spawned as a coroutin
 <li><code>last_client_time_order (pygase.utils.Sqn)</code>: see corresponding constructor argument</li>
 </ul>
 <h3 id="loop_1">loop</h3>
-<pre><code class="python">ServerConnection.loop(hostname:str, port:int, server, event_wire) -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">ServerConnection</span><span class="o">.</span><span class="n">loop</span><span class="p">(</span><span class="n">hostname</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">server</span><span class="p">,</span> <span class="n">event_wire</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Continously orchestrate and operate connections to clients.</p>
 <p>This coroutine will keep listening for client packages, create new <code>ServerConnection</code> objects

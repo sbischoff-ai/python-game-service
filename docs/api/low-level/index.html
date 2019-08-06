@@ -470,8 +470,9 @@
 <li><code>Client</code>: main API class for PyGaSe clients</li>
 </ul>
 <h2 id="client">Client</h2>
-<pre><code class="python">Client(self)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Exchange events with a PyGaSe server and access a synchronized game state.</p>
 <p><strong>Attributes</strong></p>
@@ -479,20 +480,22 @@
 <li><code>connection (pygase.connection.ClientConnection)</code>: object that contains all networking information</li>
 </ul>
 <p><strong>Example</strong></p>
-<pre><code class="python">from time import sleep
-# Connect a client to the server from the Backend code example
-client = Client()
-client.connect_in_thread(hostname=&quot;localhost&quot;, port=8080)
-# Increase `bar` five times, then reset `foo`
-for i in range(5):
-    client.dispatch_event(&quot;SET_BAR&quot;, new_bar=i)
-    sleep(1)
-client.dispatch_event(&quot;RESET_FOO&quot;)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
+<span class="c1"># Connect a client to the server from the Backend code example</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
+<span class="n">client</span><span class="o">.</span><span class="n">connect_in_thread</span><span class="p">(</span><span class="n">hostname</span><span class="o">=</span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8080</span><span class="p">)</span>
+<span class="c1"># Increase `bar` five times, then reset `foo`</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">dispatch_event</span><span class="p">(</span><span class="s2">&quot;SET_BAR&quot;</span><span class="p">,</span> <span class="n">new_bar</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">client</span><span class="o">.</span><span class="n">dispatch_event</span><span class="p">(</span><span class="s2">&quot;RESET_FOO&quot;</span><span class="p">)</span>
+</pre></div>
+
 
 <h3 id="connect">connect</h3>
-<pre><code class="python">Client.connect(self, port:int, hostname:str='localhost') -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Client</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">hostname</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Open a connection to a PyGaSe server.</p>
 <p>This is a blocking function but can also be spawned as a coroutine or in a thread
@@ -503,35 +506,40 @@ via <code>Client.connect_in_thread()</code>.</p>
 <li><strong>hostname (str)</strong>: hostname or IPv4 address of the server to which to connect</li>
 </ul>
 <h3 id="connect_in_thread">connect_in_thread</h3>
-<pre><code class="python">Client.connect_in_thread(self, port:int, hostname:str='localhost') -&gt; threading.Thread
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Client</span><span class="o">.</span><span class="n">connect_in_thread</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">hostname</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span>
+</pre></div>
+
 
 <p>Open a connection in a seperate thread.</p>
 <p>See <code>Client.connect()</code>.</p>
 <p><strong>Returns</strong></p>
 <p><code>threading.Thread</code>: the thread the client loop runs in</p>
 <h3 id="disconnect">disconnect</h3>
-<pre><code class="python">Client.disconnect(self, shutdown_server:bool=False) -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Client</span><span class="o">.</span><span class="n">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shutdown_server</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Close the client connection.</p>
 <p>This method can also be spawned as a coroutine.
 shutdown_server (bool): wether or not the server should be shut down
     (only has an effect if the client has host permissions)</p>
 <h3 id="access_game_state">access_game_state</h3>
-<pre><code class="python">Client.access_game_state(self)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Client</span><span class="o">.</span><span class="n">access_game_state</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Return a context manager to access the shared game state.</p>
 <p>Can be used in a <code>with</code> block to lock the synchronized <code>game_state</code> while working with it.</p>
 <p><strong>Example</strong></p>
-<pre><code class="python">with client.access_game_state() as game_state:
-    do_stuff(game_state)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="k">with</span> <span class="n">client</span><span class="o">.</span><span class="n">access_game_state</span><span class="p">()</span> <span class="k">as</span> <span class="n">game_state</span><span class="p">:</span>
+    <span class="n">do_stuff</span><span class="p">(</span><span class="n">game_state</span><span class="p">)</span>
+</pre></div>
+
 
 <h3 id="wait_until">wait_until</h3>
-<pre><code class="python">Client.wait_until(self, game_state_condition, timeout:float=1.0) -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Client</span><span class="o">.</span><span class="n">wait_until</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game_state_condition</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Block until a condition on the game state is satisfied.</p>
 <p><strong>Arguments</strong></p>
@@ -544,8 +552,9 @@ shutdown_server (bool): wether or not the server should be shut down
 <li><code>TimeoutError</code>: if the condition is not met after <code>timeout</code> seconds</li>
 </ul>
 <h3 id="try_to">try_to</h3>
-<pre><code class="python">Client.try_to(self, function, timeout:float=1.0)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Client</span><span class="o">.</span><span class="n">try_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Execute a function using game state attributes that might not yet exist.</p>
 <p>This method repeatedly tries to execute <code>function(game_state)</code>, ignoring <code>KeyError</code> exceptions,
@@ -562,8 +571,9 @@ until it either worksor times out.</p>
 <li><code>TimeoutError</code>: if the function doesn't run through after <code>timeout</code> seconds</li>
 </ul>
 <h3 id="dispatch_event">dispatch_event</h3>
-<pre><code class="python">Client.dispatch_event(self, event_type:str, *args, retries:int=0, ack_callback=None, **kwargs) -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Client</span><span class="o">.</span><span class="n">dispatch_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_type</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">retries</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ack_callback</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Send an event to the server.</p>
 <p><strong>Arguments</strong></p>
@@ -577,8 +587,9 @@ Additional positional and keyword arguments will be sent as event data and passe
 <p><code>ack_callback</code> should not perform any long-running blocking operations (say a <code>while True</code> loop), as that will
 block the connections asynchronous event loop. Use a coroutine instead, with appropriately placed <code>await</code>s.</p>
 <h3 id="register_event_handler">register_event_handler</h3>
-<pre><code class="python">Client.register_event_handler(self, event_type:str, event_handler_function) -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Client</span><span class="o">.</span><span class="n">register_event_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_type</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">event_handler_function</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Register an event handler for a specific event type.</p>
 <p><strong>Arguments</strong></p>
@@ -597,8 +608,9 @@ block the connections asynchronous event loop. Use a coroutine instead, with app
 <li><code>Backend</code>: main API class for a fully integrated PyGaSe backend</li>
 </ul>
 <h2 id="gamestatestore">GameStateStore</h2>
-<pre><code class="python">GameStateStore(self, initial_game_state:pygase.gamestate.GameState=None)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">GameStateStore</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initial_game_state</span><span class="p">:</span><span class="n">pygase</span><span class="o">.</span><span class="n">gamestate</span><span class="o">.</span><span class="n">GameState</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Provide access to a game state and manage state updates.</p>
 <p><strong>Arguments</strong></p>
@@ -606,25 +618,29 @@ block the connections asynchronous event loop. Use a coroutine instead, with app
 <li><strong>inital_game_state (GameState)</strong>: state of the game before the simulation begins</li>
 </ul>
 <h3 id="get_update_cache">get_update_cache</h3>
-<pre><code class="python">GameStateStore.get_update_cache(self) -&gt; list
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">GameStateStore</span><span class="o">.</span><span class="n">get_update_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span>
+</pre></div>
+
 
 <p>Return the latest state updates.</p>
 <h3 id="get_game_state">get_game_state</h3>
-<pre><code class="python">GameStateStore.get_game_state(self) -&gt; pygase.gamestate.GameState
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">GameStateStore</span><span class="o">.</span><span class="n">get_game_state</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pygase</span><span class="o">.</span><span class="n">gamestate</span><span class="o">.</span><span class="n">GameState</span>
+</pre></div>
+
 
 <p>Return the current game state.</p>
 <h3 id="push_update">push_update</h3>
-<pre><code class="python">GameStateStore.push_update(self, update:pygase.gamestate.GameStateUpdate) -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">GameStateStore</span><span class="o">.</span><span class="n">push_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">update</span><span class="p">:</span><span class="n">pygase</span><span class="o">.</span><span class="n">gamestate</span><span class="o">.</span><span class="n">GameStateUpdate</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Push a new state update to the update cache.</p>
 <p>This method will usually be called by whatever is progressing the game state,
 usually a <code>GameStateMachine</code>.</p>
 <h2 id="server">Server</h2>
-<pre><code class="python">Server(self, game_state_store:pygase.backend.GameStateStore)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Server</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game_state_store</span><span class="p">:</span><span class="n">pygase</span><span class="o">.</span><span class="n">backend</span><span class="o">.</span><span class="n">GameStateStore</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Listen to clients and orchestrate the flow of events and state updates.</p>
 <p>The <code>Server</code> instance does not contain game logic or state, it is only responsible for connections
@@ -652,8 +668,9 @@ to clients. The state is provided by a <code>GameStateStore</code> and game logi
 <p>Get the port number on which the server listens.</p>
 <p>Returns <code>None</code> when the server is not running.</p>
 <h3 id="run">run</h3>
-<pre><code class="python">Server.run(self, port:int=0, hostname:str='localhost', event_wire=None) -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Server</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">hostname</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="n">event_wire</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Start the server under a specified address.</p>
 <p>This is a blocking function but can also be spawned as a coroutine or in a thread
@@ -668,23 +685,26 @@ via <code>Server.run_in_thread()</code>.</p>
    (has to implement a <code>_push_event(event)</code> method and is typically a <code>GameStateMachine</code>)</li>
 </ul>
 <h3 id="run_in_thread">run_in_thread</h3>
-<pre><code class="python">Server.run_in_thread(self, port:int=0, hostname:str='localhost', event_wire=None, daemon=True) -&gt; threading.Thread
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Server</span><span class="o">.</span><span class="n">run_in_thread</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">hostname</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="n">event_wire</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">daemon</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span>
+</pre></div>
+
 
 <p>Start the server in a seperate thread.</p>
 <p>See <code>Server.run()</code>.</p>
 <p><strong>Returns</strong></p>
 <p><code>threading.Thread</code>: the thread the server loop runs in</p>
 <h3 id="shutdown">shutdown</h3>
-<pre><code class="python">Server.shutdown(self) -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Server</span><span class="o">.</span><span class="n">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Shut down the server.</p>
 <p>The server can be restarted via <code>Server.run()</code> in which case it will remember previous connections.
 This method can also be spawned as a coroutine.</p>
 <h3 id="dispatch_event_1">dispatch_event</h3>
-<pre><code class="python">Server.dispatch_event(self, event_type:str, *args, target_client='all', retries:int=0, ack_callback=None, **kwargs) -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Server</span><span class="o">.</span><span class="n">dispatch_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_type</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">target_client</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="n">retries</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ack_callback</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Send an event to one or all clients.</p>
 <p><strong>Arguments</strong></p>
@@ -698,8 +718,9 @@ Additional positional and keyword arguments will be sent as event data and passe
 handler function.</li>
 </ul>
 <h3 id="register_event_handler_1">register_event_handler</h3>
-<pre><code class="python">Server.register_event_handler(self, event_type:str, event_handler_function) -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Server</span><span class="o">.</span><span class="n">register_event_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_type</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">event_handler_function</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Register an event handler for a specific event type.</p>
 <p><strong>Arguments</strong></p>
@@ -708,8 +729,9 @@ handler function.</li>
 <li><strong>handler_func (callable, coroutine)</strong>: will be called for received events of the given type</li>
 </ul>
 <h2 id="gamestatemachine">GameStateMachine</h2>
-<pre><code class="python">GameStateMachine(self, game_state_store:pygase.backend.GameStateStore)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">GameStateMachine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game_state_store</span><span class="p">:</span><span class="n">pygase</span><span class="o">.</span><span class="n">backend</span><span class="o">.</span><span class="n">GameStateStore</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Run a simulation that propagates the game state.</p>
 <p>A <code>GameStateMachine</code> progresses a game state through time, applying all game simulation logic.
@@ -724,8 +746,9 @@ method, or you assign an implementation after instantiation.</p>
 <li><code>game_time (float)</code>: duration the game has been running in seconds</li>
 </ul>
 <h3 id="register_event_handler_2">register_event_handler</h3>
-<pre><code class="python">GameStateMachine.register_event_handler(self, event_type:str, event_handler_function) -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">GameStateMachine</span><span class="o">.</span><span class="n">register_event_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_type</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">event_handler_function</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Register an event handler for a specific event type.</p>
 <p>For event handlers to have any effect, the events have to be wired from a <code>Server</code> to
@@ -738,8 +761,9 @@ the <code>GameStateMachine</code> via the <code>event_wire</code> argument of th
     and is expected to return an update dict</li>
 </ul>
 <h3 id="run_game_loop">run_game_loop</h3>
-<pre><code class="python">GameStateMachine.run_game_loop(self, interval:float=0.02) -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">GameStateMachine</span><span class="o">.</span><span class="n">run_game_loop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interval</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="mf">0.02</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Simulate the game world.</p>
 <p>This function blocks as it continously progresses the game state through time
@@ -750,16 +774,18 @@ As long as the simulation is running, the <code>game_state.status</code> will be
 <li><strong>interval (float)</strong>: (minimum) duration in seconds between consecutive time steps</li>
 </ul>
 <h3 id="run_game_loop_in_thread">run_game_loop_in_thread</h3>
-<pre><code class="python">GameStateMachine.run_game_loop_in_thread(self, interval:float=0.02) -&gt; threading.Thread
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">GameStateMachine</span><span class="o">.</span><span class="n">run_game_loop_in_thread</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interval</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="mf">0.02</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span>
+</pre></div>
+
 
 <p>Simulate the game in a seperate thread.</p>
 <p>See <code>GameStateMachine.run_game_loop()</code>.</p>
 <p><strong>Returns</strong></p>
 <p><code>threading.Thread</code>: the thread the game loop runs in</p>
 <h3 id="stop">stop</h3>
-<pre><code class="python">GameStateMachine.stop(self, timeout:float=1.0) -&gt; bool
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">GameStateMachine</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span>
+</pre></div>
+
 
 <p>Pause the game simulation.</p>
 <p>This sets <code>self.status</code> to <code>Gamestatus.get('Paused')</code>. This method can also be spawned as a coroutine.
@@ -772,8 +798,9 @@ where it was stopped.</p>
 <p><strong>Returns</strong></p>
 <p><code>bool</code>: wether or not the simulation was successfully stopped</p>
 <h3 id="time_step">time_step</h3>
-<pre><code class="python">GameStateMachine.time_step(self, game_state:pygase.gamestate.GameState, dt:float) -&gt; dict
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">GameStateMachine</span><span class="o">.</span><span class="n">time_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game_state</span><span class="p">:</span><span class="n">pygase</span><span class="o">.</span><span class="n">gamestate</span><span class="o">.</span><span class="n">GameState</span><span class="p">,</span> <span class="n">dt</span><span class="p">:</span><span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span>
+</pre></div>
+
 
 <p>Calculate a game state update.</p>
 <p>This method should be implemented to return a dict with all the updated state attributes.</p>
@@ -785,8 +812,9 @@ where it was stopped.</p>
 <p><strong>Returns</strong></p>
 <p><code>dict</code>: updated game state attributes</p>
 <h2 id="backend">Backend</h2>
-<pre><code class="python">Backend(self, initial_game_state:pygase.gamestate.GameState, time_step_function, event_handlers:dict=None)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Backend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initial_game_state</span><span class="p">:</span><span class="n">pygase</span><span class="o">.</span><span class="n">gamestate</span><span class="o">.</span><span class="n">GameState</span><span class="p">,</span> <span class="n">time_step_function</span><span class="p">,</span> <span class="n">event_handlers</span><span class="p">:</span><span class="nb">dict</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Easily create a fully integrated PyGaSe backend.</p>
 <p><strong>Arguments</strong></p>
@@ -803,21 +831,23 @@ where it was stopped.</p>
 <li><code>server (Server)</code>: handles connections to PyGaSe clients</li>
 </ul>
 <p><strong>Example</strong></p>
-<pre><code class="python"># Run a game loop that continuously increments `foo` with velocity `bar`.
-Backend(
-    initial_gamestate=GameState(foo=0.0, bar=0.5),
-    time_step_function=lambda game_state, dt: {foo: game_state.foo + game_state.bar*dt},
-    # Handle client events to reset `foo` and set a new `bar` value.
-    event_handlers={
-        &quot;RESET_FOO&quot;: lambda game_state, dt: {foo: 0.0},
-        &quot;SET_BAR&quot;: lambda new_bar, game_state, dt: {bar: new_bar}
-    }
-).run(hostname=&quot;localhost&quot;, port=8080)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="c1"># Run a game loop that continuously increments `foo` with velocity `bar`.</span>
+<span class="n">Backend</span><span class="p">(</span>
+    <span class="n">initial_gamestate</span><span class="o">=</span><span class="n">GameState</span><span class="p">(</span><span class="n">foo</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">bar</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span>
+    <span class="n">time_step_function</span><span class="o">=</span><span class="k">lambda</span> <span class="n">game_state</span><span class="p">,</span> <span class="n">dt</span><span class="p">:</span> <span class="p">{</span><span class="n">foo</span><span class="p">:</span> <span class="n">game_state</span><span class="o">.</span><span class="n">foo</span> <span class="o">+</span> <span class="n">game_state</span><span class="o">.</span><span class="n">bar</span><span class="o">*</span><span class="n">dt</span><span class="p">},</span>
+    <span class="c1"># Handle client events to reset `foo` and set a new `bar` value.</span>
+    <span class="n">event_handlers</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;RESET_FOO&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">game_state</span><span class="p">,</span> <span class="n">dt</span><span class="p">:</span> <span class="p">{</span><span class="n">foo</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">},</span>
+        <span class="s2">&quot;SET_BAR&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">new_bar</span><span class="p">,</span> <span class="n">game_state</span><span class="p">,</span> <span class="n">dt</span><span class="p">:</span> <span class="p">{</span><span class="n">bar</span><span class="p">:</span> <span class="n">new_bar</span><span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">hostname</span><span class="o">=</span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8080</span><span class="p">)</span>
+</pre></div>
+
 
 <h3 id="run_1">run</h3>
-<pre><code class="python">Backend.run(self, hostname:str, port:int)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Backend</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hostname</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span><span class="nb">int</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Run state machine and server and bind the server to a given address.</p>
 <p><strong>Arguments</strong></p>
@@ -835,8 +865,9 @@ Backend(
 <li><code>GameStateUpdate</code>: class for serializable objects that express changes to a <em>GameState</em> object</li>
 </ul>
 <h2 id="gamestatus">GameStatus</h2>
-<pre><code class="python">GameStatus(self, /, *args, **kwargs)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">GameStatus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Enum for the game simulation status.</p>
 <ul>
@@ -844,8 +875,9 @@ Backend(
 <li><code>'Active'</code></li>
 </ul>
 <h2 id="gamestate">GameState</h2>
-<pre><code class="python">GameState(self, time_order:int=0, game_status:int=0, **kwargs)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">GameState</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_order</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">game_status</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Customize a serializable game state model.</p>
 <p>Contains game state information that will be synchronized between the server and the clients.
@@ -863,13 +895,15 @@ Provide custom game state attributes via keyword arguments or assign them later.
  time_order ()
 <code>GameState</code> instances mainly consist of custom attributes that make up the game state.</p>
 <h3 id="is_paused">is_paused</h3>
-<pre><code class="python">GameState.is_paused(self) -&gt; bool
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">GameState</span><span class="o">.</span><span class="n">is_paused</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span>
+</pre></div>
+
 
 <p>Return <code>True</code> if game is paused.</p>
 <h2 id="gamestateupdate">GameStateUpdate</h2>
-<pre><code class="python">GameStateUpdate(self, time_order:int, **kwargs)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">GameStateUpdate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_order</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Update a <code>GameState</code> object.</p>
 <p>Contains a set of changes to carry out on a <code>GameState</code>.
@@ -887,8 +921,9 @@ game state attributes to be updated</li>
 <p>time_order ()
 <code>GameStateUpdate</code> instances mainly consist of custom game state attributes to update.</p>
 <h3 id="from_bytes">from_bytes</h3>
-<pre><code class="python">GameStateUpdate.from_bytes(bytepack:bytes) -&gt; 'GameStateUpdate'
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">GameStateUpdate</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">bytepack</span><span class="p">:</span><span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;GameStateUpdate&#39;</span>
+</pre></div>
+
 
 <p>Extend <code>Sendable.from_bytes</code> to make sure time_order is of type <code>Sqn</code>.</p>
 <h1 id="pygaseconnection">pygase.connection</h1>
@@ -909,18 +944,21 @@ game state attributes to be updated</li>
 <li><code>ServerConnection</code>: subclass of <code>Connectoin</code> for the server side</li>
 </ul>
 <h2 id="protocolidmismatcherror">ProtocolIDMismatchError</h2>
-<pre><code class="python">ProtocolIDMismatchError(self, /, *args, **kwargs)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">ProtocolIDMismatchError</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Bytestring could not be identified as a valid PyGaSe package.</p>
 <h2 id="duplicatesequenceerror">DuplicateSequenceError</h2>
-<pre><code class="python">DuplicateSequenceError(self, /, *args, **kwargs)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">DuplicateSequenceError</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Received a package with a sequence number that was already received before.</p>
 <h2 id="header">Header</h2>
-<pre><code class="python">Header(self, sequence:int, ack:int, ack_bitfield:str)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">ack</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">ack_bitfield</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Create a PyGaSe package header.</p>
 <p><strong>Arguments</strong></p>
@@ -943,18 +981,21 @@ game state attributes to be updated</li>
 After 65535 sequence numbers wrap around to 1, so they can be stored in 2 bytes.</li>
 </ul>
 <h3 id="to_bytearray">to_bytearray</h3>
-<pre><code class="python">Header.to_bytearray(self) -&gt; bytearray
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Header</span><span class="o">.</span><span class="n">to_bytearray</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytearray</span>
+</pre></div>
+
 
 <p>Return 12 bytes representing the header.</p>
 <h3 id="destructure">destructure</h3>
-<pre><code class="python">Header.destructure(self) -&gt; tuple
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Header</span><span class="o">.</span><span class="n">destructure</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span>
+</pre></div>
+
 
 <p>Return the tuple <code>(sequence, ack, ack_bitfield)</code>.</p>
 <h3 id="deconstruct_datagram">deconstruct_datagram</h3>
-<pre><code class="python">Header.deconstruct_datagram(datagram:bytes) -&gt; tuple
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Header</span><span class="o">.</span><span class="n">deconstruct_datagram</span><span class="p">(</span><span class="n">datagram</span><span class="p">:</span><span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span>
+</pre></div>
+
 
 <p>Return a tuple containing the header and the rest of the datagram.</p>
 <p><strong>Arguments</strong></p>
@@ -964,8 +1005,9 @@ After 65535 sequence numbers wrap around to 1, so they can be stored in 2 bytes.
 <p><strong>Returns</strong></p>
 <p><code>tuple</code>: <code>(header, payload)</code> with <code>payload</code> being a bytestring of the rest of the datagram</p>
 <h2 id="package">Package</h2>
-<pre><code class="python">Package(self, header:pygase.connection.Header, events:list=None)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Package</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">header</span><span class="p">:</span><span class="n">pygase</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">Header</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span><span class="nb">list</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Create a UDP package implementing the PyGaSe protocol.</p>
 <p><strong>Arguments</strong></p>
@@ -991,8 +1033,9 @@ all features of PyGaSe except for a synchronized game state.</p>
 <h3 id="events">events</h3>
 <p>Get a list of the events in the package.</p>
 <h3 id="add_event">add_event</h3>
-<pre><code class="python">Package.add_event(self, event:pygase.event.Event) -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Package</span><span class="o">.</span><span class="n">add_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span><span class="n">pygase</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">Event</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Add a PyGaSe event to the package.</p>
 <p><strong>Arguments</strong></p>
@@ -1005,13 +1048,15 @@ all features of PyGaSe except for a synchronized game state.</p>
    and its size with the added event would exceed <code>Package._max_size</code> (2048 bytex)</li>
 </ul>
 <h3 id="get_bytesize">get_bytesize</h3>
-<pre><code class="python">Package.get_bytesize(self) -&gt; int
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Package</span><span class="o">.</span><span class="n">get_bytesize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span>
+</pre></div>
+
 
 <p>Return the size in bytes the package has as a datagram.</p>
 <h3 id="to_datagram">to_datagram</h3>
-<pre><code class="python">Package.to_datagram(self) -&gt; bytes
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Package</span><span class="o">.</span><span class="n">to_datagram</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span>
+</pre></div>
+
 
 <p>Return package compactly serialized to <code>bytes</code>.</p>
 <p><strong>Raises</strong></p>
@@ -1019,8 +1064,9 @@ all features of PyGaSe except for a synchronized game state.</p>
 <li><code>OverflowError</code>: if the resulting datagram would exceed <code>Package._max_size</code></li>
 </ul>
 <h3 id="from_datagram">from_datagram</h3>
-<pre><code class="python">Package.from_datagram(datagram:bytes) -&gt; 'Package'
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Package</span><span class="o">.</span><span class="n">from_datagram</span><span class="p">(</span><span class="n">datagram</span><span class="p">:</span><span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Package&#39;</span>
+</pre></div>
+
 
 <p>Deserialize datagram to <code>Package</code>.</p>
 <p><strong>Arguments</strong></p>
@@ -1034,8 +1080,9 @@ all features of PyGaSe except for a synchronized game state.</p>
 <li><code>ProtocolIDMismatchError</code>: if the first four bytes don't match the PyGaSe protocol ID</li>
 </ul>
 <h2 id="clientpackage">ClientPackage</h2>
-<pre><code class="python">ClientPackage(self, header:pygase.connection.Header, time_order:int, events:list=None)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">ClientPackage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">header</span><span class="p">:</span><span class="n">pygase</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">Header</span><span class="p">,</span> <span class="n">time_order</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span><span class="nb">list</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Subclass of <code>Package</code> for packages sent by PyGaSe clients.</p>
 <p><strong>Arguments</strong></p>
@@ -1047,18 +1094,21 @@ all features of PyGaSe except for a synchronized game state.</p>
 <li><code>time_order (int)</code>: see corresponding constructor argument</li>
 </ul>
 <h3 id="to_datagram_1">to_datagram</h3>
-<pre><code class="python">ClientPackage.to_datagram(self) -&gt; bytes
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">ClientPackage</span><span class="o">.</span><span class="n">to_datagram</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span>
+</pre></div>
+
 
 <p>Override <code>Package.to_datagram</code> to include <code>time_order</code>.</p>
 <h3 id="from_datagram_1">from_datagram</h3>
-<pre><code class="python">ClientPackage.from_datagram(datagram:bytes) -&gt; 'ClientPackage'
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">ClientPackage</span><span class="o">.</span><span class="n">from_datagram</span><span class="p">(</span><span class="n">datagram</span><span class="p">:</span><span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ClientPackage&#39;</span>
+</pre></div>
+
 
 <p>Override <code>Package.from_datagram</code> to include <code>time_order</code>.</p>
 <h2 id="serverpackage">ServerPackage</h2>
-<pre><code class="python">ServerPackage(self, header:pygase.connection.Header, game_state_update:pygase.gamestate.GameStateUpdate, events:list=None)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">ServerPackage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">header</span><span class="p">:</span><span class="n">pygase</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">Header</span><span class="p">,</span> <span class="n">game_state_update</span><span class="p">:</span><span class="n">pygase</span><span class="o">.</span><span class="n">gamestate</span><span class="o">.</span><span class="n">GameStateUpdate</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span><span class="nb">list</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Subclass of <code>Package</code> for packages sent by PyGaSe servers.</p>
 <p><strong>Arguments</strong></p>
@@ -1066,18 +1116,21 @@ all features of PyGaSe except for a synchronized game state.</p>
 <li><strong>game_state_update (pygase.gamestate.GameStateUpdate)</strong>: the servers most recent minimal update for the client</li>
 </ul>
 <h3 id="to_datagram_2">to_datagram</h3>
-<pre><code class="python">ServerPackage.to_datagram(self) -&gt; bytes
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">ServerPackage</span><span class="o">.</span><span class="n">to_datagram</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span>
+</pre></div>
+
 
 <p>Override <code>Package.to_datagram</code> to include <code>game_state_update</code>.</p>
 <h3 id="from_datagram_2">from_datagram</h3>
-<pre><code class="python">ServerPackage.from_datagram(datagram:bytes) -&gt; 'ServerPackage'
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">ServerPackage</span><span class="o">.</span><span class="n">from_datagram</span><span class="p">(</span><span class="n">datagram</span><span class="p">:</span><span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ServerPackage&#39;</span>
+</pre></div>
+
 
 <p>Override <code>Package.from_datagram</code> to include <code>game_state_update</code>.</p>
 <h2 id="connectionstatus">ConnectionStatus</h2>
-<pre><code class="python">ConnectionStatus(self, /, *args, **kwargs)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">ConnectionStatus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Enum for the state of a connection.</p>
 <ul>
@@ -1086,8 +1139,9 @@ all features of PyGaSe except for a synchronized game state.</p>
 <li><code>'Connected'</code></li>
 </ul>
 <h2 id="connection">Connection</h2>
-<pre><code class="python">Connection(self, remote_address:tuple, event_handler, event_wire=None)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Connection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remote_address</span><span class="p">:</span><span class="nb">tuple</span><span class="p">,</span> <span class="n">event_handler</span><span class="p">,</span> <span class="n">event_wire</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Exchange packages between PyGaSe clients and servers.</p>
 <p>PyGaSe connections exchange events with their other side which are handled using custom handler functions.
@@ -1119,8 +1173,9 @@ network congestion.</p>
 The <code>Connection</code> class would also work on its own (it's not an 'abstract' class), in which case you would have
 all features of PyGaSe except for a synchronized game state.</p>
 <h3 id="dispatch_event_2">dispatch_event</h3>
-<pre><code class="python">Connection.dispatch_event(self, event:pygase.event.Event, ack_callback=None, timeout_callback=None)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Connection</span><span class="o">.</span><span class="n">dispatch_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span><span class="n">pygase</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">Event</span><span class="p">,</span> <span class="n">ack_callback</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">timeout_callback</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Send an event to the connection partner.</p>
 <p><strong>Arguments</strong></p>
@@ -1132,8 +1187,9 @@ all features of PyGaSe except for a synchronized game state.</p>
 <hr />
 <p>Using long-running blocking operations in any of the callback functions can disturb the connection.</p>
 <h2 id="clientconnection">ClientConnection</h2>
-<pre><code class="python">ClientConnection(self, remote_address:tuple, event_handler)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">ClientConnection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remote_address</span><span class="p">:</span><span class="nb">tuple</span><span class="p">,</span> <span class="n">event_handler</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Subclass of <code>Connection</code> to describe the client side of a PyGaSe connection.</p>
 <p>Client connections hold a copy of the game state which is continously being updated according to
@@ -1143,8 +1199,9 @@ state updates received from the server.</p>
 <li><code>game_state_context (pygase.utils.LockedRessource)</code>: provides thread-safe access to a <code>pygase.GameState</code></li>
 </ul>
 <h3 id="shutdown_1">shutdown</h3>
-<pre><code class="python">ClientConnection.shutdown(self, shutdown_server:bool=False)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">ClientConnection</span><span class="o">.</span><span class="n">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shutdown_server</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Shut down the client connection.</p>
 <p>This method can also be spawned as a coroutine.</p>
@@ -1154,15 +1211,17 @@ state updates received from the server.</p>
     (only has an effect if the client has host permissions)</li>
 </ul>
 <h3 id="loop">loop</h3>
-<pre><code class="python">ClientConnection.loop(self)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">ClientConnection</span><span class="o">.</span><span class="n">loop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Continously operate the connection.</p>
 <p>This method will keep sending and receiving packages and handling events until it is cancelled or
 the connection receives a shutdown command. It can also be spawned as a coroutine.</p>
 <h2 id="serverconnection">ServerConnection</h2>
-<pre><code class="python">ServerConnection(self, remote_address:tuple, event_handler, game_state_store, last_client_time_order:pygase.utils.Sqn, event_wire=None)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">ServerConnection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remote_address</span><span class="p">:</span><span class="nb">tuple</span><span class="p">,</span> <span class="n">event_handler</span><span class="p">,</span> <span class="n">game_state_store</span><span class="p">,</span> <span class="n">last_client_time_order</span><span class="p">:</span><span class="n">pygase</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">Sqn</span><span class="p">,</span> <span class="n">event_wire</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Subclass of <code>Connection</code> that describes the server side of a PyGaSe connection.</p>
 <p><strong>Arguments</strong></p>
@@ -1177,8 +1236,9 @@ the connection receives a shutdown command. It can also be spawned as a coroutin
 <li><code>last_client_time_order (pygase.utils.Sqn)</code>: see corresponding constructor argument</li>
 </ul>
 <h3 id="loop_1">loop</h3>
-<pre><code class="python">ServerConnection.loop(hostname:str, port:int, server, event_wire) -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">ServerConnection</span><span class="o">.</span><span class="n">loop</span><span class="p">(</span><span class="n">hostname</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">server</span><span class="p">,</span> <span class="n">event_wire</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Continously orchestrate and operate connections to clients.</p>
 <p>This coroutine will keep listening for client packages, create new <code>ServerConnection</code> objects
@@ -1201,8 +1261,9 @@ when necessary and make sure all packages are handled by and sent via the right 
 <li><code>UniversalEventHandler</code>: class for components that can handle various event types</li>
 </ul>
 <h2 id="event">Event</h2>
-<pre><code class="python">Event(self, event_type:str, *args, **kwargs)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_type</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Send PyGaSe events and attached data via UDP packages.</p>
 <p><strong>Arguments</strong></p>
@@ -1220,13 +1281,15 @@ keyword arguments to be passed to the handler function on the other side of the 
 <li><code>handler_kwargs ()</code>:</li>
 </ul>
 <h2 id="universaleventhandler">UniversalEventHandler</h2>
-<pre><code class="python">UniversalEventHandler(self)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">UniversalEventHandler</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Handle PyGaSe events with callback functions.</p>
 <h3 id="register_event_handler_3">register_event_handler</h3>
-<pre><code class="python">UniversalEventHandler.register_event_handler(self, event_type:str, event_handler_function) -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">UniversalEventHandler</span><span class="o">.</span><span class="n">register_event_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_type</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">event_handler_function</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Register an event handler for a specific event type.</p>
 <p><strong>Arguments</strong></p>
@@ -1236,8 +1299,9 @@ keyword arguments to be passed to the handler function on the other side of the 
    and kwargs with which the incoming event has been dispatched</li>
 </ul>
 <h3 id="handle">handle</h3>
-<pre><code class="python">UniversalEventHandler.handle(self, event:pygase.event.Event, **kwargs)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">UniversalEventHandler</span><span class="o">.</span><span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span><span class="n">pygase</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">Event</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Invoke the appropriate handler function.</p>
 <p><strong>Arguments</strong></p>
@@ -1246,8 +1310,9 @@ keyword arguments to be passed to the handler function on the other side of the 
 keyword arguments to be passed to the handler function (in addition to those already attached to the event)</li>
 </ul>
 <h3 id="has_event_type">has_event_type</h3>
-<pre><code class="python">UniversalEventHandler.has_event_type(self, event_type:str) -&gt; bool
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">UniversalEventHandler</span><span class="o">.</span><span class="n">has_event_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_type</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span>
+</pre></div>
+
 
 <p>Check if a handler was registered for <code>event_type</code>.</p>
 <h1 id="pygaseutils">pygase.utils</h1>
@@ -1263,13 +1328,15 @@ keyword arguments to be passed to the handler function (in addition to those alr
 <li><code>get_available_ip_addresses</code>: function that returns a list of local network interfaces</li>
 </ul>
 <h2 id="comparable">Comparable</h2>
-<pre><code class="python">Comparable(self, /, *args, **kwargs)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Comparable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Compare objects by equality of attributes.</p>
 <h2 id="sendable">Sendable</h2>
-<pre><code class="python">Sendable(self, /, *args, **kwargs)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Sendable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Send objects via UDP packages.</p>
 <p>This mixin for classes that are supposed to be sendable as part of a PyGaSe package makes
@@ -1277,13 +1344,15 @@ objects serializable with the msgpack protocol.
 Sendables can only have attributes of type <code>str</code>, <code>bytes</code>, <code>Sqn</code>, <code>int</code>, <code>float</code>, <code>bool</code>
 as well as <code>list</code>s or <code>tuple</code>s of such.</p>
 <h3 id="to_bytes">to_bytes</h3>
-<pre><code class="python">Sendable.to_bytes(self) -&gt; bytes
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Sendable</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span>
+</pre></div>
+
 
 <p>Serialize the object to a compact bytestring.</p>
 <h3 id="from_bytes_1">from_bytes</h3>
-<pre><code class="python">Sendable.from_bytes(bytepack:bytes)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Sendable</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">bytepack</span><span class="p">:</span><span class="nb">bytes</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Deserialize a bytestring into an instance of this class.</p>
 <p><strong>Arguments</strong></p>
@@ -1293,33 +1362,36 @@ as well as <code>list</code>s or <code>tuple</code>s of such.</p>
 <p><strong>Returns</strong></p>
 <p>a copy of an object that was serialized via <code>Sendable.to_bytes</code></p>
 <h2 id="namedenum">NamedEnum</h2>
-<pre><code class="python">NamedEnum(self, /, *args, **kwargs)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">NamedEnum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Map string labels to integer values.</p>
 <p>This is a base class meant to be subclassed to produce a dynamic enum mapping type.</p>
 <p><strong>Example</strong></p>
-<pre><code class="python">class MyEnum(NamedEnum):
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">MyEnum</span><span class="p">(</span><span class="n">NamedEnum</span><span class="p">):</span>
 
-    '''Encode labels in integers.
-     - &quot;foo&quot;
-     - &quot;bar&quot;
+    <span class="sd">&#39;&#39;&#39;Encode labels in integers.</span>
+<span class="sd">     - &quot;foo&quot;</span>
+<span class="sd">     - &quot;bar&quot;</span>
 
-    '''
+<span class="sd">    &#39;&#39;&#39;</span>
 
 
-    MyEnum.register(&quot;foo&quot;)
-    MyEnum.register(&quot;bar&quot;)
+    <span class="n">MyEnum</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s2">&quot;foo&quot;</span><span class="p">)</span>
+    <span class="n">MyEnum</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s2">&quot;bar&quot;</span><span class="p">)</span>
 
-    assert MyEnum.get(&quot;foo&quot;) == 1
-    assert MyEnum.get(&quot;bar&quot;) == 2
-    assert MyEnum.get(1) == &quot;foo&quot;
-    assert MyEnum.get(2) == &quot;bar&quot;
-</code></pre>
+    <span class="k">assert</span> <span class="n">MyEnum</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;foo&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">MyEnum</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bar&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+    <span class="k">assert</span> <span class="n">MyEnum</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;foo&quot;</span>
+    <span class="k">assert</span> <span class="n">MyEnum</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;bar&quot;</span>
+</pre></div>
+
 
 <h3 id="get">get</h3>
-<pre><code class="python">NamedEnum.get(name_or_value)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">NamedEnum</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name_or_value</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Get the value for a label or vice versa.</p>
 <p><strong>Arguments</strong></p>
@@ -1333,8 +1405,9 @@ as well as <code>list</code>s or <code>tuple</code>s of such.</p>
 <li><code>TypeError</code>: if argument is neither <code>int</code> nor <code>str</code></li>
 </ul>
 <h3 id="register">register</h3>
-<pre><code class="python">NamedEnum.register(name:str) -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">NamedEnum</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">name</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Add a new label to the mapping.</p>
 <p><strong>Arguments</strong></p>
@@ -1342,8 +1415,9 @@ as well as <code>list</code>s or <code>tuple</code>s of such.</p>
 <li><strong>name ()</strong>: string label to register as new enum value</li>
 </ul>
 <h2 id="sqn">Sqn</h2>
-<pre><code class="python">Sqn(self, /, *args, **kwargs)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Sqn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Use finite periodic integers that fit in 2 bytes.</p>
 <p>Subclass of <code>int</code> that provides a residue-class-like behaviour of wrapping back to 1 after a maximum value.
@@ -1351,8 +1425,9 @@ Use it to represent sequence numbers with a fixed number of bytes when you only 
 within a specific finite scale. 0 represents the state before the sequence has started.</p>
 <p>For the default bytesize of 2 the maximum sequence number is 65535.</p>
 <h3 id="set_bytesize">set_bytesize</h3>
-<pre><code class="python">Sqn.set_bytesize(bytesize:int) -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Sqn</span><span class="o">.</span><span class="n">set_bytesize</span><span class="p">(</span><span class="n">bytesize</span><span class="p">:</span><span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Redefine the bytesize and wrap-over behaviour for all <code>Sqn</code> instances.</p>
 <p><strong>Arguments</strong></p>
@@ -1360,34 +1435,39 @@ within a specific finite scale. 0 represents the state before the sequence has s
 <li><strong>bytesize ()</strong>: new size for the <code>bytes</code> representation of <code>Sqn</code> instances</li>
 </ul>
 <h3 id="get_max_sequence">get_max_sequence</h3>
-<pre><code class="python">Sqn.get_max_sequence() -&gt; int
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Sqn</span><span class="o">.</span><span class="n">get_max_sequence</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span>
+</pre></div>
+
 
 <p>Return the maximum sequence number after which <code>Sqn</code>s wrap back to 1.</p>
 <h3 id="to_sqn_bytes">to_sqn_bytes</h3>
-<pre><code class="python">Sqn.to_sqn_bytes(self) -&gt; bytes
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Sqn</span><span class="o">.</span><span class="n">to_sqn_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span>
+</pre></div>
+
 
 <p>Return representation of the number in exactly the currenly set bytesize.</p>
 <p>The default bytesize is 2.</p>
 <h3 id="from_sqn_bytes">from_sqn_bytes</h3>
-<pre><code class="python">Sqn.from_sqn_bytes(bytestring:bytes) -&gt; 'Sqn'
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Sqn</span><span class="o">.</span><span class="n">from_sqn_bytes</span><span class="p">(</span><span class="n">bytestring</span><span class="p">:</span><span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Sqn&#39;</span>
+</pre></div>
+
 
 <p>Return <code>Sqn</code> object that was encoded in given bytestring.</p>
 <h2 id="lockedressource">LockedRessource</h2>
-<pre><code class="python">LockedRessource(self, ressource)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">LockedRessource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ressource</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Access a ressource thread-safely.</p>
 <p>This class makes an object available via a context manager that essentialy attaches a
 <code>threading.Lock</code> to it, that threads writing to this object should abide.</p>
 <p>Usage example:</p>
-<pre><code class="python">myRessource = { 'foo': 'bar' }
-myLockedRessource = LockedRessource(myRessource)
-with myLockedRessource() as ressource:
-    # do stuff without any other threads meddling with the ressource
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">myRessource</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="s1">&#39;bar&#39;</span> <span class="p">}</span>
+<span class="n">myLockedRessource</span> <span class="o">=</span> <span class="n">LockedRessource</span><span class="p">(</span><span class="n">myRessource</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">myLockedRessource</span><span class="p">()</span> <span class="k">as</span> <span class="n">ressource</span><span class="p">:</span>
+    <span class="c1"># do stuff without any other threads meddling with the ressource</span>
+</pre></div>
+
 
 <p><strong>Arguments</strong></p>
 <ul>
@@ -1399,8 +1479,9 @@ with myLockedRessource() as ressource:
 ressource ()</li>
 </ul>
 <h2 id="get_available_ip_addresses">get_available_ip_addresses</h2>
-<pre><code class="python">get_available_ip_addresses() -&gt; list
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">get_available_ip_addresses</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span>
+</pre></div>
+
 
 <p>Return a list of all locally available IPv4 addresses.</p>
                 

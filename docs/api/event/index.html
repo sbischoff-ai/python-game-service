@@ -532,8 +532,9 @@
 <li><code>UniversalEventHandler</code>: class for components that can handle various event types</li>
 </ul>
 <h2 id="event">Event</h2>
-<pre><code class="python">Event(self, event_type:str, *args, **kwargs)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_type</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Send PyGaSe events and attached data via UDP packages.</p>
 <p><strong>Arguments</strong></p>
@@ -541,9 +542,8 @@
 <li><strong>event_type (str)</strong>: string that identifies the event and links it to a handler</li>
 </ul>
 <p><strong>Arguments</strong></p>
-<p>Additional positional arguments represent event data and will be passed to the handler function
-on the other side of the connection.
-keyword arguments to be passed to the handler function on the other side of the connection</p>
+<p>Additional positional and keyword arguments represent event data and will be passed to the
+handler function on the other side of the connection.</p>
 <p><strong>Attributes</strong></p>
 <ul>
 <li><code>type (str)</code>:</li>
@@ -551,13 +551,15 @@ keyword arguments to be passed to the handler function on the other side of the 
 <li><code>handler_kwargs (dict)</code>:</li>
 </ul>
 <h2 id="universaleventhandler">UniversalEventHandler</h2>
-<pre><code class="python">UniversalEventHandler(self)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">UniversalEventHandler</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Handle PyGaSe events with callback functions.</p>
 <h3 id="register_event_handler">register_event_handler</h3>
-<pre><code class="python">UniversalEventHandler.register_event_handler(self, event_type:str, event_handler_function) -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">UniversalEventHandler</span><span class="o">.</span><span class="n">register_event_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_type</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">event_handler_function</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Register an event handler for a specific event type.</p>
 <p><strong>Arguments</strong></p>
@@ -571,19 +573,21 @@ with the handler args and kwargs with which the incoming event has been dispatch
 <li><code>TypeError</code>: if <code>event_handler_function</code> is not callable</li>
 </ul>
 <h3 id="handle">handle</h3>
-<pre><code class="python">UniversalEventHandler.handle(self, event:pygase.event.Event, **kwargs)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">UniversalEventHandler</span><span class="o">.</span><span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span><span class="n">pygase</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">Event</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Asynchronously invoke the appropriate handler function.</p>
 <p>This method is a coroutine and must be <code>await</code>ed.</p>
 <p><strong>Arguments</strong></p>
 <ul>
-<li><strong>event (Event)</strong>: the event to be handled
-keyword arguments to be passed to the handler function (in addition to those already attached to the event)</li>
+<li><strong>event (Event)</strong>: the event to be handled</li>
 </ul>
+<p>keyword arguments to be passed to the handler function (in addition to those already attached to the event)</p>
 <h3 id="has_event_type">has_event_type</h3>
-<pre><code class="python">UniversalEventHandler.has_event_type(self, event_type:str) -&gt; bool
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">UniversalEventHandler</span><span class="o">.</span><span class="n">has_event_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_type</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span>
+</pre></div>
+
 
 <p>Check if a handler was registered for <code>event_type</code>.</p>
                 

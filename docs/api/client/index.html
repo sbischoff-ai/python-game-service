@@ -572,8 +572,9 @@
 <li><code>Client</code>: main API class for PyGaSe clients</li>
 </ul>
 <h2 id="client">Client</h2>
-<pre><code class="python">Client(self)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Exchange events with a PyGaSe server and access a synchronized game state.</p>
 <p><strong>Attributes</strong></p>
@@ -581,20 +582,22 @@
 <li><code>connection (pygase.connection.ClientConnection)</code>: object that contains all networking information</li>
 </ul>
 <p><strong>Example</strong></p>
-<pre><code class="python">from time import sleep
-# Connect a client to the server from the Backend code example
-client = Client()
-client.connect_in_thread(hostname=&quot;localhost&quot;, port=8080)
-# Increase `bar` five times, then reset `foo`
-for i in range(5):
-    client.dispatch_event(&quot;SET_BAR&quot;, new_bar=i)
-    sleep(1)
-client.dispatch_event(&quot;RESET_FOO&quot;)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
+<span class="c1"># Connect a client to the server from the Backend code example</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
+<span class="n">client</span><span class="o">.</span><span class="n">connect_in_thread</span><span class="p">(</span><span class="n">hostname</span><span class="o">=</span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8080</span><span class="p">)</span>
+<span class="c1"># Increase `bar` five times, then reset `foo`</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">dispatch_event</span><span class="p">(</span><span class="s2">&quot;SET_BAR&quot;</span><span class="p">,</span> <span class="n">new_bar</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">client</span><span class="o">.</span><span class="n">dispatch_event</span><span class="p">(</span><span class="s2">&quot;RESET_FOO&quot;</span><span class="p">)</span>
+</pre></div>
+
 
 <h3 id="connect">connect</h3>
-<pre><code class="python">Client.connect(self, port:int, hostname:str='localhost') -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Client</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">hostname</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Open a connection to a PyGaSe server.</p>
 <p>This is a blocking function but can also be spawned as a coroutine or in a thread
@@ -605,35 +608,43 @@ via <code>Client.connect_in_thread()</code>.</p>
 <li><strong>hostname (str)</strong>: hostname or IPv4 address of the server to which to connect</li>
 </ul>
 <h3 id="connect_in_thread">connect_in_thread</h3>
-<pre><code class="python">Client.connect_in_thread(self, port:int, hostname:str='localhost') -&gt; threading.Thread
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Client</span><span class="o">.</span><span class="n">connect_in_thread</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">hostname</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span>
+</pre></div>
+
 
 <p>Open a connection in a seperate thread.</p>
 <p>See <code>Client.connect()</code>.</p>
 <p><strong>Returns</strong></p>
 <p><code>threading.Thread</code>: the thread the client loop runs in</p>
 <h3 id="disconnect">disconnect</h3>
-<pre><code class="python">Client.disconnect(self, shutdown_server:bool=False) -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Client</span><span class="o">.</span><span class="n">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shutdown_server</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Close the client connection.</p>
-<p>This method can also be spawned as a coroutine.
-shutdown_server (bool): wether or not the server should be shut down
-    (only has an effect if the client has host permissions)</p>
+<p>This method can also be spawned as a coroutine.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><strong>shutdown_server (bool)</strong>: wether or not the server should be shut down
+    (only has an effect if the client has host permissions)</li>
+</ul>
 <h3 id="access_game_state">access_game_state</h3>
-<pre><code class="python">Client.access_game_state(self)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Client</span><span class="o">.</span><span class="n">access_game_state</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Return a context manager to access the shared game state.</p>
 <p>Can be used in a <code>with</code> block to lock the synchronized <code>game_state</code> while working with it.</p>
 <p><strong>Example</strong></p>
-<pre><code class="python">with client.access_game_state() as game_state:
-    do_stuff(game_state)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="k">with</span> <span class="n">client</span><span class="o">.</span><span class="n">access_game_state</span><span class="p">()</span> <span class="k">as</span> <span class="n">game_state</span><span class="p">:</span>
+    <span class="n">do_stuff</span><span class="p">(</span><span class="n">game_state</span><span class="p">)</span>
+</pre></div>
+
 
 <h3 id="wait_until">wait_until</h3>
-<pre><code class="python">Client.wait_until(self, game_state_condition, timeout:float=1.0) -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Client</span><span class="o">.</span><span class="n">wait_until</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game_state_condition</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Block until a condition on the game state is satisfied.</p>
 <p><strong>Arguments</strong></p>
@@ -646,12 +657,13 @@ shutdown_server (bool): wether or not the server should be shut down
 <li><code>TimeoutError</code>: if the condition is not met after <code>timeout</code> seconds</li>
 </ul>
 <h3 id="try_to">try_to</h3>
-<pre><code class="python">Client.try_to(self, function, timeout:float=1.0)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Client</span><span class="o">.</span><span class="n">try_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Execute a function using game state attributes that might not yet exist.</p>
 <p>This method repeatedly tries to execute <code>function(game_state)</code>, ignoring <code>KeyError</code> exceptions,
-until it either worksor times out.</p>
+until it either works or times out.</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><strong>function (callable)</strong>: function that takes a <code>pygase.GameState</code> instance and returns anything</li>
@@ -664,23 +676,25 @@ until it either worksor times out.</p>
 <li><code>TimeoutError</code>: if the function doesn't run through after <code>timeout</code> seconds</li>
 </ul>
 <h3 id="dispatch_event">dispatch_event</h3>
-<pre><code class="python">Client.dispatch_event(self, event_type:str, *args, retries:int=0, ack_callback=None, **kwargs) -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Client</span><span class="o">.</span><span class="n">dispatch_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_type</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">retries</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ack_callback</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Send an event to the server.</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><strong>event_type (str)</strong>: event type identifier that links to a handler</li>
 <li><strong>retries (int)</strong>: number of times the event is to be resent in case it times out</li>
-<li><strong>ack_callback (callable, coroutine)</strong>: will be invoked after the event was received
-Additional positional and keyword arguments will be sent as event data and passed to the handler function.</li>
+<li><strong>ack_callback (callable, coroutine)</strong>: will be invoked after the event was received</li>
 </ul>
+<p>Additional positional and keyword arguments will be sent as event data and passed to the handler function.</p>
 <hr />
 <p><code>ack_callback</code> should not perform any long-running blocking operations (say a <code>while True</code> loop), as that will
 block the connections asynchronous event loop. Use a coroutine instead, with appropriately placed <code>await</code>s.</p>
 <h3 id="register_event_handler">register_event_handler</h3>
-<pre><code class="python">Client.register_event_handler(self, event_type:str, event_handler_function) -&gt; None
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Client</span><span class="o">.</span><span class="n">register_event_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_type</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">event_handler_function</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span>
+</pre></div>
+
 
 <p>Register an event handler for a specific event type.</p>
 <p><strong>Arguments</strong></p>

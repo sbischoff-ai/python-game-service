@@ -545,8 +545,9 @@
 <li><code>GameStateUpdate</code>: class for serializable objects that express changes to a <em>GameState</em> object</li>
 </ul>
 <h2 id="gamestatus">GameStatus</h2>
-<pre><code class="python">GameStatus(self, /, *args, **kwargs)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">GameStatus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Enum for the game simulation status.</p>
 <ul>
@@ -554,8 +555,9 @@
 <li><code>'Active'</code></li>
 </ul>
 <h2 id="gamestate">GameState</h2>
-<pre><code class="python">GameState(self, time_order:int=0, game_status:int=0, **kwargs)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">GameState</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_order</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">game_status</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Customize a serializable game state model.</p>
 <p>Contains game state information that will be synchronized between the server and the clients.
@@ -564,22 +566,26 @@ and must only contain attributes of type <code>str</code>, <code>bytes</code>, <
 as well as <code>list</code>s or <code>tuple</code>s of such.</p>
 <p><strong>Arguments</strong></p>
 <ul>
-<li><strong>time_order ()</strong>: current time order number of the game state, higher means more recent</li>
-<li><strong>game_status ()</strong>: <code>GameStatus</code> enum value that describes whether or not the game loop is running
-Provide custom game state attributes via keyword arguments or assign them later.</li>
+<li><strong>time_order (int)</strong>: current time order number of the game state, higher means more recent</li>
+<li><strong>game_status (int)</strong>: <code>GameStatus</code> enum value that describes whether or not the game loop is running</li>
 </ul>
+<p>Provide custom game state attributes via keyword arguments or assign them later.</p>
 <p><strong>Attributes</strong></p>
-<p>game_status ()
- time_order ()
-<code>GameState</code> instances mainly consist of custom attributes that make up the game state.</p>
+<ul>
+<li><code>game_status (int)</code>: see constructor argument of same name</li>
+<li><code>time_order (pygase.utils.Sqn)</code>: see constructor argument of same name</li>
+</ul>
+<p><code>GameState</code> instances mainly consist of custom attributes that make up the game state.</p>
 <h3 id="is_paused">is_paused</h3>
-<pre><code class="python">GameState.is_paused(self) -&gt; bool
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">GameState</span><span class="o">.</span><span class="n">is_paused</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span>
+</pre></div>
+
 
 <p>Return <code>True</code> if game is paused.</p>
 <h2 id="gamestateupdate">GameStateUpdate</h2>
-<pre><code class="python">GameStateUpdate(self, time_order:int, **kwargs)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">GameStateUpdate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_order</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Update a <code>GameState</code> object.</p>
 <p>Contains a set of changes to carry out on a <code>GameState</code>.
@@ -590,15 +596,18 @@ To remove game state attributes just assign <code>TO_DELETE</code> to it in the 
 game state in order to update it.</p>
 <p><strong>Arguments</strong></p>
 <ul>
-<li><strong>time_order ()</strong>: the time order up to which the update reaches
-game state attributes to be updated</li>
+<li><strong>time_order (int)</strong>: the time order up to which the update reaches</li>
 </ul>
+<p>game state attributes to be updated</p>
 <p><strong>Attributes</strong></p>
-<p>time_order ()
-<code>GameStateUpdate</code> instances mainly consist of custom game state attributes to update.</p>
+<ul>
+<li><code>time_order (pygase.utils.Sqn)</code>: see constructor argument of same name</li>
+</ul>
+<p><code>GameStateUpdate</code> instances mainly consist of custom game state attributes to update.</p>
 <h3 id="from_bytes">from_bytes</h3>
-<pre><code class="python">GameStateUpdate.from_bytes(bytepack:bytes) -&gt; 'GameStateUpdate'
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">GameStateUpdate</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">bytepack</span><span class="p">:</span><span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;GameStateUpdate&#39;</span>
+</pre></div>
+
 
 <p>Extend <code>Sendable.from_bytes</code> to make sure time_order is of type <code>Sqn</code>.</p>
                 

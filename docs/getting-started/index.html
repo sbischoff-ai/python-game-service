@@ -498,25 +498,28 @@
 connecting a client and communication via events.</p>
 <h2 id="backend">Backend</h2>
 <p>To set up a simple PyGaSe backend we will need two classes:</p>
-<pre><code class="python">from pygase import GameState, Backend
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">pygase</span> <span class="kn">import</span> <span class="n">GameState</span><span class="p">,</span> <span class="n">Backend</span>
+</pre></div>
+
 
 <p>First we define our initial game state:</p>
-<pre><code class="python"># Let there be an imaginary enemy at position 0 with 100 health points.
-initial_game_state = GameState(position=0.0, hp=100)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="c1"># Let there be an imaginary enemy at position 0 with 100 health points.</span>
+<span class="n">initial_game_state</span> <span class="o">=</span> <span class="n">GameState</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">hp</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+
 
 <p>The <code>GameState</code> constructor uses keyword arguments to initialize game state attributes.
 (We have to use built-in types such as <code>int</code>, <code>str</code> or <code>dict</code>, so the game state is serializable.)
 In this case our game state resembles the dict <code>{"position": 0.0, "hp": 100}</code> at the start of the game.</p>
 <p>Next we define a time step function for the game loop:</p>
-<pre><code class="python">import math
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
 
-def time_step(game_state, dt):
-    # Make the imaginary enemy move in sinuous lines like a drunkard.
-    new_position = game_state.position + math.sin(dt)
-    return {&quot;position&quot;: new_position}
-</code></pre>
+<span class="k">def</span> <span class="nf">time_step</span><span class="p">(</span><span class="n">game_state</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+    <span class="c1"># Make the imaginary enemy move in sinuous lines like a drunkard.</span>
+    <span class="n">new_position</span> <span class="o">=</span> <span class="n">game_state</span><span class="o">.</span><span class="n">position</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="n">new_position</span><span class="p">}</span>
+</pre></div>
+
 
 <p>The <code>time_step</code> function represents one iteration of the game loop and takes the current <code>game_state</code> as an argument,
 in order to return a <code>dict</code> containing all the changes to the game state. By default it will be called 50 times per
@@ -529,49 +532,52 @@ In this example our game loop will have the enemies <code>position</code> contin
 <em>and only validate it in the backend.</em></p>
 <hr />
 <p>Now we can initialize and run the backend:</p>
-<pre><code class="python">backend = Backend(initial_game_state, time_step)
-backend.run('localhost', 8080)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">initial_game_state</span><span class="p">,</span> <span class="n">time_step</span><span class="p">)</span>
+<span class="n">backend</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="mi">8080</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Mind that this <code>run</code> call is blocking, so whatever we put after there will not be executed
 until the backend is shut down again.</p>
 <p>Put all together, our first super simple PyGaSe backend looks like this:</p>
-<pre><code class="python"># backend.py
+<div class="codehilite"><pre><span></span><span class="c1"># backend.py</span>
 
-import math
-from pygase import GameState, Backend
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">pygase</span> <span class="kn">import</span> <span class="n">GameState</span><span class="p">,</span> <span class="n">Backend</span>
 
-# Let there be an imaginary enemy at position 0 with 100 health points.
-initial_game_state = GameState(position=0, hp=100)
+<span class="c1"># Let there be an imaginary enemy at position 0 with 100 health points.</span>
+<span class="n">initial_game_state</span> <span class="o">=</span> <span class="n">GameState</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">hp</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 
-def time_step(game_state, dt):
-    # Make the imaginary enemy move in sinuous lines like a drunkard.
-    new_position = game_state.position + math.sin(dt)
-    return {&quot;position&quot;: new_position}
+<span class="k">def</span> <span class="nf">time_step</span><span class="p">(</span><span class="n">game_state</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+    <span class="c1"># Make the imaginary enemy move in sinuous lines like a drunkard.</span>
+    <span class="n">new_position</span> <span class="o">=</span> <span class="n">game_state</span><span class="o">.</span><span class="n">position</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="n">new_position</span><span class="p">}</span>
 
-backend = Backend(initial_game_state, time_step)
-backend.run('localhost', 8080)
-</code></pre>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">initial_game_state</span><span class="p">,</span> <span class="n">time_step</span><span class="p">)</span>
+<span class="n">backend</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="mi">8080</span><span class="p">)</span>
+</pre></div>
+
 
 <h2 id="client">Client</h2>
 <p>If we run <code>python backend.py</code> it starts a server that just sits there until we terminate the python process.
 To interact with it we could connect a client in an interactive python session in another console window:</p>
-<pre><code class="python">&gt;&gt;&gt; from pygase import Client
-&gt;&gt;&gt; client = Client()
-&gt;&gt;&gt; client.connect_in_thread(port=8080)
-&lt;Thread(Thread-1, started 24096)&gt;
-&gt;&gt;&gt; with client.access_game_state() as game_state:
-...   print(game_state.position)
-...   print(game_state.hp)
-... 
-0.7904802223420048
-100
-&gt;&gt;&gt; with client.access_game_state() as game_state:
-...   print(game_state.position)
-... 
--0.29265129683264307
-&gt;&gt;&gt; 
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">pygase</span> <span class="kn">import</span> <span class="n">Client</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">client</span><span class="o">.</span><span class="n">connect_in_thread</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="mi">8080</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="n">Thread</span><span class="p">(</span><span class="n">Thread</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">started</span> <span class="mi">24096</span><span class="p">)</span><span class="o">&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="n">client</span><span class="o">.</span><span class="n">access_game_state</span><span class="p">()</span> <span class="k">as</span> <span class="n">game_state</span><span class="p">:</span>
+<span class="o">...</span>   <span class="k">print</span><span class="p">(</span><span class="n">game_state</span><span class="o">.</span><span class="n">position</span><span class="p">)</span>
+<span class="o">...</span>   <span class="k">print</span><span class="p">(</span><span class="n">game_state</span><span class="o">.</span><span class="n">hp</span><span class="p">)</span>
+<span class="o">...</span> 
+<span class="mf">0.7904802223420048</span>
+<span class="mi">100</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="n">client</span><span class="o">.</span><span class="n">access_game_state</span><span class="p">()</span> <span class="k">as</span> <span class="n">game_state</span><span class="p">:</span>
+<span class="o">...</span>   <span class="k">print</span><span class="p">(</span><span class="n">game_state</span><span class="o">.</span><span class="n">position</span><span class="p">)</span>
+<span class="o">...</span> 
+<span class="o">-</span><span class="mf">0.29265129683264307</span>
+<span class="o">&gt;&gt;&gt;</span> 
+</pre></div>
+
 
 <p>We have to connect in a thread here, because a blocking <code>Client.connect()</code> call would have made it impossible
 to interact with the client in the same terminal session. We have to access the game state in a <code>with</code> block like
@@ -581,76 +587,80 @@ However, reading only is a rather one-sided kind of interaction. To have the cli
 use events.</p>
 <h2 id="events">Events</h2>
 <p>First we need to register an event handler on the backend side or the event will do nothing:</p>
-<pre><code class="python"># A client might choose to attack the drunken master.
-def on_attack(attack_position, game_state, **kwargs):
-    # Check if the attack landed near enough to hit.
-    if abs(attack_position - game_state.position) &lt; 0.1:
-        print(&quot;Hit!&quot;)
-        # Subtract the attacks damage from the enemies health.
-        return {&quot;hp&quot;: game_state.hp - 10}
-    print(&quot;Missed.&quot;)
-    return {}
+<div class="codehilite"><pre><span></span><span class="c1"># A client might choose to attack the drunken master.</span>
+<span class="k">def</span> <span class="nf">on_attack</span><span class="p">(</span><span class="n">attack_position</span><span class="p">,</span> <span class="n">game_state</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="c1"># Check if the attack landed near enough to hit.</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">attack_position</span> <span class="o">-</span> <span class="n">game_state</span><span class="o">.</span><span class="n">position</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.1</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Hit!&quot;</span><span class="p">)</span>
+        <span class="c1"># Subtract the attacks damage from the enemies health.</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;hp&quot;</span><span class="p">:</span> <span class="n">game_state</span><span class="o">.</span><span class="n">hp</span> <span class="o">-</span> <span class="mi">10</span><span class="p">}</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Missed.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{}</span>
 
-backend = Backend(
-    initial_game_state,
-    time_step,
-    event_handlers={&quot;ATTACK&quot;: on_attack}
-)
-backend.run('localhost', 8080)
-</code></pre>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span>
+    <span class="n">initial_game_state</span><span class="p">,</span>
+    <span class="n">time_step</span><span class="p">,</span>
+    <span class="n">event_handlers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;ATTACK&quot;</span><span class="p">:</span> <span class="n">on_attack</span><span class="p">}</span>
+<span class="p">)</span>
+<span class="n">backend</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="mi">8080</span><span class="p">)</span>
+</pre></div>
+
 
 <p>The event handler function <code>on_attack</code> works similar to the time step function, only that it receives additional
 keyword arguments like the current <code>game_state</code> in this case or the <code>attack_position</code>, which we assume to be attached
 to the event by the client.</p>
 <p>Having extended the backend like this we can now restart it and try out the event in a client terminal session:</p>
-<pre><code class="python">&gt;&gt;&gt; client.dispatch_event(&quot;ATTACK&quot;, attack_position=0.5)
-&gt;&gt;&gt; with client.access_game_state() as game_state:
-...   print(game_state.position)
-...   print(game_state.hp)
-... 
--0.1760756199485871
-100
-&gt;&gt;&gt; client.dispatch_event(&quot;ATTACK&quot;, attack_position=0.5)
-&gt;&gt;&gt; with client.access_game_state() as game_state:
-...   print(game_state.hp)
-... 
-100
-&gt;&gt;&gt; client.dispatch_event(&quot;ATTACK&quot;, attack_position=0.5)
-&gt;&gt;&gt; client.dispatch_event(&quot;ATTACK&quot;, attack_position=0.5)
-&gt;&gt;&gt; with client.access_game_state() as game_state:
-...   print(game_state.hp)
-... 
-90
-&gt;&gt;&gt; 
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">client</span><span class="o">.</span><span class="n">dispatch_event</span><span class="p">(</span><span class="s2">&quot;ATTACK&quot;</span><span class="p">,</span> <span class="n">attack_position</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="n">client</span><span class="o">.</span><span class="n">access_game_state</span><span class="p">()</span> <span class="k">as</span> <span class="n">game_state</span><span class="p">:</span>
+<span class="o">...</span>   <span class="k">print</span><span class="p">(</span><span class="n">game_state</span><span class="o">.</span><span class="n">position</span><span class="p">)</span>
+<span class="o">...</span>   <span class="k">print</span><span class="p">(</span><span class="n">game_state</span><span class="o">.</span><span class="n">hp</span><span class="p">)</span>
+<span class="o">...</span> 
+<span class="o">-</span><span class="mf">0.1760756199485871</span>
+<span class="mi">100</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">client</span><span class="o">.</span><span class="n">dispatch_event</span><span class="p">(</span><span class="s2">&quot;ATTACK&quot;</span><span class="p">,</span> <span class="n">attack_position</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="n">client</span><span class="o">.</span><span class="n">access_game_state</span><span class="p">()</span> <span class="k">as</span> <span class="n">game_state</span><span class="p">:</span>
+<span class="o">...</span>   <span class="k">print</span><span class="p">(</span><span class="n">game_state</span><span class="o">.</span><span class="n">hp</span><span class="p">)</span>
+<span class="o">...</span> 
+<span class="mi">100</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">client</span><span class="o">.</span><span class="n">dispatch_event</span><span class="p">(</span><span class="s2">&quot;ATTACK&quot;</span><span class="p">,</span> <span class="n">attack_position</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">client</span><span class="o">.</span><span class="n">dispatch_event</span><span class="p">(</span><span class="s2">&quot;ATTACK&quot;</span><span class="p">,</span> <span class="n">attack_position</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="n">client</span><span class="o">.</span><span class="n">access_game_state</span><span class="p">()</span> <span class="k">as</span> <span class="n">game_state</span><span class="p">:</span>
+<span class="o">...</span>   <span class="k">print</span><span class="p">(</span><span class="n">game_state</span><span class="o">.</span><span class="n">hp</span><span class="p">)</span>
+<span class="o">...</span> 
+<span class="mi">90</span>
+<span class="o">&gt;&gt;&gt;</span> 
+</pre></div>
+
 
 <p>This is me trying repeadedly to land a hit on position 0.5. If you look at the console output
 of the backend process, you might see something like this:</p>
-<pre><code>Missed.
-Missed.
-Hit!
-Missed.
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">Missed</span><span class="p">.</span>
+<span class="n">Missed</span><span class="p">.</span>
+<span class="n">Hit</span><span class="o">!</span>
+<span class="n">Missed</span><span class="p">.</span>
+</pre></div>
+
 
 <p>It's not very practical to have to switch the console windows, it would be better if the client
 received some feedback after an attack. Events can also flow from backend to client, which works pretty
 much the same way as the other way around.</p>
 <p>First we adjust the backends attack event handler to send back a feedback event:</p>
-<pre><code class="python">backend = Backend(initial_game_state, time_step)
+<div class="codehilite"><pre><span></span><span class="n">backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">initial_game_state</span><span class="p">,</span> <span class="n">time_step</span><span class="p">)</span>
 
-# A client might choose to attack the drunken master.
-def on_attack(attack_position, client_address, game_state, **kwargs):
-    # Check if the attack landed near enough to hit.
-    if abs(attack_position - game_state.position) &lt; 0.1:
-        backend.server.dispatch_event(&quot;ATTACK_FEEDBACK&quot;, &quot;Hit!&quot;, target_client=client_address)
-        # Subtract the attacks damage from the enemies health.
-        return {&quot;hp&quot;: game_state.hp - 10}
-    backend.server.dispatch_event(&quot;ATTACK_FEEDBACK&quot;, &quot;Missed.&quot;, target_client=client_address)
-    return {}
+<span class="c1"># A client might choose to attack the drunken master.</span>
+<span class="k">def</span> <span class="nf">on_attack</span><span class="p">(</span><span class="n">attack_position</span><span class="p">,</span> <span class="n">client_address</span><span class="p">,</span> <span class="n">game_state</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="c1"># Check if the attack landed near enough to hit.</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">attack_position</span> <span class="o">-</span> <span class="n">game_state</span><span class="o">.</span><span class="n">position</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.1</span><span class="p">:</span>
+        <span class="n">backend</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">dispatch_event</span><span class="p">(</span><span class="s2">&quot;ATTACK_FEEDBACK&quot;</span><span class="p">,</span> <span class="s2">&quot;Hit!&quot;</span><span class="p">,</span> <span class="n">target_client</span><span class="o">=</span><span class="n">client_address</span><span class="p">)</span>
+        <span class="c1"># Subtract the attacks damage from the enemies health.</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;hp&quot;</span><span class="p">:</span> <span class="n">game_state</span><span class="o">.</span><span class="n">hp</span> <span class="o">-</span> <span class="mi">10</span><span class="p">}</span>
+    <span class="n">backend</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">dispatch_event</span><span class="p">(</span><span class="s2">&quot;ATTACK_FEEDBACK&quot;</span><span class="p">,</span> <span class="s2">&quot;Missed.&quot;</span><span class="p">,</span> <span class="n">target_client</span><span class="o">=</span><span class="n">client_address</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{}</span>
 
-backend.game_state_machine.register_event_handler(&quot;ATTACK&quot;, on_attack)
-backend.run('localhost', 8080)
-</code></pre>
+<span class="n">backend</span><span class="o">.</span><span class="n">game_state_machine</span><span class="o">.</span><span class="n">register_event_handler</span><span class="p">(</span><span class="s2">&quot;ATTACK&quot;</span><span class="p">,</span> <span class="n">on_attack</span><span class="p">)</span>
+<span class="n">backend</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="mi">8080</span><span class="p">)</span>
+</pre></div>
+
 
 <p>Here we used another one of the keyword arguments PyGaSe passes to the event handler, the <code>client_address</code>
 from which the event was sent. Along with the event data, a string containing the feedback message, we also
@@ -664,20 +674,21 @@ set the target client for our event. The default for <code>target_client</code> 
 - <em>A <code>GameStateMachine</code> that runs the whole game logic simulation and produces state updates.</em></p>
 <hr />
 <p>Now we only need to register an appropriate event handler on the client side:</p>
-<pre><code class="python">&gt;&gt;&gt; client.register_event_handler(&quot;ATTACK_FEEDBACK&quot;, print)
-&gt;&gt;&gt; client.dispatch_event(&quot;ATTACK&quot;, attack_position=0.5)
-Missed.
-&gt;&gt;&gt; client.dispatch_event(&quot;ATTACK&quot;, attack_position=0.5)
-Missed.
-&gt;&gt;&gt; for i in range(5):
-...   client.dispatch_event(&quot;ATTACK&quot;, attack_position=i*2.0/5-1)
-... 
-Missed.
-Hit!
-Missed.
-Missed.
-Missed.
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">client</span><span class="o">.</span><span class="n">register_event_handler</span><span class="p">(</span><span class="s2">&quot;ATTACK_FEEDBACK&quot;</span><span class="p">,</span> <span class="k">print</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">client</span><span class="o">.</span><span class="n">dispatch_event</span><span class="p">(</span><span class="s2">&quot;ATTACK&quot;</span><span class="p">,</span> <span class="n">attack_position</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">Missed</span><span class="o">.</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">client</span><span class="o">.</span><span class="n">dispatch_event</span><span class="p">(</span><span class="s2">&quot;ATTACK&quot;</span><span class="p">,</span> <span class="n">attack_position</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">Missed</span><span class="o">.</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+<span class="o">...</span>   <span class="n">client</span><span class="o">.</span><span class="n">dispatch_event</span><span class="p">(</span><span class="s2">&quot;ATTACK&quot;</span><span class="p">,</span> <span class="n">attack_position</span><span class="o">=</span><span class="n">i</span><span class="o">*</span><span class="mf">2.0</span><span class="o">/</span><span class="mi">5</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="o">...</span> 
+<span class="n">Missed</span><span class="o">.</span>
+<span class="n">Hit</span><span class="err">!</span>
+<span class="n">Missed</span><span class="o">.</span>
+<span class="n">Missed</span><span class="o">.</span>
+<span class="n">Missed</span><span class="o">.</span>
+</pre></div>
+
 
 <p>Much better. We get direct feedback and even found an exploit that allows us to land a guaranteed hit
 by using a <code>for</code> loop. Registering the built-in function <code>print</code> as the event handler callback works in this case,
@@ -692,8 +703,9 @@ because the handler only receives one argument: the string that the backend atta
 <h3 id="conclusion">Conclusion</h3>
 <p>Up to now we had to nastily interrupt the backend process and the client thread by hand in order to end a session.
 Of course we can also properly terminate everything, for example with</p>
-<pre><code class="python">&gt;&gt;&gt; client.disconnect(shutdown_server=True)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">client</span><span class="o">.</span><span class="n">disconnect</span><span class="p">(</span><span class="n">shutdown_server</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+
 
 <p>in the client terminal session. Only the first player to connect will have the permission to shutdown the server
 like this. The backend can also shut itself down with <code>backend.shutdown()</code>.</p>
@@ -709,43 +721,43 @@ the enemy defend itself. Also, a graphical UI wouldn't hurt (I recommend the awe
 <a href="https://www.pygame.org/news">pygame</a>.</p>
 <hr />
 <p>For the sake of completeness:</p>
-<pre><code class="python"># backend.py
+<div class="codehilite"><pre><span></span><span class="c1"># backend.py</span>
 
-import math
-from pygase import GameState, Backend
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">pygase</span> <span class="kn">import</span> <span class="n">GameState</span><span class="p">,</span> <span class="n">Backend</span>
 
-### SETUP ###
+<span class="c1">### SETUP ###</span>
 
-# Let there be an imaginary enemy at position 0 with 100 health points.
-initial_game_state = GameState(position=0, hp=100)
+<span class="c1"># Let there be an imaginary enemy at position 0 with 100 health points.</span>
+<span class="n">initial_game_state</span> <span class="o">=</span> <span class="n">GameState</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">hp</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 
-# Define what happens in an iteration of the game loop.
-def time_step(game_state, dt):
-    # Make the imaginary enemy move in sinuous lines like a drunkard.
-    new_position = game_state.position + math.sin(dt)
-    return {&quot;position&quot;: new_position}
+<span class="c1"># Define what happens in an iteration of the game loop.</span>
+<span class="k">def</span> <span class="nf">time_step</span><span class="p">(</span><span class="n">game_state</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+    <span class="c1"># Make the imaginary enemy move in sinuous lines like a drunkard.</span>
+    <span class="n">new_position</span> <span class="o">=</span> <span class="n">game_state</span><span class="o">.</span><span class="n">position</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="n">new_position</span><span class="p">}</span>
 
-# Create the backend.
-backend = Backend(initial_game_state, time_step)
+<span class="c1"># Create the backend.</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">initial_game_state</span><span class="p">,</span> <span class="n">time_step</span><span class="p">)</span>
 
-### EVENT HANDLERS ###
+<span class="c1">### EVENT HANDLERS ###</span>
 
-def on_attack(attack_position, client_address, game_state, **kwargs):
-    # Check if the attack landed near enough to hit.
-    if abs(attack_position - game_state.position) &lt; 0.1:
-        backend.server.dispatch_event(&quot;ATTACK_FEEDBACK&quot;, &quot;Hit!&quot;, target_client=client_address)
-        # Subtract the attacks damage from the enemies health.
-        return {&quot;hp&quot;: game_state.hp - 10}
-    backend.server.dispatch_event(&quot;ATTACK_FEEDBACK&quot;, &quot;Missed.&quot;, target_client=client_address)
-    return {}
+<span class="k">def</span> <span class="nf">on_attack</span><span class="p">(</span><span class="n">attack_position</span><span class="p">,</span> <span class="n">client_address</span><span class="p">,</span> <span class="n">game_state</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="c1"># Check if the attack landed near enough to hit.</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">attack_position</span> <span class="o">-</span> <span class="n">game_state</span><span class="o">.</span><span class="n">position</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.1</span><span class="p">:</span>
+        <span class="n">backend</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">dispatch_event</span><span class="p">(</span><span class="s2">&quot;ATTACK_FEEDBACK&quot;</span><span class="p">,</span> <span class="s2">&quot;Hit!&quot;</span><span class="p">,</span> <span class="n">target_client</span><span class="o">=</span><span class="n">client_address</span><span class="p">)</span>
+        <span class="c1"># Subtract the attacks damage from the enemies health.</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;hp&quot;</span><span class="p">:</span> <span class="n">game_state</span><span class="o">.</span><span class="n">hp</span> <span class="o">-</span> <span class="mi">10</span><span class="p">}</span>
+    <span class="n">backend</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">dispatch_event</span><span class="p">(</span><span class="s2">&quot;ATTACK_FEEDBACK&quot;</span><span class="p">,</span> <span class="s2">&quot;Missed.&quot;</span><span class="p">,</span> <span class="n">target_client</span><span class="o">=</span><span class="n">client_address</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{}</span>
 
-backend.game_state_machine.register_event_handler(&quot;ATTACK&quot;, on_attack)
+<span class="n">backend</span><span class="o">.</span><span class="n">game_state_machine</span><span class="o">.</span><span class="n">register_event_handler</span><span class="p">(</span><span class="s2">&quot;ATTACK&quot;</span><span class="p">,</span> <span class="n">on_attack</span><span class="p">)</span>
 
-### MAIN PROCESS ###
+<span class="c1">### MAIN PROCESS ###</span>
 
-if __name__ == &quot;__main__&quot;:
-    backend.run('localhost', 8080)
-</code></pre>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">backend</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="mi">8080</span><span class="p">)</span>
+</pre></div>
                 
                   
                 
