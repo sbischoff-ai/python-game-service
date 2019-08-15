@@ -4,7 +4,7 @@
 Provides utilities used in PyGaSe code or helpful to users of this library.
 
 ### Contents
-- #Comparable: mixin that makes object compare as equal if their type and attributes match
+- #Comparable: mixin that makes objects compare as equal if their type and attributes match
 - #Sendable: mixin that allows to serialize objects to small bytestrings
 - #NamedEnum: base class for lists of strings to be mapped to integer values
 - #Sqn: subclass of `int` for sequence numbers that always fit in 2 bytes
@@ -42,7 +42,7 @@ class Sendable(Comparable):
     This mixin for classes that are supposed to be sendable as part of a PyGaSe package makes
     objects serializable with the msgpack protocol.
     Sendables can only have attributes of type `str`, `bytes`, `Sqn`, `int`, `float`, `bool`
-    as well as `list`s or `tuple`s of such.
+    as well as `dict`s, `list`s or `tuple`s of such.
 
     """
 
@@ -86,13 +86,13 @@ class NamedEnum:
         '''
 
 
-        MyEnum.register("foo")
-        MyEnum.register("bar")
+    MyEnum.register("foo")
+    MyEnum.register("bar")
 
-        assert MyEnum.get("foo") == 1
-        assert MyEnum.get("bar") == 2
-        assert MyEnum.get(1) == "foo"
-        assert MyEnum.get(2) == "bar"
+    assert MyEnum.get("foo") == 1
+    assert MyEnum.get("bar") == 2
+    assert MyEnum.get(1) == "foo"
+    assert MyEnum.get(2) == "bar"
     ```
 
     """

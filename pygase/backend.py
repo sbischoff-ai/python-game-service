@@ -86,7 +86,7 @@ class Server:
     game_state_store (GameStateStore): part of the backend that provides an interface to the #pygase.GameState
 
     # Attributes
-    connections (list): contains each clients address as a key leading to the
+    connections (dict): contains each clients address as a key leading to the
         corresponding #pygase.connection.ServerConnection instance
     host_client (tuple): address of the host client (who has permission to shutdown the server), if there is any
     game_state_store (GameStateStore): game state repository

@@ -549,7 +549,7 @@ class Connection:
                     self._events_with_callbacks[self.local_sequence].append(callback_sequence)
             logger.debug(
                 (
-                    f"Sending event of type {event.type} to {self.remote_address}."
+                    f"Sending event of type {event.type} to {self.remote_address}. "
                     f"event data: handler_args = {event.handler_args}, handler_kwargs = {event.handler_kwargs}"
                 )
             )
